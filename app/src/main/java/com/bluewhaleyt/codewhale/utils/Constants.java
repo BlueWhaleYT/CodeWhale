@@ -7,4 +7,6 @@ public class Constants {
 
     public static final String CODE_FONT = "fonts/JetBrainsMono-Regular.ttf";
 
+    public static final String PROJECT_GITHUB_REPOSITORY = "https://github.com/BlueWhaleYT/CodeWhale";
+
 }

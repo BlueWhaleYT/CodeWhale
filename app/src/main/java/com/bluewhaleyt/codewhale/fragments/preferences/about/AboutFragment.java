@@ -8,6 +8,7 @@ import androidx.preference.Preference;
 import com.bluewhaleyt.codewhale.R;
 import com.bluewhaleyt.codewhale.fragments.preferences.application.ApplicationFragment;
 import com.bluewhaleyt.codewhale.fragments.preferences.editor.EditorFragment;
+import com.bluewhaleyt.codewhale.utils.Constants;
 import com.bluewhaleyt.common.ApplicationUtil;
 import com.bluewhaleyt.common.IntentUtil;
 import com.bluewhaleyt.component.preferences.CustomPreferenceFragment;
@@ -29,7 +30,7 @@ public class AboutFragment extends CustomPreferenceFragment {
             var prefVersion = findPreference("btn_pref_version");
 
             prefOpenSource.setOnPreferenceClickListener(preference -> {
-                IntentUtil.intentURL(requireActivity(), "");
+                IntentUtil.intentURL(requireActivity(), Constants.PROJECT_GITHUB_REPOSITORY);
                 return true;
             });
 
