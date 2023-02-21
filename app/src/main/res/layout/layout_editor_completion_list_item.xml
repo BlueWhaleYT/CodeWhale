@@ -6,13 +6,14 @@
     android:layout_height="wrap_content"
     android:layout_width="fill_parent"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:padding="5dp">
 
     <ImageView
         android:id="@+id/tvImage"
         android:gravity="center"
         android:layout_height="wrap_content"
         android:layout_width="20dp"
+        android:layout_marginEnd="5dp"
         android:src="@drawable/ic_intellisense_symbol_keyword"/>
 
     <LinearLayout
@@ -24,22 +25,23 @@
         <TextView
             android:id="@+id/tvLabel"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:singleLine="true"
             android:text="public"
+            android:textSize="14sp"
             android:fontFamily="@font/jetbrains_mono_regular" />
 
         <TextView
             android:id="@+id/tvDesc"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="4dp"
             android:layout_width="wrap_content"
             android:singleLine="true"
             android:text="Keyword"
-            android:fontFamily="@font/jetbrains_mono_regular"/>
+            android:textSize="11sp"
+            android:fontFamily="@font/jetbrains_mono_regular"
+            android:layout_marginEnd="5dp"
+            android:visibility="gone"/>
 
 
     </LinearLayout>

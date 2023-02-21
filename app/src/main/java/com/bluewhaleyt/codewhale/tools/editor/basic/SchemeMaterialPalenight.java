@@ -61,10 +61,11 @@ public class SchemeMaterialPalenight extends EditorColorScheme {
         setColor(SCROLL_BAR_THUMB, darkBlack);
 
         // auto complete menu
-        setColor(COMPLETION_WND_BACKGROUND, darkBlack);
+        setColor(COMPLETION_WND_BACKGROUND, Color.parseColor("#272539"));
         setColor(COMPLETION_WND_TEXT_PRIMARY, normal);
         setColor(COMPLETION_WND_TEXT_SECONDARY, grey);
-        setColor(COMPLETION_WND_CORNER, darkBlack);
+        setColor(COMPLETION_WND_ITEM_CURRENT, Color.parseColor("#343154"));
+        setColor(COMPLETION_WND_CORNER, Color.parseColor("#343154"));
 
         // bracket pair highlights
         setColor(HIGHLIGHTED_DELIMITERS_FOREGROUND, yellow);

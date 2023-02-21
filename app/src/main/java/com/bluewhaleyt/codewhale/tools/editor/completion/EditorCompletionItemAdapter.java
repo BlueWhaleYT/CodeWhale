@@ -23,7 +23,7 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
         return (int)
                 TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
-                        40,
+                        30,
                         getContext().getResources().getDisplayMetrics());
     }
 
@@ -42,8 +42,10 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
         convertView.setTag(position);
         if (isCurrentCursorPosition) {
             convertView.setBackgroundColor(getThemeColor(EditorColorScheme.COMPLETION_WND_ITEM_CURRENT));
+            binding.tvDesc.setVisibility(View.VISIBLE);
         } else {
             convertView.setBackgroundColor(0);
+            binding.tvDesc.setVisibility(View.GONE);
         }
 
         var type = item.desc.subSequence(0, 1);

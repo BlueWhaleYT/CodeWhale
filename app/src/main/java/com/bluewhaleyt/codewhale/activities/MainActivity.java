@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.view.menu.MenuBuilder;
 
 import com.bluewhaleyt.codeeditor.textmate.syntaxhighlight.SyntaxHighlightUtil;
+import com.bluewhaleyt.codewhale.WhaleApplication;
 import com.bluewhaleyt.codewhale.tools.editor.basic.JavaLanguage;
 import com.bluewhaleyt.codewhale.tools.editor.textmate.CustomSyntaxHighlighter;
 import com.bluewhaleyt.codewhale.utils.AssetsFileLoader;
@@ -30,6 +31,7 @@ import com.bluewhaleyt.codewhale.tools.editor.completion.EditorCompletionLayout;
 import com.bluewhaleyt.codewhale.utils.Constants;
 import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 
+import io.github.rosemoe.sora.event.ContentChangeEvent;
 import io.github.rosemoe.sora.lang.EmptyLanguage;
 import io.github.rosemoe.sora.lang.Language;
 import io.github.rosemoe.sora.widget.CodeEditor;
@@ -87,6 +89,7 @@ public class MainActivity extends BaseActivity {
         editorUtil.setNonPrintFlag();
 
         setupEditor();
+        setupMoveSelectionEvent();
 
         if (PreferencesManager.isSyntaxHighlightingEnabled()) {
             if (PreferencesManager.isTextmateEnabled()) setupTextmateHighlight();
@@ -119,6 +122,13 @@ public class MainActivity extends BaseActivity {
         // set symbol input view bg color according to the editor theme
         binding.symbolInputView.setBackgroundColor(colorBgHc);
         binding.symbolInputView.setTextColor(colorText);
+
+        binding.layoutMoveSelection.setBackgroundColor(colorBgHc);
+        binding.btnLeft.setColorFilter(colorText);
+        binding.btnRight.setColorFilter(colorText);
+        binding.btnUp.setColorFilter(colorText);
+        binding.btnDown.setColorFilter(colorText);
+        binding.btnDuplicateLine.setColorFilter(colorText);
     }
 
     private void setupEditor() {
@@ -131,10 +141,8 @@ public class MainActivity extends BaseActivity {
         binding.editor.setLineNumberMarginLeft(margin);
         binding.editor.setLineSpacing(2f, 1.5f);
 
+        setupAutoComplete();
         setEditorText(AssetsFileLoader.getAssetsFileContent(this, "presets/Main.java"));
-
-        binding.editor.getComponent(EditorAutoCompletion.class).setLayout(new EditorCompletionLayout());
-        binding.editor.getComponent(EditorAutoCompletion.class).setAdapter(new EditorCompletionItemAdapter());
 
         binding.editor.setWordwrap(PreferencesManager.isWordWrapEnabled());
         binding.editor.setScalable(PreferencesManager.isPinchZoomEnabled());
@@ -147,9 +155,7 @@ public class MainActivity extends BaseActivity {
         binding.editor.getProps().useICULibToSelectWords = PreferencesManager.isICULibEnabled();
         binding.editor.getProps().deleteEmptyLineFast = PreferencesManager.isDeleteEmptyLineFastEnabled();
 
-        binding.editor.getComponent(EditorAutoCompletion.class).setEnabled(PreferencesManager.isAutoCompletionEnabled());
         binding.editor.getComponent(Magnifier.class).setEnabled(PreferencesManager.isMagnifierEnabled());
-
         setKeyboardSuggestions();
 
     }
@@ -211,6 +217,31 @@ public class MainActivity extends BaseActivity {
 
     public void fixColorSurfaces2() {
         binding.symbolInputView.setBackgroundColor(CommonUtil.SURFACE_FOLLOW_WINDOW_BACKGROUND);
+    }
+
+    private void setupAutoComplete() {
+        binding.editor.getComponent(EditorAutoCompletion.class).setLayout(new EditorCompletionLayout());
+        binding.editor.getComponent(EditorAutoCompletion.class).setAdapter(new EditorCompletionItemAdapter());
+        binding.editor.getComponent(EditorAutoCompletion.class).setEnabledAnimation(true);
+        binding.editor.getComponent(EditorAutoCompletion.class).setEnabled(PreferencesManager.isAutoCompletionEnabled());
+        binding.editor.subscribeEvent(ContentChangeEvent.class, (event, unsubscribe) -> {
+            var editorAutoCompletion = binding.editor.getComponent(EditorAutoCompletion.class);
+            CommonUtil.waitForTimeThenDo(10, () -> {
+                if (editorAutoCompletion.getCurrentPosition() == -1) {
+                    editorAutoCompletion.moveDown();
+                }
+                return null;
+            });
+        });
+    }
+
+    private void setupMoveSelectionEvent() {
+        var editor = binding.editor;
+        binding.btnLeft.setOnClickListener(v -> editor.moveSelectionLeft());
+        binding.btnRight.setOnClickListener(v -> editor.moveSelectionRight());
+        binding.btnUp.setOnClickListener(v -> editor.moveSelectionUp());
+        binding.btnDown.setOnClickListener(v -> editor.moveSelectionDown());
+        binding.btnDuplicateLine.setOnClickListener(v -> editor.duplicateLine());
     }
 
 }

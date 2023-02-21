@@ -26,6 +26,7 @@ public class AboutFragment extends CustomPreferenceFragment {
         try {
 
             var prefOpenSource = findPreference("btn_pref_open_source");
+            var prefDeveloper = findPreference("btn_pref_developer");
             var prefTranslate = findPreference("btn_pref_translate");
             var prefVersion = findPreference("btn_pref_version");
 
@@ -34,8 +35,8 @@ public class AboutFragment extends CustomPreferenceFragment {
                 return true;
             });
 
+            prefDeveloper.setSummary(Constants.PROJECT_DEVELOPER);
             prefTranslate.setSummary(getString(R.string.translator));
-
             prefVersion.setSummary(ApplicationUtil.getAppVersionName(requireActivity()));
 
         } catch (Exception e) {

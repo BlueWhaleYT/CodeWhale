@@ -24,4 +24,49 @@
 
     </HorizontalScrollView>
 
+    <LinearLayout
+        android:id="@+id/layoutMoveSelection"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btnLeft"
+            android:layout_width="@dimen/dimen_48"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
+
+        <ImageButton
+            android:id="@+id/btnRight"
+            android:layout_width="@dimen/dimen_48"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+        <ImageButton
+            android:id="@+id/btnUp"
+            android:layout_width="@dimen/dimen_48"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:src="@drawable/ic_baseline_keyboard_arrow_up_24" />
+
+        <ImageButton
+            android:id="@+id/btnDown"
+            android:layout_width="@dimen/dimen_48"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:src="@drawable/ic_baseline_keyboard_arrow_down_24" />
+
+        <ImageButton
+            android:id="@+id/btnDuplicateLine"
+            android:layout_width="@dimen/dimen_48"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:src="@drawable/ic_baseline_content_copy_24"
+            android:scaleX=".7"
+            android:scaleY=".7"/>
+
+    </LinearLayout>
+
 </LinearLayout>

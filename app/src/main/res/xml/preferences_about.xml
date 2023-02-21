@@ -17,6 +17,12 @@
         app:title="@string/open_source"/>
 
     <com.bluewhaleyt.component.preferences.ButtonPreference
+        app:key="btn_pref_developer"
+        app:icon="@drawable/ic_outline_person_24"
+        app:title="@string/developer"
+        app:selectable="false"/>
+
+    <com.bluewhaleyt.component.preferences.ButtonPreference
         app:key="btn_pref_translate"
         app:icon="@drawable/ic_baseline_translate_24"
         app:title="@string/translate"

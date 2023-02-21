@@ -56,6 +56,7 @@
     <string name="npf_ws_in_selection">在點選文本時繪製</string>
     <string name="npf_tab_same_as_space">繪製定位符以空格樣式顯示</string>
     <string name="npf_line_separator">繪製換行符</string>
+    <string name="developer">開發者</string>
 
     <string name="restart">重啟</string>
 

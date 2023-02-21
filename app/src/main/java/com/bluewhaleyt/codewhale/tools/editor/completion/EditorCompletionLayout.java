@@ -1,5 +1,6 @@
 package com.bluewhaleyt.codewhale.tools.editor.completion;
 
+import android.animation.LayoutTransition;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.os.SystemClock;
@@ -24,6 +25,8 @@ public class EditorCompletionLayout implements CompletionLayout {
     private ProgressBar progressBar;
     private RelativeLayout layout;
     private EditorAutoCompletion editorAutoCompletion;
+
+    public boolean enabledAnimation = false;
 
     private Context context;
 
@@ -63,6 +66,8 @@ public class EditorCompletionLayout implements CompletionLayout {
             editorAutoCompletion.select(position);
         });
 
+        setEnabledAnimation(false);
+
         return layout2;
     }
 
@@ -91,7 +96,22 @@ public class EditorCompletionLayout implements CompletionLayout {
 
     @Override
     public void setEnabledAnimation(boolean enabledAnimation) {
-        CompletionLayout.super.setEnabledAnimation(enabledAnimation);
+        this.enabledAnimation = enabledAnimation;
+
+        if (enabledAnimation) {
+            layout.setLayoutTransition(new LayoutTransition());
+            var transition = layout.getLayoutTransition();
+            transition.enableTransitionType(LayoutTransition.CHANGING);
+            transition.enableTransitionType(LayoutTransition.APPEARING);
+            transition.enableTransitionType(LayoutTransition.DISAPPEARING);
+            transition.enableTransitionType(LayoutTransition.CHANGE_APPEARING);
+            transition.enableTransitionType(LayoutTransition.CHANGE_DISAPPEARING);
+
+            listView.setLayoutTransition(layout.getLayoutTransition());
+        } else  {
+            layout.setLayoutTransition(null);
+            listView.setLayoutTransition(null);
+        }
     }
 
     public float valueInDp(float value) {
