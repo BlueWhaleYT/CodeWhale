@@ -1,0 +1,35 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.bluewhaleyt.component.preferences.TitlePreference
+        app:title="@string/settings" />
+
+    <com.bluewhaleyt.component.preferences.ButtonPreference
+        app:key="btn_pref_application"
+        app:icon="@drawable/ic_baseline_android_24dp"
+        app:title="@string/application"
+        app:layout="@layout/layout_preference_screen_item"
+        app:fragment="com.bluewhaleyt.whalecode.fragments.preferences.application.ApplicationFragment" />
+
+    <com.bluewhaleyt.component.preferences.ButtonPreference
+        app:key="btn_pref_editor"
+        app:icon="@drawable/ic_baseline_code_24"
+        app:title="@string/editor"
+        app:layout="@layout/layout_preference_screen_item"
+        app:fragment="com.bluewhaleyt.whalecode.fragments.preferences.editor.EditorFragment" />
+
+    <com.bluewhaleyt.component.preferences.ButtonPreference
+        app:key="btn_pref_coding_style"
+        app:icon="@drawable/ic_baseline_support_24"
+        app:title="@string/coding_style"
+        app:layout="@layout/layout_preference_screen_item"
+        app:fragment="com.bluewhaleyt.whalecode.fragments.preferences.codingstyle.CodingStyleFragment" />
+
+    <com.bluewhaleyt.component.preferences.ButtonPreference
+        app:key="btn_pref_about"
+        app:icon="@drawable/ic_baseline_info_24"
+        app:title="@string/about"
+        app:layout="@layout/layout_preference_screen_item"
+        app:fragment="com.bluewhaleyt.whalecode.fragments.preferences.about.AboutFragment" />
+
+</PreferenceScreen>

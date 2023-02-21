@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.bluewhaleyt.component.preferences.TitlePreference
+        app:title="@string/theme" />
+
+    <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+        app:key="pref_enable_follow_editor_theme"
+        app:title="@string/follow_editor_theme"
+        app:summary="@string/follow_editor_theme_summary"
+        app:icon="@drawable/ic_outline_color_lens_24"
+        app:defaultValue="true"/>
+
+</PreferenceScreen>

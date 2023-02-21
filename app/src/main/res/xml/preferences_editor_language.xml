@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.bluewhaleyt.component.preferences.TitlePreference
+        app:title="@string/syntax_language" />
+
+    <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+        app:key="pref_enable_language_java"
+        app:title="Java"
+        app:icon="@drawable/ic_material_java"
+        app:defaultValue="true"/>
+
+</PreferenceScreen>

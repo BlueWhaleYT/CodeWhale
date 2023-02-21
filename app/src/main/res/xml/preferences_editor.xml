@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.bluewhaleyt.component.preferences.TitlePreference
+        app:title="@string/editor" />
+
+    <PreferenceCategory
+        app:title="@string/general"
+        app:iconSpaceReserved="false">
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_syntax_highlighting"
+            app:title="@string/syntax_highlighting"
+            app:icon="@drawable/ic_baseline_invert_colors_24"
+            app:defaultValue="true"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_textmate"
+            app:title="@string/textmate"
+            app:summary="@string/textmate_summary"
+            app:icon="@drawable/ic_outline_star_border_24"
+            app:defaultValue="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/theme"
+        app:iconSpaceReserved="false">
+
+        <com.bluewhaleyt.component.preferences.ButtonPreference
+            app:key="btn_pref_theme"
+            app:title="@string/theme"
+            app:icon="@drawable/ic_outline_style_24"
+            app:fragment="com.bluewhaleyt.whalecode.fragments.preferences.editor.ThemeFragment" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="category_pref_syntax_language"
+        app:title="@string/syntax_language"
+        app:iconSpaceReserved="false">
+
+        <com.bluewhaleyt.component.preferences.ButtonPreference
+            app:key="btn_pref_syntax_language"
+            app:title="@string/syntax_language"
+            app:icon="@drawable/ic_baseline_code_24"
+            app:fragment="com.bluewhaleyt.whalecode.fragments.preferences.editor.LanguageFragment" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/common"
+        app:iconSpaceReserved="false"
+        app:initialExpandedChildrenCount="4">
+
+        <SeekBarPreference
+            app:key="pref_font_size"
+            app:icon="@drawable/ic_baseline_format_size_24"
+            app:title="@string/font_size"
+            app:showSeekBarValue="true"
+            app:layout="@layout/layout_seekbar"
+            app:defaultValue="18"
+            android:max="50"
+            app:min="10"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_word_wrap"
+            app:icon="@drawable/ic_baseline_wrap_text_24"
+            app:title="@string/word_wrap"
+            app:summary="@string/word_wrap_summary"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_line_number"
+            app:icon="@drawable/ic_baseline_123_24"
+            app:title="@string/line_number"
+            app:summary="@string/line_number_summary"
+            app:defaultValue="true"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_pin_line_number"
+            app:icon="@drawable/ic_baseline_format_list_numbered_24"
+            app:title="@string/pin_line_number"
+            app:summary="@string/pin_line_number_summary"
+            app:defaultValue="true"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_auto_completion"
+            app:icon="@drawable/ic_outline_auto_fix_high_24"
+            app:title="@string/auto_completion"
+            app:summary="@string/auto_completion_summary"
+            app:defaultValue="true"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_pinch_zoom"
+            app:icon="@drawable/ic_outline_pinch_24"
+            app:title="@string/pinch_zoom"
+            app:defaultValue="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/advanced"
+        app:iconSpaceReserved="false"
+        app:initialExpandedChildrenCount="2">
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_font_ligatures"
+            app:icon="@drawable/ic_outline_font_download_24"
+            app:title="@string/font_ligatures"
+            app:summary="@string/font_ligatures_summary"
+            app:defaultValue="false"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_delete_empty_line_fast"
+            app:icon="@drawable/ic_baseline_delete_sweep_24"
+            app:title="@string/delete_empty_line_fast"
+            app:defaultValue="false"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_keyboard_suggestions"
+            app:icon="@drawable/ic_outline_auto_fix_high_24"
+            app:title="@string/keyboard_suggestions"
+            app:defaultValue="false"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_magnifier"
+            app:icon="@drawable/ic_baseline_zoom_in_24"
+            app:title="@string/magnifier"
+            app:summary="@string/magnifier_summary"
+            app:defaultValue="true"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_icu_lib"
+            app:icon="@drawable/ic_baseline_select_all_24"
+            app:title="@string/icu_lib"
+            app:summary="@string/icu_lib_summary"
+            app:defaultValue="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/non_print_flag"
+        app:iconSpaceReserved="false"
+        app:initialExpandedChildrenCount="1">
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_non_print_flag"
+            app:title="@string/non_print_flag"
+            app:icon="@drawable/ic_outline_print_24"
+            app:defaultValue="true"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_npf_ws_inner"
+            app:title="@string/npf_ws_inner"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_npf_ws_leading"
+            app:title="@string/npf_ws_leading"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_npf_ws_trailing"
+            app:title="@string/npf_ws_trailing"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_npf_ws_for_empty_line"
+            app:title="@string/npf_ws_for_empty_line"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_npf_ws_in_selection"
+            app:title="@string/npf_ws_in_selection"
+            app:defaultValue="true"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_npf_tab_same_as_space"
+            app:title="@string/npf_tab_same_as_space"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_npf_line_separator"
+            app:title="@string/npf_line_separator"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

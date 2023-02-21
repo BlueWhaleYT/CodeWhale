@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.bluewhaleyt.component.preferences.TitlePreference
+        app:title="@string/coding_style" />
+
+    <PreferenceCategory
+        app:title="@string/tab"
+        app:iconSpaceReserved="false"
+        app:initialExpandedChildrenCount="4">
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_replace_tab"
+            app:icon="@drawable/ic_baseline_space_bar_24"
+            app:title="@string/replace_tab"
+            app:summary="@string/replace_tab_summary"
+            app:defaultValue="true"/>
+
+        <SeekBarPreference
+            app:key="pref_tab_size"
+            app:icon="@drawable/ic_baseline_keyboard_tab_24"
+            app:title="@string/tab_size"
+            app:showSeekBarValue="true"
+            app:layout="@layout/layout_seekbar"
+            app:defaultValue="4"
+            android:max="8"
+            app:min="2"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,69 @@
+<resources>
+
+    <string name="translator">BlueWhaleYT</string>
+    <string name="app_name">編碼鯨</string>
+
+    <string name="settings">偏好設定</string>
+    <string name="application">應用程式</string>
+    <string name="editor">編輯器</string>
+    <string name="theme">主題</string>
+    <string name="follow_editor_theme">跟隨編輯器主題</string>
+    <string name="follow_editor_theme_summary">啟用後會把編輯器界面外觀顏色看起來一致</string>
+    <string name="syntax_highlighting">語法突顯</string>
+    <string name="textmate">Textmate 語法配置</string>
+    <string name="textmate_summary">啟用 Textmate 架構配置語法及主題</string>
+    <string name="syntax_language">程式語言</string>
+    <string name="word_wrap">自動換行</string>
+    <string name="word_wrap_summary">啟用後可自動跳至下一行，以及保持一致的屏幕寬度</string>
+    <string name="auto_completion">語法自動補全</string>
+    <string name="auto_completion_summary">啟用後可讓你在輸入字元時獲取一些輸入建議</string>
+    <string name="pinch_zoom">編輯區域縮放</string>
+    <string name="magnifier">文本放大鏡</string>
+    <string name="magnifier_summary">啟用後會在移動游標時顯示放大鏡</string>
+    <string name="icu_lib">國際統一碼部件</string>
+    <string name="icu_lib_summary">啟用後可檢索雙擊和長按字詞選擇的字元和行邊界</string>
+    <string name="line_number">行號顯示</string>
+    <string name="line_number_summary">啟用後可於編輯器的左方顯示行號</string>
+    <string name="pin_line_number">固定行號顯示</string>
+    <string name="pin_line_number_summary">啟用後可在水平捲動編輯器時固定行號</string>
+    <string name="font_size">字體大小</string>
+    <string name="tab_size">定位符大小</string>
+    <string name="delete_empty_line_fast">快速刪除空白行</string>
+    <string name="keyboard_suggestions">鍵盤建議字詞</string>
+    <string name="font_ligatures">字體連字</string>
+    <string name="font_ligatures_summary">僅提供予支援連字特性的字體</string>
+    <string name="dynamic_color">動態顏色</string>
+    <string name="dynamic_color_summary">僅支援 Android 12 版本或以上之設備</string>
+    <string name="about">關於</string>
+    <string name="still_develop">此應用程式目前仍處於開發階段，請先備份重要檔案，再使用應用程式。</string>
+    <string name="settings_change">此應用程式需要重新啟動方能完成設定配置</string>
+    <string name="open_source">開放源碼</string>
+    <string name="open_source_summary">查看 Github 存儲庫和 README 檔案</string>
+    <string name="version">版本</string>
+    <string name="auto">系統預設</string>
+    <string name="light">明亮</string>
+    <string name="dark">黑暗</string>
+    <string name="translate">翻譯</string>
+    <string name="coding_style">程式碼風格</string>
+    <string name="tab">定位符</string>
+    <string name="replace_tab">使用空格取代定位符</string>
+    <string name="replace_tab_summary">啟用後可在編輯器中插入空格而非定位符</string>
+    <string name="non_print_flag">非可印刷字元</string>
+    <string name="npf_ws_inner">繪製至字元內</string>
+    <string name="npf_ws_leading">繪製至字元前端</string>
+    <string name="npf_ws_trailing">繪製至字元後端</string>
+    <string name="npf_ws_for_empty_line">繪製至空白行</string>
+    <string name="npf_ws_in_selection">在點選文本時繪製</string>
+    <string name="npf_tab_same_as_space">繪製定位符以空格樣式顯示</string>
+    <string name="npf_line_separator">繪製換行符</string>
+
+    <string name="restart">重啟</string>
+
+    <string name="general">一般</string>
+    <string name="other">其他</string>
+    <string name="common">常用</string>
+    <string name="advanced">進階</string>
+    <string name="note">注意</string>
+    <string name="warning">警告</string>
+
+</resources>
