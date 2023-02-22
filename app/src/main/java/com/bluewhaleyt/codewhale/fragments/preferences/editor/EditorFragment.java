@@ -28,11 +28,13 @@ public class EditorFragment extends CustomPreferenceFragment {
 
             var btnPrefTheme = findPreference("btn_pref_theme");
             var btnPrefLanguage = findPreference("btn_pref_syntax_language");
+            var btnPrefComponent = findPreference("btn_pref_component");
 
             var categoryPrefLanguage = findPreference("category_pref_syntax_language");
 
             intentFragment(btnPrefTheme, new ThemeFragment());
             intentFragment(btnPrefLanguage, new LanguageFragment());
+            intentFragment(btnPrefComponent, new ComponentFragment());
 
             // disable language btn if textmate is not applied
             disableLanguageBtn(btnPrefLanguage);

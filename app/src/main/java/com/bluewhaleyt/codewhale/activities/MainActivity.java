@@ -34,6 +34,7 @@ import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 import io.github.rosemoe.sora.event.SelectionChangeEvent;
 import io.github.rosemoe.sora.lang.EmptyLanguage;
 import io.github.rosemoe.sora.lang.Language;
+import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.component.EditorAutoCompletion;
 import io.github.rosemoe.sora.widget.component.Magnifier;
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
@@ -220,6 +221,12 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setupAutoComplete() {
+        if (PreferencesManager.isAutoCompletionFollowCursor()) {
+            binding.editor.setCompletionWndPositionMode(CodeEditor.WINDOW_POS_MODE_FOLLOW_CURSOR_ALWAYS);
+        } else {
+            binding.editor.setCompletionWndPositionMode(0);
+        }
+
         binding.editor.getComponent(EditorAutoCompletion.class).setLayout(new EditorCompletionLayout());
         binding.editor.getComponent(EditorAutoCompletion.class).setAdapter(new EditorCompletionItemAdapter());
         binding.editor.getComponent(EditorAutoCompletion.class).setEnabledAnimation(true);

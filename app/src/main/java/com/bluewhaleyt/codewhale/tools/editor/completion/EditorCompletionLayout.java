@@ -70,6 +70,7 @@ public class EditorCompletionLayout implements CompletionLayout {
 
         textView.setText(WhaleApplication.getContext().getString(R.string.auto_completion_hint, "⏎"));
         textView.setTextSize(12);
+        textView.setMaxLines(1);
 
         progressBar.setIndeterminate(true);
         var progressBarLayoutParams = (LinearLayout.LayoutParams) progressBar.getLayoutParams();

@@ -10,6 +10,7 @@
     <string name="follow_editor_theme">Follow editor theme</string>
     <string name="follow_editor_theme_summary">Enable UI color with editor color scheme</string>
     <string name="syntax_highlighting">Syntax Highlighting</string>
+    <string name="syntax_highlighting_summary">Enable syntax highlighting for the editor</string>
     <string name="textmate">Textmate</string>
     <string name="textmate_summary">Enable textmate themes and languages</string>
     <string name="syntax_language">Language</string>
@@ -58,6 +59,9 @@
     <string name="npf_line_separator">Line Separator</string>
     <string name="developer">Developer</string>
     <string name="auto_completion_hint">Press %1$s to insert</string>
+    <string name="component">Components</string>
+    <string name="component_summary">Additional components supported for the editor</string>
+    <string name="auto_complete_follow_cursor">Follow cursor position</string>
 
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>

@@ -9,18 +9,16 @@ import com.bluewhaleyt.codewhale.R;
 import io.github.rosemoe.sora.lang.completion.CompletionHelper;
 import io.github.rosemoe.sora.lang.completion.CompletionPublisher;
 import io.github.rosemoe.sora.lang.completion.IdentifierAutoComplete;
+import io.github.rosemoe.sora.lang.completion.SimpleCompletionItem;
+import io.github.rosemoe.sora.lang.completion.SimpleSnippetCompletionItem;
+import io.github.rosemoe.sora.lang.completion.SnippetDescription;
 import io.github.rosemoe.sora.lang.completion.snippet.CodeSnippet;
+import io.github.rosemoe.sora.lang.completion.snippet.parser.CodeSnippetParser;
 import io.github.rosemoe.sora.text.CharPosition;
 import io.github.rosemoe.sora.text.ContentReference;
 import io.github.rosemoe.sora.util.MyCharacter;
 
 public class JavaLanguage extends LanguageHandler {
-
-    public final static CodeSnippet MAIN_METHOD = parse("java/Main.java");
-    public final static CodeSnippet IF_STATEMENT = parse("java/IfStatement.java");
-    public final static CodeSnippet IF_ELSE_STATEMENT = parse("java/IfElseStatement.java");
-    public final static CodeSnippet FOR_LOOP = parse("java/ForLoop.java");
-    public final static CodeSnippet TRY_CATCH = parse("java/TryCatch.java");
 
     public JavaLanguage() {
         autoComplete = new IdentifierAutoComplete(new String[]{
@@ -45,28 +43,25 @@ public class JavaLanguage extends LanguageHandler {
     }
 
     @Override
-    public void requireAutoComplete(@NonNull ContentReference content, @NonNull CharPosition position,
-                                    @NonNull CompletionPublisher publisher, @NonNull Bundle extraArguments) {
+    public void requireAutoComplete(@NonNull ContentReference content, @NonNull CharPosition position, @NonNull CompletionPublisher publisher, @NonNull Bundle extraArguments) {
         setupAutoComplete(content, position, publisher, extraArguments);
     }
 
-    public void setupAutoComplete(ContentReference content, CharPosition position, CompletionPublisher publisher, Bundle extraArgument) {
-        prefix = CompletionHelper.computePrefix(content, position, MyCharacter::isJavaIdentifierPart);
-        autoComplete.requireAutoComplete(content,position,prefix, publisher, new IdentifierAutoComplete.SyncIdentifiers());
-
+    public static void setupAutoComplete(ContentReference content, CharPosition position, CompletionPublisher publisher, Bundle extraArgument) {
+        LanguageHandler.setup(content, position, publisher, extraArgument);
         setupJavaBasics(publisher);
         setupJavaMethods(publisher);
     }
 
     public static void setupJavaBasics(CompletionPublisher publisher) {
-        addItem("if", "If", IF_STATEMENT, publisher);
-        addItem("ifelse", "If Else", IF_ELSE_STATEMENT, publisher);
-        addItem("for", "For loop", FOR_LOOP, publisher);
-        addItem("try", "Try Catch", TRY_CATCH, publisher);
+        addItem("if", "If", parseFromAssets("java/IfStatement.java"), publisher);
+        addItem("ifelse", "If Else", parseFromAssets("java/IfElseStatement.java"), publisher);
+        addItem("for", "For loop", parseFromAssets("java/ForLoop.java"), publisher);
+        addItem("try", "Try Catch", parseFromAssets("java/TryCatch.java"), publisher);
     }
 
     public static void setupJavaMethods(CompletionPublisher publisher) {
-        addItem("main", "main() " + getString(R.string.method_declare), MAIN_METHOD, publisher);
+        addMethodItem("main", "main() " + getString(R.string.method_declare), parseFromAssets("java/Main.java"), publisher);
     }
 
 }

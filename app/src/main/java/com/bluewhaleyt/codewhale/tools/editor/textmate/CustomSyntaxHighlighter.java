@@ -28,7 +28,7 @@ public class CustomSyntaxHighlighter extends SyntaxHighlightUtil {
 //            language = (TextMateLanguage) editorLanguage;
 //            language.updateLanguage(lang);
 //        } else {
-//            language = TextMateJavaLanguage.create(lang, true);
+//            language = TextMateLanguage.create(lang, true);
 //        }
 //        editor.setEditorLanguage(language);
     }

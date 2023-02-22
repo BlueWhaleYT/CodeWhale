@@ -23,6 +23,10 @@ public class SchemeMaterialPalenight extends EditorColorScheme {
 
     public static int colorAccent = Color.parseColor("#444aff");
 
+    public SchemeMaterialPalenight() {
+        super(true);
+    }
+
     @Override
     public void applyDefault(){
         super.applyDefault();

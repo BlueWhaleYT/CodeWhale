@@ -9,9 +9,17 @@
         app:title="@string/general"
         app:iconSpaceReserved="false">
 
+        <com.bluewhaleyt.component.preferences.ButtonPreference
+            app:key="btn_pref_component"
+            app:icon="@drawable/ic_outline_widgets_24"
+            app:title="@string/component"
+            app:summary="@string/component_summary"
+            app:fragment="com.bluewhaleyt.whalecode.fragments.preferences.editor.ComponentFragment" />
+
         <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
             app:key="pref_enable_syntax_highlighting"
             app:title="@string/syntax_highlighting"
+            app:summary="@string/syntax_highlighting_summary"
             app:icon="@drawable/ic_baseline_invert_colors_24"
             app:defaultValue="true"/>
 
@@ -85,13 +93,6 @@
             app:defaultValue="true"/>
 
         <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
-            app:key="pref_enable_auto_completion"
-            app:icon="@drawable/ic_outline_auto_fix_high_24"
-            app:title="@string/auto_completion"
-            app:summary="@string/auto_completion_summary"
-            app:defaultValue="true"/>
-
-        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
             app:key="pref_enable_pinch_zoom"
             app:icon="@drawable/ic_outline_pinch_24"
             app:title="@string/pinch_zoom"
@@ -122,13 +123,6 @@
             app:icon="@drawable/ic_outline_auto_fix_high_24"
             app:title="@string/keyboard_suggestions"
             app:defaultValue="false"/>
-
-        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
-            app:key="pref_enable_magnifier"
-            app:icon="@drawable/ic_baseline_zoom_in_24"
-            app:title="@string/magnifier"
-            app:summary="@string/magnifier_summary"
-            app:defaultValue="true"/>
 
         <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
             app:key="pref_enable_icu_lib"

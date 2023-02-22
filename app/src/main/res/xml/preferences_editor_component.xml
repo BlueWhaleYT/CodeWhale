@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.bluewhaleyt.component.preferences.TitlePreference
+        app:title="@string/component" />
+
+    <PreferenceCategory
+        app:title="@string/auto_completion"
+        app:iconSpaceReserved="false">
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_auto_completion"
+            app:icon="@drawable/ic_outline_auto_fix_high_24"
+            app:title="@string/auto_completion"
+            app:summary="@string/auto_completion_summary"
+            app:defaultValue="true"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_auto_completion_follow_cursor"
+            app:title="@string/auto_complete_follow_cursor"
+            app:icon="@drawable/ic_baseline_space_bar_24"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/magnifier"
+        app:iconSpaceReserved="false">
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_magnifier"
+            app:icon="@drawable/ic_baseline_zoom_in_24"
+            app:title="@string/magnifier"
+            app:summary="@string/magnifier_summary"
+            app:defaultValue="true"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

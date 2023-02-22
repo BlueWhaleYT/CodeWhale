@@ -16,6 +16,7 @@ import io.github.rosemoe.sora.lang.completion.SimpleSnippetCompletionItem;
 import io.github.rosemoe.sora.lang.completion.SnippetDescription;
 import io.github.rosemoe.sora.lang.completion.snippet.CodeSnippet;
 import io.github.rosemoe.sora.lang.completion.snippet.parser.CodeSnippetParser;
+import io.github.rosemoe.sora.langs.java.JavaIncrementalAnalyzeManager;
 import io.github.rosemoe.sora.langs.java.JavaLanguage;
 import io.github.rosemoe.sora.text.CharPosition;
 import io.github.rosemoe.sora.text.ContentReference;
@@ -24,6 +25,8 @@ import io.github.rosemoe.sora.util.MyCharacter;
 public class LanguageHandler extends JavaLanguage {
 
     public static Context context = WhaleApplication.getContext();
+
+    public static IdentifierAutoComplete.SyncIdentifiers identifiers = new IdentifierAutoComplete.SyncIdentifiers();
     public static IdentifierAutoComplete autoComplete;
     public static String prefix;
 
@@ -33,15 +36,13 @@ public class LanguageHandler extends JavaLanguage {
 
     }
 
-    @Override
-    public void requireAutoComplete(@NonNull ContentReference content, @NonNull CharPosition position,
-                                    @NonNull CompletionPublisher publisher, @NonNull Bundle extraArguments) {
-        setupAutoComplete(content, position, publisher, extraArguments);
-    }
-
-    public void setupAutoComplete(ContentReference content, CharPosition position, CompletionPublisher publisher, Bundle extraArgument) {
+    public static void setup(ContentReference content, CharPosition position, CompletionPublisher publisher, Bundle extraArgument) {
         prefix = CompletionHelper.computePrefix(content, position, MyCharacter::isJavaIdentifierPart);
-        autoComplete.requireAutoComplete(content,position,prefix, publisher, new IdentifierAutoComplete.SyncIdentifiers());
+//        autoComplete.requireAutoComplete(content,position,prefix, publisher, new IdentifierAutoComplete.SyncIdentifiers());
+        final var idt = identifiers;
+        if (idt != null) {
+            autoComplete.requireAutoComplete(content,position,prefix, publisher, idt);
+        }
     }
 
     public static void addItem(String label, String desc, CodeSnippet snippet, CompletionPublisher publisher) {
@@ -53,13 +54,17 @@ public class LanguageHandler extends JavaLanguage {
     }
 
     private static void add(String label, String desc, CodeSnippet snippet, CompletionPublisher publisher, String str) {
-        if (label.toLowerCase().startsWith(prefix) && prefix.length() > 0) {
+        if (label.startsWith(prefix) && prefix.length() > 0) {
             publisher.addItem(new SimpleSnippetCompletionItem(label, str + " - " + desc, new SnippetDescription(prefix.length(), snippet, true)));
         }
     }
 
-    public static CodeSnippet parse(String file) {
-        return CodeSnippetParser.parse(AssetsFileLoader.getAssetsFileContent(context, dir + file));
+    public static CodeSnippet parse(String text) {
+        return CodeSnippetParser.parse(text);
+    }
+
+    public static CodeSnippet parseFromAssets(String file) {
+        return parse(AssetsFileLoader.getAssetsFileContent(context, dir + file));
     }
 
     public static String getString(int resId) {

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.bluewhaleyt.codewhale.R;
 import com.bluewhaleyt.codewhale.WhaleApplication;
 import com.bluewhaleyt.codewhale.databinding.LayoutEditorCompletionListItemBinding;
+import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 
 import io.github.rosemoe.sora.lang.completion.CompletionItem;
 import io.github.rosemoe.sora.widget.component.EditorCompletionAdapter;
@@ -50,6 +51,10 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
             binding.tvDesc.setVisibility(View.GONE);
         }
 
+        if (PreferencesManager.isAutoCompletionFollowCursor()) {
+            binding.tvDesc.setVisibility(View.GONE);
+        }
+
         var type = item.desc.subSequence(0, 1);
         setupTypeIcon(type, binding.tvImage, binding.tvDesc);
 
@@ -83,6 +88,7 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
         }
         imageView.setImageResource(icon);
         imageView.setColorFilter(color);
-        textView.setText(text);
+
+        if (!PreferencesManager.isAutoCompletionFollowCursor()) textView.setText(text);
     }
 }

@@ -104,6 +104,10 @@ public class PreferencesManager {
         return getPrefs().getBoolean("pref_enable_npf_line_separator", false);
     }
 
+    public static boolean isAutoCompletionFollowCursor() {
+        return getPrefs().getBoolean("pref_enable_auto_completion_follow_cursor", false);
+    }
+
     public static int getFontSize() {
         return getPrefs().getInt("pref_font_size", 18);
     }

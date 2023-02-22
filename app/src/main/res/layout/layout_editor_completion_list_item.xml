@@ -39,7 +39,8 @@
             android:text="Keyword"
             android:fontFamily="@font/jetbrains_mono_regular"
             android:layout_marginEnd="5dp"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:ellipsize="end"/>
 
 
     </LinearLayout>
