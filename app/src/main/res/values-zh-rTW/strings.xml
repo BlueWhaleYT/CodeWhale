@@ -75,6 +75,9 @@
     <string name="animation_summary">啟用後會在佈局更改時出現動畫的轉變</string>
     <string name="language">界面語言</string>
     <string name="translate_by">由 %1$s 翻譯</string>
+    <string name="indentation">縮排</string>
+    <string name="auto_indent">自動縮排</string>
+    <string name="auto_indent_summary">啟用後會在新建行時自動縮排</string>
 
     <string name="keyword">關鍵字</string>
     <string name="identifier">識別字</string>

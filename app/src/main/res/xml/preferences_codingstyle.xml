@@ -6,6 +6,19 @@
         app:title="@string/coding_style" />
 
     <PreferenceCategory
+        app:title="@string/indentation"
+        app:iconSpaceReserved="false">
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_auto_indent"
+            app:icon="@drawable/ic_baseline_keyboard_tab_24"
+            app:title="@string/auto_indent"
+            app:summary="@string/auto_indent_summary"
+            app:defaultValue="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         app:title="@string/tab"
         app:iconSpaceReserved="false"
         app:initialExpandedChildrenCount="4">

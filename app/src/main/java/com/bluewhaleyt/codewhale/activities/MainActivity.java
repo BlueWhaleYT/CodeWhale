@@ -165,6 +165,7 @@ public class MainActivity extends BaseActivity {
 
         binding.editor.getProps().useICULibToSelectWords = PreferencesManager.isICULibEnabled();
         binding.editor.getProps().deleteEmptyLineFast = PreferencesManager.isDeleteEmptyLineFastEnabled();
+        binding.editor.getProps().autoIndent = PreferencesManager.isAutoIndentEnabled();
 
         binding.editor.getComponent(Magnifier.class).setEnabled(PreferencesManager.isMagnifierEnabled());
         setKeyboardSuggestions();

@@ -124,6 +124,10 @@ public class PreferencesManager {
         return getPrefs().getBoolean("pref_enable_auto_completion_animation", true);
     }
 
+    public static boolean isAutoIndentEnabled() {
+        return getPrefs().getBoolean("pref_enable_auto_indent", true);
+    }
+
     public static int getFontSize() {
         return getPrefs().getInt("pref_font_size", 18);
     }
