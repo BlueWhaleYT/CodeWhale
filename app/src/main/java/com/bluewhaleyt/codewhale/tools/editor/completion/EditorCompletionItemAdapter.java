@@ -51,7 +51,7 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
             binding.tvDesc.setVisibility(View.GONE);
         }
 
-        if (PreferencesManager.isAutoCompletionFollowCursor()) {
+        if (PreferencesManager.isAutoCompletionFollowCursorEnabled()) {
             binding.tvDesc.setVisibility(View.GONE);
         }
 
@@ -89,6 +89,6 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
         imageView.setImageResource(icon);
         imageView.setColorFilter(color);
 
-        if (!PreferencesManager.isAutoCompletionFollowCursor()) textView.setText(text);
+        if (!PreferencesManager.isAutoCompletionFollowCursorEnabled()) textView.setText(text);
     }
 }

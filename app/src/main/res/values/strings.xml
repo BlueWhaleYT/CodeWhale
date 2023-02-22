@@ -62,6 +62,11 @@
     <string name="component">Components</string>
     <string name="component_summary">Additional components supported for the editor</string>
     <string name="auto_complete_follow_cursor">Follow cursor position</string>
+    <string name="toolbar">Toolbar</string>
+    <string name="editor_symbol_input_toolbar">Symbol Input Toolbar</string>
+    <string name="editor_selection_action_toolbar">Selection Action Toolbar</string>
+    <string name="magnifier_scale">Scale</string>
+    <string name="magnifier_resolve">You had set magnifier scale %1$s, which is incorporate, it was resolved with value "1.1".</string>
 
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>

@@ -15,7 +15,8 @@
     <HorizontalScrollView
         android:id="@+id/hscrollSymbolView"
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="40dp"
+        android:visibility="gone">
 
         <io.github.rosemoe.sora.widget.SymbolInputView
             android:id="@+id/symbolInputView"
@@ -28,7 +29,8 @@
         android:id="@+id/layoutMoveSelection"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ImageButton
             android:id="@+id/btnLeft"

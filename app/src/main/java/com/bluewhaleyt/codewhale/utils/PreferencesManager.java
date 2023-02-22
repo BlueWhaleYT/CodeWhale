@@ -104,8 +104,16 @@ public class PreferencesManager {
         return getPrefs().getBoolean("pref_enable_npf_line_separator", false);
     }
 
-    public static boolean isAutoCompletionFollowCursor() {
+    public static boolean isAutoCompletionFollowCursorEnabled() {
         return getPrefs().getBoolean("pref_enable_auto_completion_follow_cursor", false);
+    }
+
+    public static boolean isSymbolInputEnabled() {
+        return getPrefs().getBoolean("pref_enable_symbol_input", true);
+    }
+
+    public static boolean isSelectionActionEnabled() {
+        return getPrefs().getBoolean("pref_enable_selection_action", true);
     }
 
     public static int getFontSize() {
@@ -114,6 +122,10 @@ public class PreferencesManager {
 
     public static int getTabSize() {
         return getPrefs().getInt("pref_tab_size", 4);
+    }
+
+    public static String getMagnifierScale() {
+        return getPrefs().getString("pref_magnifier_scale", "1.25f");
     }
 
     public static String getAppTheme() {

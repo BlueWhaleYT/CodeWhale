@@ -10,6 +10,7 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.view.menu.MenuBuilder;
@@ -36,6 +37,7 @@ import io.github.rosemoe.sora.lang.EmptyLanguage;
 import io.github.rosemoe.sora.lang.Language;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.component.EditorAutoCompletion;
+import io.github.rosemoe.sora.widget.component.EditorTextActionWindow;
 import io.github.rosemoe.sora.widget.component.Magnifier;
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
 import io.github.rosemoe.sora.widget.schemes.SchemeEclipse;
@@ -90,6 +92,7 @@ public class MainActivity extends BaseActivity {
 
         setupEditor();
         setupMoveSelectionEvent();
+        setupToolbar();
 
         if (PreferencesManager.isSyntaxHighlightingEnabled()) {
             if (PreferencesManager.isTextmateEnabled()) setupTextmateHighlight();
@@ -110,7 +113,13 @@ public class MainActivity extends BaseActivity {
         var colorBg = binding.editor.getColorScheme().getColor(EditorColorScheme.WHOLE_BACKGROUND);
         var colorBgHc = binding.editor.getColorScheme().getColor(EditorColorScheme.CURRENT_LINE);
         var colorText = binding.editor.getColorScheme().getColor(EditorColorScheme.TEXT_NORMAL);
-        getWindow().setNavigationBarColor(colorBgHc);
+
+        if (PreferencesManager.isSymbolInputEnabled() || PreferencesManager.isSelectionActionEnabled()) {
+            getWindow().setNavigationBarColor(colorBgHc);
+        } else {
+            getWindow().setNavigationBarColor(colorBg);
+        }
+
         getWindow().setStatusBarColor(colorBg);
 
         // set toolbar bg color and title color according to the editor themes
@@ -142,6 +151,7 @@ public class MainActivity extends BaseActivity {
         binding.editor.setLineSpacing(2f, 1.5f);
 
         setupAutoComplete();
+        setupMagnifier();
         setEditorText(AssetsFileLoader.getAssetsFileContent(this, "presets/Main.java"));
 
         binding.editor.setWordwrap(PreferencesManager.isWordWrapEnabled());
@@ -221,7 +231,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setupAutoComplete() {
-        if (PreferencesManager.isAutoCompletionFollowCursor()) {
+        if (PreferencesManager.isAutoCompletionFollowCursorEnabled()) {
             binding.editor.setCompletionWndPositionMode(CodeEditor.WINDOW_POS_MODE_FOLLOW_CURSOR_ALWAYS);
         } else {
             binding.editor.setCompletionWndPositionMode(0);
@@ -249,6 +259,30 @@ public class MainActivity extends BaseActivity {
         binding.btnUp.setOnClickListener(v -> editor.moveSelectionUp());
         binding.btnDown.setOnClickListener(v -> editor.moveSelectionDown());
         binding.btnDuplicateLine.setOnClickListener(v -> editor.duplicateLine());
+    }
+
+    private void setupToolbar() {
+        if (PreferencesManager.isSymbolInputEnabled()) {
+            binding.hscrollSymbolView.setVisibility(View.VISIBLE);
+        } else {
+            binding.hscrollSymbolView.setVisibility(View.GONE);
+        }
+        if (PreferencesManager.isSelectionActionEnabled()) {
+            binding.layoutMoveSelection.setVisibility(View.VISIBLE);
+        } else {
+            binding.layoutMoveSelection.setVisibility(View.GONE);
+        }
+    }
+
+    private void setupMagnifier() {
+        var scaleSaved = Float.parseFloat(PreferencesManager.getMagnifierScale());
+        var scale = 1.25f;
+        if (scaleSaved <= 1) {
+            binding.editor.getComponent(Magnifier.class).setScaleFactor(scale);
+            SnackbarUtil.makeErrorSnackbar(this, getString(R.string.magnifier_resolve, "<=1"));
+        } else {
+            binding.editor.getComponent(Magnifier.class).setScaleFactor(scaleSaved);
+        }
     }
 
 }

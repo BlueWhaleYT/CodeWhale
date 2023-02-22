@@ -19,7 +19,7 @@
         <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
             app:key="pref_enable_auto_completion_follow_cursor"
             app:title="@string/auto_complete_follow_cursor"
-            app:icon="@drawable/ic_baseline_space_bar_24"/>
+            app:icon="@drawable/ic_baseline_space_bar_24" />
 
     </PreferenceCategory>
 
@@ -32,6 +32,30 @@
             app:icon="@drawable/ic_baseline_zoom_in_24"
             app:title="@string/magnifier"
             app:summary="@string/magnifier_summary"
+            app:defaultValue="true"/>
+
+        <EditTextPreference
+            app:key="pref_magnifier_scale"
+            app:icon="@drawable/ic_baseline_format_size_24"
+            app:title="@string/magnifier_scale"
+            app:useSimpleSummaryProvider="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/toolbar"
+        app:iconSpaceReserved="false">
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_symbol_input"
+            app:icon="@drawable/ic_baseline_emoji_symbols_24"
+            app:title="@string/editor_symbol_input_toolbar"
+            app:defaultValue="true"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_selection_action"
+            app:icon="@drawable/ic_baseline_space_bar_24"
+            app:title="@string/editor_selection_action_toolbar"
             app:defaultValue="true"/>
 
     </PreferenceCategory>

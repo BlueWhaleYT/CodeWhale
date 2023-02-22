@@ -62,6 +62,11 @@
     <string name="component">元件</string>
     <string name="component_summary">編輯器的擴充元件</string>
     <string name="auto_complete_follow_cursor">跟隨游標位置</string>
+    <string name="toolbar">工具列</string>
+    <string name="editor_symbol_input_toolbar">符號插入工具列</string>
+    <string name="editor_selection_action_toolbar">游標選取工具列</string>
+    <string name="magnifier_scale">刻度</string>
+    <string name="magnifier_resolve">你設置了文本放大鏡的刻度為 %1$s，已自動為你重新設置該值為 "1.1" 。</string>
 
     <string name="keyword">關鍵字</string>
     <string name="identifier">識別字</string>
