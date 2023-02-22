@@ -54,6 +54,7 @@
             app:key="pref_magnifier_scale"
             app:icon="@drawable/ic_baseline_format_size_24"
             app:title="@string/magnifier_scale"
+            app:defaultValue="1.25"
             app:useSimpleSummaryProvider="true"/>
 
     </PreferenceCategory>

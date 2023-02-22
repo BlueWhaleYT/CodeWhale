@@ -133,7 +133,7 @@ public class PreferencesManager {
     }
 
     public static String getMagnifierScale() {
-        return getPrefs().getString("pref_magnifier_scale", "1.25f");
+        return getPrefs().getString("pref_magnifier_scale", "1.25");
     }
 
     public static String getAppTheme() {
