@@ -71,7 +71,7 @@ public class EditorCompletionLayout implements CompletionLayout {
         rootLayout.addView(textView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         rootLayout.addView(listView, new LinearLayout.LayoutParams(-1, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        textView.setText(WhaleApplication.getContext().getString(R.string.auto_completion_hint, "⏎"));
+        textView.setText(context.getString(R.string.auto_completion_hint, "⏎"));
         textView.setTextSize(12);
         textView.setMaxLines(1);
 

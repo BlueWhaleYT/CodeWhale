@@ -7,7 +7,8 @@
 
     <PreferenceCategory
         app:title="@string/auto_completion"
-        app:iconSpaceReserved="false">
+        app:iconSpaceReserved="false"
+        app:initialExpandedChildrenCount="1">
 
         <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
             app:key="pref_enable_auto_completion"
@@ -19,12 +20,21 @@
         <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
             app:key="pref_enable_auto_completion_follow_cursor"
             app:title="@string/auto_complete_follow_cursor"
+            app:summary="@string/auto_complete_follow_cursor_summary"
             app:icon="@drawable/ic_baseline_space_bar_24" />
 
         <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
             app:key="pref_enable_auto_completion_stroke"
             app:title="@string/stroke"
+            app:summary="@string/stroke_summary"
             app:icon="@drawable/ic_baseline_border_style_24"
+            app:defaultValue="true"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_auto_completion_animation"
+            app:title="@string/animation"
+            app:summary="@string/animation_summary"
+            app:icon="@drawable/ic_baseline_animation_24"
             app:defaultValue="true"/>
 
     </PreferenceCategory>
@@ -60,7 +70,7 @@
 
         <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
             app:key="pref_enable_selection_action"
-            app:icon="@drawable/ic_baseline_space_bar_24"
+            app:icon="@drawable/ic_baseline_crop_free_24"
             app:title="@string/editor_selection_action_toolbar"
             app:defaultValue="true"/>
 

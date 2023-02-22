@@ -36,7 +36,10 @@ public class AboutFragment extends CustomPreferenceFragment {
             });
 
             prefDeveloper.setSummary(Constants.PROJECT_DEVELOPER);
-            prefTranslate.setSummary(getString(R.string.translator));
+            prefTranslate.setSummary(
+                    getString(R.string.language_name) + " " +
+                    getString(R.string.translate_by, getString(R.string.translator))
+            );
             prefVersion.setSummary(ApplicationUtil.getAppVersionName(requireActivity()));
 
         } catch (Exception e) {

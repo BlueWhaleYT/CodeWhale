@@ -1,5 +1,6 @@
 <resources>
 
+    <string name="language_name">繁體中文（台灣）</string>
     <string name="translator">BlueWhaleYT</string>
     <string name="app_name">編碼鯨</string>
 
@@ -59,15 +60,21 @@
     <string name="npf_line_separator">繪製換行符</string>
     <string name="developer">開發者</string>
     <string name="auto_completion_hint">按下鍵盤的 %1$s 插入建議字詞</string>
-    <string name="component">元件</string>
-    <string name="component_summary">編輯器的擴充元件</string>
+    <string name="component">組件</string>
+    <string name="component_summary">編輯器的擴充組件</string>
     <string name="auto_complete_follow_cursor">跟隨游標位置</string>
+    <string name="auto_complete_follow_cursor_summary">啟用後自動補全選單會跟隨游標位置而顯示</string>
     <string name="toolbar">工具列</string>
-    <string name="editor_symbol_input_toolbar">符號插入工具列</string>
-    <string name="editor_selection_action_toolbar">游標選取工具列</string>
+    <string name="editor_symbol_input_toolbar">符號插入</string>
+    <string name="editor_selection_action_toolbar">游標選取</string>
     <string name="magnifier_scale">刻度</string>
     <string name="magnifier_resolve">你設置了文本放大鏡的刻度為 %1$s，已自動為你重新設置該值為 "1.1" 。</string>
     <string name="stroke">邊框</string>
+    <string name="stroke_summary">繪製邊框</string>
+    <string name="animation">動畫轉變</string>
+    <string name="animation_summary">啟用後會在佈局更改時出現動畫的轉變</string>
+    <string name="language">界面語言</string>
+    <string name="translate_by">由 %1$s 翻譯</string>
 
     <string name="keyword">關鍵字</string>
     <string name="identifier">識別字</string>

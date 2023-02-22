@@ -62,7 +62,7 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
     }
 
     private void setupTypeIcon(CharSequence type, ImageView imageView, TextView textView) {
-        var context = WhaleApplication.getContext();
+        var context = getContext();
         var icon = 0;
         var color = getThemeColor(EditorColorScheme.TEXT_NORMAL);;
         var text = "";

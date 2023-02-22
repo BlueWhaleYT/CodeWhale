@@ -1,5 +1,6 @@
 <resources>
 
+    <string name="language_name">English</string>
     <string name="translator">BlueWhaleYT</string>
     <string name="app_name">CodeWhale</string>
 
@@ -17,7 +18,7 @@
     <string name="word_wrap">Word Wrap</string>
     <string name="word_wrap_summary">Jump to the next line when necessary and fit screen width</string>
     <string name="auto_completion">Auto Completion</string>
-    <string name="auto_completion_summary">Enable basic code suggestions when you are typing words</string>
+    <string name="auto_completion_summary">Enable basic code suggestions when typing words</string>
     <string name="pinch_zoom">Pinch Zoom</string>
     <string name="magnifier">Magnifier</string>
     <string name="magnifier_summary">Enable magnifier when move the cursor</string>
@@ -62,12 +63,18 @@
     <string name="component">Components</string>
     <string name="component_summary">Additional components supported for the editor</string>
     <string name="auto_complete_follow_cursor">Follow cursor position</string>
+    <string name="auto_complete_follow_cursor_summary">The auto completion will display near the cursor position</string>
     <string name="toolbar">Toolbar</string>
-    <string name="editor_symbol_input_toolbar">Symbol Input Toolbar</string>
-    <string name="editor_selection_action_toolbar">Selection Action Toolbar</string>
+    <string name="editor_symbol_input_toolbar">Symbol Input</string>
+    <string name="editor_selection_action_toolbar">Selection Action</string>
     <string name="magnifier_scale">Scale</string>
     <string name="magnifier_resolve">You had set magnifier scale %1$s, which is incorporate, it was resolved with value "1.1".</string>
     <string name="stroke">Stroke</string>
+    <string name="stroke_summary">Enable outline stroke</string>
+    <string name="animation">Animation</string>
+    <string name="animation_summary">Enable transition and animation</string>
+    <string name="language">Language</string>
+    <string name="translate_by">by %1$s</string>
 
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>

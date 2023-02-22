@@ -5,18 +5,38 @@
     <com.bluewhaleyt.component.preferences.TitlePreference
         app:title="@string/application" />
 
-    <ListPreference
-        app:key="pref_app_theme"
-        app:title="@string/theme"
-        app:useSimpleSummaryProvider="true"
-        app:icon="@drawable/ic_outline_brightness_4_24"
-        app:entries="@array/theme_text"
-        app:entryValues="@array/theme_value" />
+    <PreferenceCategory
+        app:title="@string/language">
 
-    <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
-        app:key="pref_enable_dynamic_color"
-        app:icon="@drawable/ic_outline_style_24"
-        app:title="@string/dynamic_color"
-        app:summary="@string/dynamic_color_summary"/>
+        <ListPreference
+            app:key="pref_app_language"
+            app:title="@string/language"
+            app:useSimpleSummaryProvider="true"
+            app:icon="@drawable/ic_baseline_language_24"
+            app:entries="@array/language_text"
+            app:entryValues="@array/language_value"
+            app:defaultValue="auto"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/theme">
+
+        <ListPreference
+            app:key="pref_app_theme"
+            app:title="@string/theme"
+            app:useSimpleSummaryProvider="true"
+            app:icon="@drawable/ic_outline_brightness_4_24"
+            app:entries="@array/theme_text"
+            app:entryValues="@array/theme_value"
+            app:defaultValue="auto"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_dynamic_color"
+            app:icon="@drawable/ic_outline_style_24"
+            app:title="@string/dynamic_color"
+            app:summary="@string/dynamic_color_summary"/>
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

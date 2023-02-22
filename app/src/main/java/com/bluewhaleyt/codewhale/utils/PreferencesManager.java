@@ -120,6 +120,10 @@ public class PreferencesManager {
         return getPrefs().getBoolean("pref_enable_auto_completion_stroke", true);
     }
 
+    public static boolean isAutoCompletionAnimationEnabled() {
+        return getPrefs().getBoolean("pref_enable_auto_completion_animation", true);
+    }
+
     public static int getFontSize() {
         return getPrefs().getInt("pref_font_size", 18);
     }
@@ -134,6 +138,10 @@ public class PreferencesManager {
 
     public static String getAppTheme() {
         return getPrefs().getString("pref_app_theme", "auto");
+    }
+
+    public static String getAppLanguage() {
+        return getPrefs().getString("pref_app_language", "auto");
     }
 
     public static SharedPreferences getPrefs() {
