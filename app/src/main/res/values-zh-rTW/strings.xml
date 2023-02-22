@@ -67,6 +67,7 @@
     <string name="editor_selection_action_toolbar">游標選取工具列</string>
     <string name="magnifier_scale">刻度</string>
     <string name="magnifier_resolve">你設置了文本放大鏡的刻度為 %1$s，已自動為你重新設置該值為 "1.1" 。</string>
+    <string name="stroke">邊框</string>
 
     <string name="keyword">關鍵字</string>
     <string name="identifier">識別字</string>

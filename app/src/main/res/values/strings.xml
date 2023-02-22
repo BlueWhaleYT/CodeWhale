@@ -67,6 +67,7 @@
     <string name="editor_selection_action_toolbar">Selection Action Toolbar</string>
     <string name="magnifier_scale">Scale</string>
     <string name="magnifier_resolve">You had set magnifier scale %1$s, which is incorporate, it was resolved with value "1.1".</string>
+    <string name="stroke">Stroke</string>
 
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>

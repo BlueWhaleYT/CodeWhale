@@ -116,6 +116,10 @@ public class PreferencesManager {
         return getPrefs().getBoolean("pref_enable_selection_action", true);
     }
 
+    public static boolean isAutoCompletionStrokeEnabled() {
+        return getPrefs().getBoolean("pref_enable_auto_completion_stroke", true);
+    }
+
     public static int getFontSize() {
         return getPrefs().getInt("pref_font_size", 18);
     }

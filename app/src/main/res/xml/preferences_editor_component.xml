@@ -21,6 +21,12 @@
             app:title="@string/auto_complete_follow_cursor"
             app:icon="@drawable/ic_baseline_space_bar_24" />
 
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_auto_completion_stroke"
+            app:title="@string/stroke"
+            app:icon="@drawable/ic_baseline_border_style_24"
+            app:defaultValue="true"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

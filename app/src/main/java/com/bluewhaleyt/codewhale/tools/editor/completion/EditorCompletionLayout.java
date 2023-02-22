@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 
 import com.bluewhaleyt.codewhale.R;
 import com.bluewhaleyt.codewhale.WhaleApplication;
+import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 
 import io.github.rosemoe.sora.widget.component.CompletionLayout;
 import io.github.rosemoe.sora.widget.component.EditorAutoCompletion;
@@ -33,16 +34,18 @@ public class EditorCompletionLayout implements CompletionLayout {
     private TextView textView;
     private EditorAutoCompletion editorAutoCompletion;
 
+    private GradientDrawable gd;
+
     public boolean enabledAnimation = false;
 
     private Context context;
 
     @Override
     public void onApplyColorScheme(@NonNull EditorColorScheme colorScheme) {
-        GradientDrawable gd = new GradientDrawable();
-//        gd.setCornerRadius(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, editorAutoCompletion.getContext().getResources().getDisplayMetrics()));
-        gd.setStroke(6, colorScheme.getColor(EditorColorScheme.COMPLETION_WND_CORNER));
+        gd = new GradientDrawable();
+//        gd.setCornerRadius(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, editorAutoCompletion.getContext().getResources().getDisplayMetrics()))
         gd.setColor(colorScheme.getColor(EditorColorScheme.COMPLETION_WND_BACKGROUND));
+        setStroke(colorScheme);
         rootView.setBackground(gd);
     }
 
@@ -165,6 +168,12 @@ public class EditorCompletionLayout implements CompletionLayout {
         ev = MotionEvent.obtain(down, down, MotionEvent.ACTION_CANCEL, 0, offset, 0);
         adpView.onTouchEvent(ev);
         ev.recycle();
+    }
+
+    private void setStroke(EditorColorScheme colorScheme) {
+        if (PreferencesManager.isAutoCompletionStrokeEnabled()) {
+            gd.setStroke(6, colorScheme.getColor(EditorColorScheme.COMPLETION_WND_CORNER));
+        }
     }
 
 }
