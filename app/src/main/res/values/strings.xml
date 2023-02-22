@@ -61,6 +61,8 @@
 
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>
+    <string name="method">Method</string>
+    <string name="method_declare">Method Declaration</string>
     <string name="snippet">Snippet</string>
 
     <string name="restart">Restart</string>

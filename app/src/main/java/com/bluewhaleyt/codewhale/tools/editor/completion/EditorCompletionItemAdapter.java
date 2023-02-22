@@ -52,7 +52,6 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
 
         var type = item.desc.subSequence(0, 1);
         setupTypeIcon(type, binding.tvImage, binding.tvDesc);
-        binding.tvImage.setColorFilter(getThemeColor(EditorColorScheme.TEXT_NORMAL));
 
         return convertView;
     }
@@ -60,7 +59,9 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
     private void setupTypeIcon(CharSequence type, ImageView imageView, TextView textView) {
         var context = WhaleApplication.getContext();
         var icon = 0;
+        var color = getThemeColor(EditorColorScheme.TEXT_NORMAL);;
         var text = "";
+        var desc = item.desc.toString().substring(1);
         switch (type.toString()) {
             case "K":
                 icon = R.drawable.ic_intellisense_symbol_keyword;
@@ -72,10 +73,16 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
                 break;
             case "S":
                 icon = R.drawable.ic_intellisense_symbol_snippet;
-                text = context.getString(R.string.snippet) + item.desc.toString().substring(1);
+                text = context.getString(R.string.snippet) + desc;
+                break;
+            case "M":
+                icon = R.drawable.ic_intellisence_symbol_method;
+                text = context.getString(R.string.method) + desc;
+                color = 0xFF652d90;
                 break;
         }
         imageView.setImageResource(icon);
+        imageView.setColorFilter(color);
         textView.setText(text);
     }
 }

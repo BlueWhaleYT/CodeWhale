@@ -61,6 +61,8 @@
 
     <string name="keyword">關鍵字</string>
     <string name="identifier">識別字</string>
+    <string name="method">方法</string>
+    <string name="method_declare">方法定義</string>
     <string name="snippet">程式碼片段</string>
 
     <string name="restart">重啟</string>

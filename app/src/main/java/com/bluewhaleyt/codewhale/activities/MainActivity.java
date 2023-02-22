@@ -15,8 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.view.menu.MenuBuilder;
 
 import com.bluewhaleyt.codeeditor.textmate.syntaxhighlight.SyntaxHighlightUtil;
-import com.bluewhaleyt.codewhale.WhaleApplication;
-import com.bluewhaleyt.codewhale.tools.editor.basic.JavaLanguage;
+import com.bluewhaleyt.codewhale.tools.editor.basic.languages.JavaLanguage;
+import com.bluewhaleyt.codewhale.tools.editor.basic.languages.modules.AndroidJavaLanguage;
 import com.bluewhaleyt.codewhale.tools.editor.textmate.CustomSyntaxHighlighter;
 import com.bluewhaleyt.codewhale.utils.AssetsFileLoader;
 import com.bluewhaleyt.codewhale.utils.EditorUtil;
@@ -31,11 +31,9 @@ import com.bluewhaleyt.codewhale.tools.editor.completion.EditorCompletionLayout;
 import com.bluewhaleyt.codewhale.utils.Constants;
 import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 
-import io.github.rosemoe.sora.event.ContentChangeEvent;
 import io.github.rosemoe.sora.event.SelectionChangeEvent;
 import io.github.rosemoe.sora.lang.EmptyLanguage;
 import io.github.rosemoe.sora.lang.Language;
-import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.component.EditorAutoCompletion;
 import io.github.rosemoe.sora.widget.component.Magnifier;
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
@@ -167,7 +165,8 @@ public class MainActivity extends BaseActivity {
 
         Language language;
         if (PreferencesManager.isLanguageJavaEnabled()) {
-            language = new JavaLanguage();
+//            language = new JavaLanguage();
+            language = new AndroidJavaLanguage();
         } else {
             language = new EmptyLanguage();
         }
@@ -227,8 +226,8 @@ public class MainActivity extends BaseActivity {
         binding.editor.getComponent(EditorAutoCompletion.class).setEnabled(PreferencesManager.isAutoCompletionEnabled());
         binding.editor.subscribeEvent(SelectionChangeEvent.class, (event, unsubscribe) -> {
             var editorAutoCompletion = binding.editor.getComponent(EditorAutoCompletion.class);
-            CommonUtil.waitForTimeThenDo(10, () -> {
-                if (editorAutoCompletion.getCurrentPosition() == -1) {
+            CommonUtil.waitForTimeThenDo(50, () -> {
+                if (editorAutoCompletion.getCurrentPosition() <= -1) {
                     editorAutoCompletion.moveDown();
                 }
                 return null;
