@@ -5,8 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bluewhaleyt.codewhale.R;
+import com.bluewhaleyt.codewhale.WhaleApplication;
 import com.bluewhaleyt.codewhale.databinding.LayoutEditorCompletionListItemBinding;
 
 import io.github.rosemoe.sora.lang.completion.CompletionItem;
@@ -22,8 +25,7 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
     public int getItemHeight() {
         return (int)
                 TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        30,
+                        TypedValue.COMPLEX_UNIT_DIP, 60,
                         getContext().getResources().getDisplayMetrics());
     }
 
@@ -31,7 +33,7 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
     protected View getView(int position, View convertView, ViewGroup parent, boolean isCurrentCursorPosition) {
         binding = LayoutEditorCompletionListItemBinding.inflate(LayoutInflater.from(getContext()), parent, false);
         convertView = binding.getRoot();
-        var item = getItem(position);
+        item = getItem(position);
 
         binding.tvLabel.setText(item.label);
         binding.tvLabel.setTextColor(getThemeColor(EditorColorScheme.COMPLETION_WND_TEXT_PRIMARY));
@@ -49,25 +51,31 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
         }
 
         var type = item.desc.subSequence(0, 1);
-        setupTypeIcon(type, binding.tvImage);
+        setupTypeIcon(type, binding.tvImage, binding.tvDesc);
         binding.tvImage.setColorFilter(getThemeColor(EditorColorScheme.TEXT_NORMAL));
 
         return convertView;
     }
 
-    private void setupTypeIcon(CharSequence type, ImageView imageView) {
-        int icon = 0;
+    private void setupTypeIcon(CharSequence type, ImageView imageView, TextView textView) {
+        var context = WhaleApplication.getContext();
+        var icon = 0;
+        var text = "";
         switch (type.toString()) {
             case "K":
                 icon = R.drawable.ic_intellisense_symbol_keyword;
-                break;
-            case "S":
-                icon = R.drawable.ic_intellisense_symbol_snippet;
+                text = context.getString(R.string.keyword);
                 break;
             case "I":
                 icon = R.drawable.ic_intellisense_symbol_key;
+                text = context.getString(R.string.identifier);
+                break;
+            case "S":
+                icon = R.drawable.ic_intellisense_symbol_snippet;
+                text = context.getString(R.string.snippet) + item.desc.toString().substring(1);
                 break;
         }
         imageView.setImageResource(icon);
+        textView.setText(text);
     }
 }

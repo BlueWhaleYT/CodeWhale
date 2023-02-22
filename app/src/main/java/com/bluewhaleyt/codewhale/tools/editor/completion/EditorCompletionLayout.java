@@ -2,6 +2,7 @@ package com.bluewhaleyt.codewhale.tools.editor.completion;
 
 import android.animation.LayoutTransition;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.SystemClock;
 import android.util.TypedValue;
@@ -12,8 +13,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+
+import com.bluewhaleyt.codewhale.R;
+import com.bluewhaleyt.codewhale.WhaleApplication;
 
 import io.github.rosemoe.sora.widget.component.CompletionLayout;
 import io.github.rosemoe.sora.widget.component.EditorAutoCompletion;
@@ -23,7 +29,8 @@ public class EditorCompletionLayout implements CompletionLayout {
 
     private ListView listView;
     private ProgressBar progressBar;
-    private RelativeLayout layout;
+    private LinearLayout rootView;
+    private TextView textView;
     private EditorAutoCompletion editorAutoCompletion;
 
     public boolean enabledAnimation = false;
@@ -33,10 +40,10 @@ public class EditorCompletionLayout implements CompletionLayout {
     @Override
     public void onApplyColorScheme(@NonNull EditorColorScheme colorScheme) {
         GradientDrawable gd = new GradientDrawable();
-//        gd.setCornerRadius(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, editorAutoCompletion.getContext().getResources().getDisplayMetrics()));
+//        gd.setCornerRadius(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, editorAutoCompletion.getContext().getResources().getDisplayMetrics()));
         gd.setStroke(6, colorScheme.getColor(EditorColorScheme.COMPLETION_WND_CORNER));
         gd.setColor(colorScheme.getColor(EditorColorScheme.COMPLETION_WND_BACKGROUND));
-        layout.setBackground(gd);
+        rootView.setBackground(gd);
     }
 
     @Override
@@ -47,28 +54,52 @@ public class EditorCompletionLayout implements CompletionLayout {
     @NonNull
     @Override
     public View inflate(@NonNull Context context) {
-        this.context = context;
-        RelativeLayout layout2 = new RelativeLayout(context);
+        var rootLayout = new LinearLayout(context);
+        rootView = rootLayout;
         listView = new ListView(context);
-        layout2.addView(listView, new LinearLayout.LayoutParams(-1, -1));
-        progressBar = new ProgressBar(context);
-        layout2.addView(progressBar);
-        var params = ((RelativeLayout.LayoutParams) progressBar.getLayoutParams());
-        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        params.width = params.height = (int) valueInDp(30);
+        progressBar = new ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal);
+        textView = new TextView(context);
+
+        rootLayout.setOrientation(LinearLayout.VERTICAL);
+
+        setEnabledAnimation(false);
+
+        rootLayout.addView(progressBar, new LinearLayout.LayoutParams(-1, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, context.getResources().getDisplayMetrics())));
+        rootLayout.addView(textView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        rootLayout.addView(listView, new LinearLayout.LayoutParams(-1, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        textView.setText(WhaleApplication.getContext().getString(R.string.auto_completion_hint, "⏎"));
+        textView.setTextSize(12);
+
+        progressBar.setIndeterminate(true);
+        var progressBarLayoutParams = (LinearLayout.LayoutParams) progressBar.getLayoutParams();
+        var textViewLayoutParams = (LinearLayout.LayoutParams) textView.getLayoutParams();
+
+        rootLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        progressBarLayoutParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -8, context.getResources().getDisplayMetrics());
+        progressBarLayoutParams.bottomMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -8, context.getResources().getDisplayMetrics());
+        progressBarLayoutParams.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
+        progressBarLayoutParams.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
+
+        textViewLayoutParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
+        textViewLayoutParams.bottomMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, context.getResources().getDisplayMetrics());
+        textViewLayoutParams.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, context.getResources().getDisplayMetrics());
+        textViewLayoutParams.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, context.getResources().getDisplayMetrics());
+
         GradientDrawable gd = new GradientDrawable();
-//        gd.setCornerRadius(valueInDp(10));
-        layout2.setBackground(gd);
-        layout = layout2;
+        gd.setCornerRadius(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, context.getResources().getDisplayMetrics()));
+
+        rootLayout.setBackground(gd);
+
         listView.setDividerHeight(0);
         setLoading(true);
+
         listView.setOnItemClickListener((parent, view, position, id) -> {
             editorAutoCompletion.select(position);
         });
 
-        setEnabledAnimation(false);
-
-        return layout2;
+        return rootLayout;
     }
 
     @NonNull
@@ -85,10 +116,10 @@ public class EditorCompletionLayout implements CompletionLayout {
     @Override
     public void ensureListPositionVisible(int position, int incrementPixels) {
         listView.post(() -> {
-            while(listView.getFirstVisiblePosition() + 1 > position && listView.canScrollList(-1)) {
+            while (listView.getFirstVisiblePosition() + 1 > position && listView.canScrollList(-1)) {
                 performScrollList(incrementPixels / 2);
             }
-            while(listView.getFirstVisiblePosition() - 1 < position && listView.canScrollList(1)) {
+            while (listView.getLastVisiblePosition() - 1 < position && listView.canScrollList(1)) {
                 performScrollList(-incrementPixels / 2);
             }
         });
@@ -99,18 +130,18 @@ public class EditorCompletionLayout implements CompletionLayout {
         this.enabledAnimation = enabledAnimation;
 
         if (enabledAnimation) {
-            layout.setLayoutTransition(new LayoutTransition());
-            var transition = layout.getLayoutTransition();
+            rootView.setLayoutTransition(new LayoutTransition());
+            var transition = rootView.getLayoutTransition();
             transition.enableTransitionType(LayoutTransition.CHANGING);
             transition.enableTransitionType(LayoutTransition.APPEARING);
             transition.enableTransitionType(LayoutTransition.DISAPPEARING);
             transition.enableTransitionType(LayoutTransition.CHANGE_APPEARING);
             transition.enableTransitionType(LayoutTransition.CHANGE_DISAPPEARING);
 
-            listView.setLayoutTransition(layout.getLayoutTransition());
+//            listView.setLayoutTransition(rootView.getLayoutTransition());
         } else  {
-            layout.setLayoutTransition(null);
-            listView.setLayoutTransition(null);
+            rootView.setLayoutTransition(null);
+//            listView.setLayoutTransition(null);
         }
     }
 

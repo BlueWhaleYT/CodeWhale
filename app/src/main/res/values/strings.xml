@@ -57,6 +57,11 @@
     <string name="npf_tab_same_as_space">Tab same as space</string>
     <string name="npf_line_separator">Line Separator</string>
     <string name="developer">Developer</string>
+    <string name="auto_completion_hint">Press %1$s to insert</string>
+
+    <string name="keyword">Keyword</string>
+    <string name="identifier">Identifier</string>
+    <string name="snippet">Snippet</string>
 
     <string name="restart">Restart</string>
 

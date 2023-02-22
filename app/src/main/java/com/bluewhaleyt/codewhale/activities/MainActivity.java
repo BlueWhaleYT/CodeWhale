@@ -32,6 +32,7 @@ import com.bluewhaleyt.codewhale.utils.Constants;
 import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 
 import io.github.rosemoe.sora.event.ContentChangeEvent;
+import io.github.rosemoe.sora.event.SelectionChangeEvent;
 import io.github.rosemoe.sora.lang.EmptyLanguage;
 import io.github.rosemoe.sora.lang.Language;
 import io.github.rosemoe.sora.widget.CodeEditor;
@@ -224,7 +225,7 @@ public class MainActivity extends BaseActivity {
         binding.editor.getComponent(EditorAutoCompletion.class).setAdapter(new EditorCompletionItemAdapter());
         binding.editor.getComponent(EditorAutoCompletion.class).setEnabledAnimation(true);
         binding.editor.getComponent(EditorAutoCompletion.class).setEnabled(PreferencesManager.isAutoCompletionEnabled());
-        binding.editor.subscribeEvent(ContentChangeEvent.class, (event, unsubscribe) -> {
+        binding.editor.subscribeEvent(SelectionChangeEvent.class, (event, unsubscribe) -> {
             var editorAutoCompletion = binding.editor.getComponent(EditorAutoCompletion.class);
             CommonUtil.waitForTimeThenDo(10, () -> {
                 if (editorAutoCompletion.getCurrentPosition() == -1) {

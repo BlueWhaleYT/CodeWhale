@@ -57,6 +57,11 @@
     <string name="npf_tab_same_as_space">繪製定位符以空格樣式顯示</string>
     <string name="npf_line_separator">繪製換行符</string>
     <string name="developer">開發者</string>
+    <string name="auto_completion_hint">按下鍵盤的 %1$s 插入建議字詞</string>
+
+    <string name="keyword">關鍵字</string>
+    <string name="identifier">識別字</string>
+    <string name="snippet">程式碼片段</string>
 
     <string name="restart">重啟</string>
 

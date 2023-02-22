@@ -15,8 +15,6 @@ import io.github.rosemoe.sora.lang.completion.SimpleSnippetCompletionItem;
 import io.github.rosemoe.sora.lang.completion.SnippetDescription;
 import io.github.rosemoe.sora.lang.completion.snippet.CodeSnippet;
 import io.github.rosemoe.sora.lang.completion.snippet.parser.CodeSnippetParser;
-import io.github.rosemoe.sora.langs.java.JavaIncrementalAnalyzeManager;
-import io.github.rosemoe.sora.langs.java.JavaTextTokenizer;
 import io.github.rosemoe.sora.text.CharPosition;
 import io.github.rosemoe.sora.text.ContentReference;
 import io.github.rosemoe.sora.util.MyCharacter;
@@ -30,9 +28,10 @@ public class JavaLanguage extends io.github.rosemoe.sora.langs.java.JavaLanguage
 
     private static String prefix;
 
-    public final static CodeSnippet IF_STATEMENT = CodeSnippetParser.parse(AssetsFileLoader.getAssetsFileContent(context, dir + "IfStatement.java"));
-    public final static CodeSnippet IF_ELSE_STATEMENT = CodeSnippetParser.parse(AssetsFileLoader.getAssetsFileContent(context, dir + "IfElseStatement.java"));
-    public final static CodeSnippet FOR_LOOP = CodeSnippetParser.parse(AssetsFileLoader.getAssetsFileContent(context, dir + "ForLoop.java"));
+    public final static CodeSnippet IF_STATEMENT = parse("IfStatement.java");
+    public final static CodeSnippet IF_ELSE_STATEMENT = parse("IfElseStatement.java");
+    public final static CodeSnippet FOR_LOOP = parse("ForLoop.java");
+    public final static CodeSnippet TRY_CATCH = parse("TryCatch.java");
 
     public JavaLanguage() {
         autoComplete = new IdentifierAutoComplete(new String[]{
@@ -66,15 +65,20 @@ public class JavaLanguage extends io.github.rosemoe.sora.langs.java.JavaLanguage
         prefix = CompletionHelper.computePrefix(content, position, MyCharacter::isJavaIdentifierPart);
         autoComplete.requireAutoComplete(content,position,prefix, publisher, new IdentifierAutoComplete.SyncIdentifiers());
 
-        addItem("if", "If statement", IF_STATEMENT, publisher);
-        addItem("ifelse", "If-Else statement", IF_ELSE_STATEMENT, publisher);
+        addItem("if", "If", IF_STATEMENT, publisher);
+        addItem("ifelse", "If Else", IF_ELSE_STATEMENT, publisher);
         addItem("for", "For loop", FOR_LOOP, publisher);
+        addItem("try", "Try Catch", TRY_CATCH, publisher);
     }
 
     private static void addItem(String label, String desc, CodeSnippet snippet, CompletionPublisher publisher) {
         if (label.startsWith(prefix) && prefix.length() > 0) {
-            publisher.addItem(new SimpleSnippetCompletionItem(label, "Snippet - " + desc, new SnippetDescription(prefix.length(), snippet, true)));
+            publisher.addItem(new SimpleSnippetCompletionItem(label, "S - " + desc, new SnippetDescription(prefix.length(), snippet, true)));
         }
+    }
+
+    private static CodeSnippet parse(String file) {
+        return CodeSnippetParser.parse(AssetsFileLoader.getAssetsFileContent(context, dir + file));
     }
 
 }

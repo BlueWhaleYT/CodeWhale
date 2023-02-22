@@ -63,7 +63,7 @@ public class SchemeMaterialPalenight extends EditorColorScheme {
         // auto complete menu
         setColor(COMPLETION_WND_BACKGROUND, Color.parseColor("#272539"));
         setColor(COMPLETION_WND_TEXT_PRIMARY, normal);
-        setColor(COMPLETION_WND_TEXT_SECONDARY, grey);
+        setColor(COMPLETION_WND_TEXT_SECONDARY, lightGrey);
         setColor(COMPLETION_WND_ITEM_CURRENT, Color.parseColor("#343154"));
         setColor(COMPLETION_WND_CORNER, Color.parseColor("#343154"));
 

@@ -29,7 +29,6 @@
             android:layout_weight="1"
             android:singleLine="true"
             android:text="public"
-            android:textSize="14sp"
             android:fontFamily="@font/jetbrains_mono_regular" />
 
         <TextView
@@ -38,7 +37,6 @@
             android:layout_width="wrap_content"
             android:singleLine="true"
             android:text="Keyword"
-            android:textSize="11sp"
             android:fontFamily="@font/jetbrains_mono_regular"
             android:layout_marginEnd="5dp"
             android:visibility="gone"/>
