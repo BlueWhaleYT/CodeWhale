@@ -66,14 +66,15 @@ public class WhaleApplication extends Application {
     }
 
     private static void setLocaleFollowSystem() {
+        Locale locale;
         if (SDKUtil.isAtLeastSDK24()) {
-            var system = Resources.getSystem().getConfiguration().getLocales().get(0);
-            var systemLang = system.getLanguage();
-            var systemCountry = system.getCountry();
-            var systemLocale = new Locale(systemLang, systemCountry);
-            var config = Resources.getSystem().getConfiguration();
-            config.setLocale(systemLocale);
+            locale = Resources.getSystem().getConfiguration().getLocales().get(0);
+        } else {
+            locale = Resources.getSystem().getConfiguration().locale;
         }
+        var systemLocale = new Locale(locale.getLanguage(), locale.getCountry());
+        var config = Resources.getSystem().getConfiguration();
+        config.setLocale(systemLocale);
     }
 
     private static void setLocale(Context context, String lang) {
