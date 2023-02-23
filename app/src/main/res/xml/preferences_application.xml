@@ -6,7 +6,8 @@
         app:title="@string/application" />
 
     <PreferenceCategory
-        app:title="@string/language">
+        app:title="@string/language"
+        app:iconSpaceReserved="false">
 
         <ListPreference
             app:key="pref_app_language"
@@ -20,7 +21,8 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:title="@string/theme">
+        app:title="@string/theme"
+        app:iconSpaceReserved="false">
 
         <ListPreference
             app:key="pref_app_theme"

@@ -38,4 +38,16 @@
         <item>Material Palenight</item>
     </string-array>
 
+    <string-array name="line_number_align_text">
+        <item>@string/left</item>
+        <item>@string/right</item>
+        <item>@string/center</item>
+    </string-array>
+
+    <string-array name="line_number_align_value">
+        <item>left</item>
+        <item>right</item>
+        <item>center</item>
+    </string-array>
+
 </resources>

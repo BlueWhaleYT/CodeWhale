@@ -39,6 +39,7 @@
         <com.bluewhaleyt.component.preferences.ButtonPreference
             app:key="btn_pref_theme"
             app:title="@string/theme"
+            app:summary="@string/theme_summary"
             app:icon="@drawable/ic_outline_style_24"
             app:fragment="com.bluewhaleyt.whalecode.fragments.preferences.editor.ThemeFragment" />
 
@@ -79,20 +80,6 @@
             app:summary="@string/word_wrap_summary"/>
 
         <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
-            app:key="pref_enable_line_number"
-            app:icon="@drawable/ic_baseline_123_24"
-            app:title="@string/line_number"
-            app:summary="@string/line_number_summary"
-            app:defaultValue="true"/>
-
-        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
-            app:key="pref_enable_pin_line_number"
-            app:icon="@drawable/ic_baseline_format_list_numbered_24"
-            app:title="@string/pin_line_number"
-            app:summary="@string/pin_line_number_summary"
-            app:defaultValue="true"/>
-
-        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
             app:key="pref_enable_pinch_zoom"
             app:icon="@drawable/ic_outline_pinch_24"
             app:title="@string/pinch_zoom"
@@ -129,6 +116,13 @@
             app:icon="@drawable/ic_baseline_select_all_24"
             app:title="@string/icu_lib"
             app:summary="@string/icu_lib_summary"
+            app:defaultValue="true"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_highlight_bracket_delimiter"
+            app:icon="@drawable/ic_baseline_data_object_24"
+            app:title="@string/highlight_bracket_delimiter"
+            app:summary="@string/highlight_bracket_delimiter_summary"
             app:defaultValue="true"/>
 
     </PreferenceCategory>

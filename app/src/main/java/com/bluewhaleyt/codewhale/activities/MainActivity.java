@@ -152,7 +152,7 @@ public class MainActivity extends BaseActivity {
     private void setupNormalHighlight() {
 //        var scheme = CommonUtil.isInDarkMode(this) ? new SchemeMaterialPalenight() : new SchemeEclipse();
 //        binding.editor.setColorScheme(scheme);
-        ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(this), ThemeHandler.THEME_NORMAL);
+        ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(), ThemeHandler.THEME_NORMAL);
 
         Language language;
         if (PreferencesManager.isLanguageJavaEnabled()) {
@@ -166,7 +166,7 @@ public class MainActivity extends BaseActivity {
 
     private void setupTextmateHighlight() {
         try {
-            ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(this), ThemeHandler.THEME_TEXTMATE);
+            ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(), ThemeHandler.THEME_TEXTMATE);
 
             CustomSyntaxHighlighter customHighlighter = new CustomSyntaxHighlighter();
             customHighlighter.applyLanguages(binding.editor);
@@ -177,7 +177,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setNoSyntaxHighlighting() {
-        ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(this), ThemeHandler.THEME_NORMAL);
+        ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(), ThemeHandler.THEME_NORMAL);
         binding.editor.setEditorLanguage(new EmptyLanguage());
     }
 

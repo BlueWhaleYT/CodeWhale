@@ -43,7 +43,7 @@ public class ThemeFragment extends CustomPreferenceFragment {
         try {
 
             var btnPrefTheme = findPreference("btn_pref_editor_theme");
-            btnPrefTheme.setSummary(getTheme());
+            btnPrefTheme.setSummary(PreferencesManager.getEditorTheme());
             btnPrefTheme.setOnPreferenceClickListener(preference -> {
                 showThemeDialog(btnPrefTheme);
                 return true;
@@ -79,7 +79,7 @@ public class ThemeFragment extends CustomPreferenceFragment {
             showNormalThemes(v, editor, pref);
             themeType = ThemeHandler.THEME_NORMAL;
         }
-        ThemeHandler.setTheme(requireContext(), editor, getTheme(), themeType);
+        ThemeHandler.setTheme(requireContext(), editor, PreferencesManager.getEditorTheme(), themeType);
 
     }
 
@@ -102,7 +102,7 @@ public class ThemeFragment extends CustomPreferenceFragment {
         String[] themes = getContext().getResources().getStringArray(R.array.normal_editor_theme);
         basicSetup(v, editor, pref, themes, ThemeHandler.THEME_NORMAL);
 
-        autoCompleteTextView.setText(getTheme(), false);
+        autoCompleteTextView.setText(PreferencesManager.getEditorTheme(), false);
         editor.setEditorLanguage(new JavaLanguage());
 
     }
@@ -111,16 +111,12 @@ public class ThemeFragment extends CustomPreferenceFragment {
         String[] themes = getContext().getResources().getStringArray(R.array.textmate_editor_theme);
         basicSetup(v, editor, pref, themes, ThemeHandler.THEME_TEXTMATE);
 
-        autoCompleteTextView.setText(getTheme(), false);
+        autoCompleteTextView.setText(PreferencesManager.getEditorTheme(), false);
     }
 
     private void saveTheme(String theme) {
         sharedPrefsUtil = new SharedPrefsUtil(requireContext(), "pref_editor_theme", theme);
         sharedPrefsUtil.saveData();
-    }
-
-    private String getTheme() {
-        return PreferencesManager.getEditorTheme(requireContext());
     }
 
 }

@@ -8,6 +8,7 @@
     <string name="application">Application</string>
     <string name="editor">Editor</string>
     <string name="theme">Theme</string>
+    <string name="theme_summary">Set a beautiful theme for the editor</string>
     <string name="follow_editor_theme">Follow editor theme</string>
     <string name="follow_editor_theme_summary">Enable UI color with editor color scheme</string>
     <string name="syntax_highlighting">Syntax Highlighting</string>
@@ -79,6 +80,14 @@
     <string name="auto_indent">Auto Indent</string>
     <string name="auto_indent_summary">Indent next line when it\'s created</string>
     <string name="choose_theme">Choose theme</string>
+    <string name="line_number_click_select">Click to select whole line</string>
+    <string name="highlight_bracket_delimiter">Highlight Bracket Delimiter</string>
+    <string name="highlight_bracket_delimiter_summary">Highlight a bracket pair when it is selected</string>
+    <string name="margin">Margin</string>
+    <string name="align">Align</string>
+    <string name="left">Left</string>
+    <string name="right">Right</string>
+    <string name="center">Center</string>
 
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>

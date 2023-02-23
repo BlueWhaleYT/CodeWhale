@@ -1,11 +1,13 @@
 package com.bluewhaleyt.codewhale.utils;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 
 import com.bluewhaleyt.codewhale.tools.PrettyPrint;
 
 import io.github.rosemoe.sora.widget.CodeEditor;
+import io.github.rosemoe.sora.widget.DirectAccessProps;
 import io.github.rosemoe.sora.widget.SymbolInputView;
 import io.github.rosemoe.sora.widget.component.Magnifier;
 
@@ -20,7 +22,7 @@ public class EditorUtil {
     }
 
     public void setup() {
-        var margin = 30;
+        var margin = PreferencesManager.getLineNumberMargin();
         var font = Typeface.createFromAsset(context.getAssets(), Constants.CODE_FONT);
         editor.setTypefaceText(font);
         editor.setTypefaceLineNumber(font);
@@ -35,13 +37,17 @@ public class EditorUtil {
         editor.setTextSize(PreferencesManager.getFontSize());
         editor.setTabWidth(PreferencesManager.getTabSize());
         editor.setLigatureEnabled(PreferencesManager.isFontLigaturesEnabled());
-
+        editor.setHighlightBracketPair(PreferencesManager.isHighlightBracketDelimiterEnabled());
+        
         editor.getProps().useICULibToSelectWords = PreferencesManager.isICULibEnabled();
         editor.getProps().deleteEmptyLineFast = PreferencesManager.isDeleteEmptyLineFastEnabled();
         editor.getProps().autoIndent = PreferencesManager.isAutoIndentEnabled();
         editor.getProps().disallowSuggestions = PreferencesManager.isKeyboardSuggestionsEnabled();
+        editor.getProps().actionWhenLineNumberClicked = PreferencesManager.isLineNumberClickSelectEnabled() ? DirectAccessProps.LN_ACTION_SELECT_LINE : DirectAccessProps.LN_ACTION_PLACE_SELECTION_HOME;
 
         editor.getComponent(Magnifier.class).setEnabled(PreferencesManager.isMagnifierEnabled());
+
+        setLineNumberAlign();
     }
 
     public void setText(String text) {
@@ -71,6 +77,23 @@ public class EditorUtil {
             else if (PreferencesManager.isNPFLineSeparatorEnabled()) npf7 = CodeEditor.FLAG_DRAW_LINE_SEPARATOR;
             editor.setNonPrintablePaintingFlags(npf1 | npf2 | npf3 | npf4 | npf5 | npf6 | npf7);
         }
+    }
+    
+    public void setLineNumberAlign() {
+        Paint.Align align = null;
+        var alignVal = PreferencesManager.getLineNumberAlign();
+        switch (alignVal) {
+            case "left":
+                align = Paint.Align.LEFT;
+                break;
+            case "right":
+                align = Paint.Align.RIGHT;
+                break;
+            case "center":
+                align = Paint.Align.CENTER;
+                break;
+        }
+        editor.setLineNumberAlign(align);
     }
 
 }

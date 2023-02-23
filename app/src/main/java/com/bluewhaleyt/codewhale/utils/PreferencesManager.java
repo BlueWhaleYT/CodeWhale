@@ -129,12 +129,24 @@ public class PreferencesManager {
         return getPrefs().getBoolean("pref_enable_auto_indent", true);
     }
 
+    public static boolean isLineNumberClickSelectEnabled() {
+        return getPrefs().getBoolean("pref_enable_line_number_click_select", true);
+    }
+
+    public static boolean isHighlightBracketDelimiterEnabled() {
+        return getPrefs().getBoolean("pref_enable_highlight_bracket_delimiter", true);
+    }
+
     public static int getFontSize() {
         return getPrefs().getInt("pref_font_size", 18);
     }
 
     public static int getTabSize() {
         return getPrefs().getInt("pref_tab_size", 4);
+    }
+
+    public static int getLineNumberMargin() {
+        return getPrefs().getInt("pref_line_number_margin", 30);
     }
 
     public static String getMagnifierScale() {
@@ -149,15 +161,22 @@ public class PreferencesManager {
         return getPrefs().getString("pref_app_language", "auto");
     }
 
-    public static String getEditorTheme(Context context) {
+    public static String getLineNumberAlign() {
+        return getPrefs().getString("pref_line_number_align", "right");
+    }
+
+    public static String getEditorTheme() {
         var key = "pref_editor_theme";
         var theme = isTextmateEnabled() ? "QuietLight" : "Default";
-        var sharedPrefs = context.getSharedPreferences(key, Context.MODE_PRIVATE);
-        return sharedPrefs.getString(key, theme);
+        return getPrefs(key).getString(key, theme);
     }
 
     public static SharedPreferences getPrefs() {
         return PreferenceManager.getDefaultSharedPreferences(WhaleApplication.getContext());
+    }
+
+    public static SharedPreferences getPrefs(String key) {
+        return WhaleApplication.getContext().getSharedPreferences(key, Context.MODE_PRIVATE);
     }
 
 }
