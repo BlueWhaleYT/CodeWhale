@@ -29,7 +29,7 @@
     <string name="pin_line_number">Pin Line Number</string>
     <string name="pin_line_number_summary">Pin line numbers when horizontally scrolling the editor</string>
     <string name="font_size">Font Size</string>
-    <string name="tab_size">Tab Size</string>
+    <string name="tab_size">Tab Width</string>
     <string name="delete_empty_line_fast">Delete empty line fast</string>
     <string name="keyboard_suggestions">Keyboard Suggestions</string>
     <string name="font_ligatures">Font Ligatures</string>

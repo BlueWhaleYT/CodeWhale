@@ -1,38 +1,93 @@
-// test java code
+package com.bluewhaleyt.codewhale.activities;
 
-import java.util.Scanner;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Bundle;
+import android.widget.Toast;
 
-public class Calculator {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewbinding.ViewBinding;
 
-        System.out.println("Enter first number: ");
-        double num1 = scanner.nextDouble();
+import com.bluewhaleyt.codewhale.R;
+import com.bluewhaleyt.codewhale.WhaleApplication;
+import com.bluewhaleyt.codewhale.utils.PreferencesManager;
+import com.bluewhaleyt.common.CommonUtil;
+import com.bluewhaleyt.common.IntentUtil;
+import com.bluewhaleyt.common.PermissionUtil;
+import com.bluewhaleyt.common.SDKUtil;
+import com.bluewhaleyt.component.dialog.DialogUtil;
+import com.bluewhaleyt.crashdebugger.CrashDebugger;
+import com.bluewhaleyt.codewhale.databinding.ActivityMainBinding;
 
-        System.out.println("Enter second number: ");
-        double num2 = scanner.nextDouble();
+import java.util.Locale;
 
-        System.out.println("Enter an operator (+, -, *, /): ");
-        char operator = scanner.next().charAt(0);
+public class BaseActivity extends AppCompatActivity {
 
-        double result;
-        switch (operator) {
-            case '+':
-                result = num1 + num2;
-                break;
-            case '-':
-                result = num1 - num2;
-                break;
-            case '*':
-                result = num1 * num2;
-                break;
-            case '/':
-                result = num1 / num2;
-                break;
-            default:
-                System.out.println("Invalid operator");
-                return;
-        }
-        System.out.println("Result: " + result);
+    private DialogUtil dialogUtil;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        CrashDebugger.init(this);
+        updateLanguage();
+        getSupportActionBar().setTitle(R.string.app_name);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        requestPermission();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        IntentUtil.finishTransition(this);
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+
+    public void bindView(ViewBinding binding) {
+        setContentView(binding.getRoot());
+        initialize();
+    }
+
+    private void initialize() {
+        fixColorSurfaces();
+        updateTheme();
+    }
+
+    public void fixColorSurfaces() {
+        var color = CommonUtil.SURFACE_FOLLOW_WINDOW_BACKGROUND;
+        CommonUtil.setStatusBarColorWithSurface(this, color);
+        CommonUtil.setNavigationBarColorWithSurface(this, color);
+        CommonUtil.setToolBarColorWithSurface(this, color);
+    }
+
+    private void requestPermission() {
+        if (!PermissionUtil.isAlreadyGrantedExternalStorageAccess()) {
+            dialogUtil = new DialogUtil(
+                    this,
+                    "Permission request",
+                    "You need to grant the permissions before using the application."
+            );
+            dialogUtil.setPositiveButton(android.R.string.ok, (d, i) -> PermissionUtil.requestAllFileAccess(this));
+            dialogUtil.setNegativeButton(android.R.string.cancel, null);
+            dialogUtil.setCancelable(false);
+            dialogUtil.build();
+        }
+    }
+
+    private void updateTheme() {
+        WhaleApplication.updateTheme(PreferencesManager.getAppTheme());
+    }
+
+    public void updateLanguage() {
+        WhaleApplication.updateLanguage(this, PreferencesManager.getAppLanguage());
+    }
+
 }

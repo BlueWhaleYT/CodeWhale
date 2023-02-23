@@ -169,15 +169,16 @@ public class MainActivity extends BaseActivity {
         binding.editor.getProps().useICULibToSelectWords = PreferencesManager.isICULibEnabled();
         binding.editor.getProps().deleteEmptyLineFast = PreferencesManager.isDeleteEmptyLineFastEnabled();
         binding.editor.getProps().autoIndent = PreferencesManager.isAutoIndentEnabled();
+        binding.editor.getProps().disallowSuggestions = PreferencesManager.isKeyboardSuggestionsEnabled();
 
         binding.editor.getComponent(Magnifier.class).setEnabled(PreferencesManager.isMagnifierEnabled());
-        setKeyboardSuggestions();
 
     }
 
     private void setupNormalHighlight() {
-        var scheme = CommonUtil.isInDarkMode(this) ? new SchemeMaterialPalenight() : new SchemeEclipse();
-        binding.editor.setColorScheme(scheme);
+//        var scheme = CommonUtil.isInDarkMode(this) ? new SchemeMaterialPalenight() : new SchemeEclipse();
+//        binding.editor.setColorScheme(scheme);
+        binding.editor.setColorScheme(new SchemeMaterialPalenight());
 
         Language language;
         if (PreferencesManager.isLanguageJavaEnabled()) {
@@ -200,8 +201,9 @@ public class MainActivity extends BaseActivity {
             highlighter.setThemeDirectory(Constants.THEME_DIR);
             highlighter.setThemes(themes);
 
-            var theme = CommonUtil.isInDarkMode(this) ? themeDark : themeLight;
-            highlighter.setTheme(theme);
+//            var theme = CommonUtil.isInDarkMode(this) ? themeDark : themeLight;
+//            highlighter.setTheme(theme);
+            highlighter.setTheme(themeDark);
 
             highlighter.setup(this, binding.editor, "test.java");
 
@@ -217,14 +219,6 @@ public class MainActivity extends BaseActivity {
         var scheme = CommonUtil.isInDarkMode(this) ? new SchemeMaterialPalenight() : new SchemeEclipse();
         binding.editor.setColorScheme(scheme);
         binding.editor.setEditorLanguage(new EmptyLanguage());
-    }
-
-    private void setKeyboardSuggestions() {
-        if (PreferencesManager.isKeyboardSuggestionsEnabled()) {
-            binding.editor.setInputType(InputType.TYPE_CLASS_TEXT);
-        } else {
-            binding.editor.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-        }
     }
 
     private void setEditorText(String text) {
