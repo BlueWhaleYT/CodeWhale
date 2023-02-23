@@ -109,7 +109,7 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
             if (item.label.toString().startsWith(partial)) {
                 setSpan(span, color, 0, partial.length());
             } else if (item.label.toString().contains(partial)) {
-                var pattern = Pattern.compile(partial, Pattern.DOTALL);
+                var pattern = Pattern.compile(partial);
                 var matcher = pattern.matcher(span);
                 while (matcher.find()) {
                     setSpan(span, color, matcher.start(), matcher.end());
