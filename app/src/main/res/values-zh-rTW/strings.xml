@@ -18,7 +18,7 @@
     <string name="word_wrap">自動換行</string>
     <string name="word_wrap_summary">啟用後可自動跳至下一行，以及保持一致的屏幕寬度</string>
     <string name="auto_completion">語法自動補全</string>
-    <string name="auto_completion_summary">啟用後可讓你在輸入字元時獲取一些輸入建議</string>
+    <string name="auto_completion_summary">啟用後可讓你在輸入字元時獲取輸入建議</string>
     <string name="pinch_zoom">編輯區域縮放</string>
     <string name="magnifier">文本放大鏡</string>
     <string name="magnifier_summary">啟用後會在移動光標時顯示放大鏡</string>
