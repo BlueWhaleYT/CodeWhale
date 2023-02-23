@@ -1,5 +1,6 @@
 package com.bluewhaleyt.codewhale.tools.editor.completion;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -20,6 +21,9 @@ import com.bluewhaleyt.codewhale.tools.editor.basic.languages.LanguageHandler;
 import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 import com.bluewhaleyt.common.CommonUtil;
 import com.bluewhaleyt.common.DynamicColorsUtil;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import io.github.rosemoe.sora.lang.completion.CompletionItem;
 import io.github.rosemoe.sora.widget.component.EditorCompletionAdapter;
@@ -57,23 +61,13 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
             binding.tvDesc.setVisibility(View.GONE);
         }
 
-        var color = new DynamicColorsUtil(getContext()).getColorPrimary();
-        var partial = new LanguageHandler().getPrefix();
-        if (partial != null && partial.length() > 0) {
-            if (item.label.toString().startsWith(partial)) {
-                var span = new SpannableString(item.label);
-                span.setSpan(new ForegroundColorSpan(color), 0, partial.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                span.setSpan(new StyleSpan(Typeface.BOLD), 0, partial.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                binding.tvLabel.setText(span);
-            }
-        }
-
         if (PreferencesManager.isAutoCompletionFollowCursorEnabled()) {
             binding.tvDesc.setVisibility(View.GONE);
         }
 
         var type = item.desc.subSequence(0, 1);
         setupTypeIcon(type, binding.ivImage, binding.tvDesc);
+        setPartialColorSpan(new LanguageHandler().getPrefix(), new DynamicColorsUtil(getContext()).getColorPrimary());
 
         return convertView;
     }
@@ -107,6 +101,27 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
         imageView.setColorFilter(color);
 
         if (!PreferencesManager.isAutoCompletionFollowCursorEnabled()) textView.setText(text);
+    }
+
+    private void setPartialColorSpan(String partial, int color) {
+        if (partial != null && partial.length() > 0) {
+            var span = new SpannableString(item.label);
+            if (item.label.toString().startsWith(partial)) {
+                setSpan(span, color, 0, partial.length());
+            } else if (item.label.toString().contains(partial)) {
+                var pattern = Pattern.compile(partial, Pattern.CASE_INSENSITIVE);
+                var matcher = pattern.matcher(span);
+                while (matcher.find()) {
+                    setSpan(span, color, matcher.start(), matcher.end());
+                }
+            }
+            binding.tvLabel.setText(span);
+        }
+    }
+
+    private void setSpan(SpannableString span, int color, int start, int end) {
+        span.setSpan(new ForegroundColorSpan(color), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        span.setSpan(new StyleSpan(Typeface.BOLD), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
 }

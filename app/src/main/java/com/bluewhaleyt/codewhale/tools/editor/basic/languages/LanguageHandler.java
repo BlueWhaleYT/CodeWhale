@@ -41,6 +41,7 @@ public class LanguageHandler extends JavaLanguage {
     }
 
     public static void setup(ContentReference content, CharPosition position, CompletionPublisher publisher, Bundle extraArgument) {
+
         prefix = CompletionHelper.computePrefix(content, position, MyCharacter::isJavaIdentifierPart);
 //        autoComplete.requireAutoComplete(content,position,prefix, publisher, new IdentifierAutoComplete.SyncIdentifiers());
         final var idt = identifiers;
