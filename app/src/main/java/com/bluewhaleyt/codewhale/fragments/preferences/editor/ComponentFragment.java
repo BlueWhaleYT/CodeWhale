@@ -8,7 +8,7 @@ import androidx.preference.Preference;
 import com.bluewhaleyt.codewhale.R;
 import com.bluewhaleyt.codewhale.fragments.preferences.about.AboutFragment;
 import com.bluewhaleyt.codewhale.fragments.preferences.application.ApplicationFragment;
-import com.bluewhaleyt.codewhale.fragments.preferences.codingstyle.CodingStyleFragment;
+import com.bluewhaleyt.codewhale.fragments.preferences.codingstyle.CodeStyleFragment;
 import com.bluewhaleyt.common.IntentUtil;
 import com.bluewhaleyt.component.preferences.CustomPreferenceFragment;
 import com.bluewhaleyt.component.snackbar.SnackbarUtil;

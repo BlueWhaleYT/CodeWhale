@@ -9,7 +9,7 @@
     android:padding="5dp">
 
     <ImageView
-        android:id="@+id/tvImage"
+        android:id="@+id/ivImage"
         android:gravity="center"
         android:layout_height="wrap_content"
         android:layout_width="20dp"

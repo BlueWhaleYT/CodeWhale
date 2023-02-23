@@ -46,7 +46,7 @@
     <string name="light">Light</string>
     <string name="dark">Dark</string>
     <string name="translate">Translate</string>
-    <string name="coding_style">Coding Style</string>
+    <string name="code_style">Coding Style</string>
     <string name="tab">Tab</string>
     <string name="replace_tab">Use spaces instead of tabs</string>
     <string name="replace_tab_summary">Insert spaces instead of tabs in the editor</string>
@@ -82,7 +82,6 @@
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>
     <string name="method">Method</string>
-    <string name="method_declare">Method Declaration</string>
     <string name="snippet">Snippet</string>
 
     <string name="restart">Restart</string>

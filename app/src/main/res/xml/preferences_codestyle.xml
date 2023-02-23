@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.bluewhaleyt.component.preferences.TitlePreference
-        app:title="@string/coding_style" />
+        app:title="@string/code_style" />
 
     <PreferenceCategory
         app:title="@string/indentation"

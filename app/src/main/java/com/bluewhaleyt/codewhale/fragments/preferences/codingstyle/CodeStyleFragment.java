@@ -5,13 +5,12 @@ import android.os.Bundle;
 import com.bluewhaleyt.codewhale.R;
 import com.bluewhaleyt.component.preferences.CustomPreferenceFragment;
 import com.bluewhaleyt.component.snackbar.SnackbarUtil;
-import com.jakewharton.processphoenix.ProcessPhoenix;
 
-public class CodingStyleFragment extends CustomPreferenceFragment {
+public class CodeStyleFragment extends CustomPreferenceFragment {
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        setPreferencesFromResource(R.xml.preferences_codingstyle, rootKey);
+        setPreferencesFromResource(R.xml.preferences_codestyle, rootKey);
         initialize();
     }
 

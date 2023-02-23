@@ -11,6 +11,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.view.menu.MenuBuilder;
@@ -18,6 +19,7 @@ import androidx.appcompat.view.menu.MenuBuilder;
 import com.bluewhaleyt.codeeditor.textmate.syntaxhighlight.SyntaxHighlightUtil;
 import com.bluewhaleyt.codewhale.WhaleApplication;
 import com.bluewhaleyt.codewhale.tools.editor.basic.languages.JavaLanguage;
+import com.bluewhaleyt.codewhale.tools.editor.basic.languages.LanguageHandler;
 import com.bluewhaleyt.codewhale.tools.editor.basic.languages.modules.AndroidJavaLanguage;
 import com.bluewhaleyt.codewhale.tools.editor.textmate.CustomSyntaxHighlighter;
 import com.bluewhaleyt.codewhale.utils.AssetsFileLoader;
@@ -33,6 +35,7 @@ import com.bluewhaleyt.codewhale.tools.editor.completion.EditorCompletionLayout;
 import com.bluewhaleyt.codewhale.utils.Constants;
 import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 
+import io.github.rosemoe.sora.event.ContentChangeEvent;
 import io.github.rosemoe.sora.event.SelectionChangeEvent;
 import io.github.rosemoe.sora.lang.EmptyLanguage;
 import io.github.rosemoe.sora.lang.Language;
@@ -245,7 +248,7 @@ public class MainActivity extends BaseActivity {
         binding.editor.getComponent(EditorAutoCompletion.class).setEnabled(PreferencesManager.isAutoCompletionEnabled());
         binding.editor.subscribeEvent(SelectionChangeEvent.class, (event, unsubscribe) -> {
             var editorAutoCompletion = binding.editor.getComponent(EditorAutoCompletion.class);
-            CommonUtil.waitForTimeThenDo(50, () -> {
+            CommonUtil.waitForTimeThenDo(1, () -> {
                 if (editorAutoCompletion.getCurrentPosition() <= -1) {
                     editorAutoCompletion.moveDown();
                 }

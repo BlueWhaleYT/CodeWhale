@@ -20,10 +20,10 @@
 
     <com.bluewhaleyt.component.preferences.ButtonPreference
         app:key="btn_pref_coding_style"
-        app:icon="@drawable/ic_baseline_support_24"
-        app:title="@string/coding_style"
+        app:icon="@drawable/ic_baseline_style_24"
+        app:title="@string/code_style"
         app:layout="@layout/layout_preference_screen_item"
-        app:fragment="com.bluewhaleyt.whalecode.fragments.preferences.codingstyle.CodingStyleFragment" />
+        app:fragment="com.bluewhaleyt.whalecode.fragments.preferences.codingstyle.CodeStyleFragment" />
 
     <com.bluewhaleyt.component.preferences.ButtonPreference
         app:key="btn_pref_about"

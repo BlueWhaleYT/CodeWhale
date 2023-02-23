@@ -34,13 +34,13 @@ public class AndroidJavaLanguage extends JavaLanguage {
     }
 
     public static void setupAndroidMethods(CompletionPublisher publisher) {
-        addMethodItem("onCreate()", "onCreate() " + getString(R.string.method_declare), parseFromAssets("android/java/OnCreate.java"), publisher);
-        addMethodItem("onStart()", "onStart() " + getString(R.string.method_declare), parseFromAssets("android/java/OnStart.java"), publisher);
-        addMethodItem("onResume()", "onResume() " + getString(R.string.method_declare), parseFromAssets("android/java/OnResume.java"), publisher);
-        addMethodItem("onPause()", "onPause() " + getString(R.string.method_declare), parseFromAssets("android/java/OnPause.java"), publisher);
-        addMethodItem("onStop()", "onStop() " + getString(R.string.method_declare), parseFromAssets("android/java/OnStop.java"), publisher);
-        addMethodItem("onDestroy()", "onDestroy() " + getString(R.string.method_declare), parseFromAssets("android/java/OnDestroy.java"), publisher);
-        addMethodItem("onRestart()", "onRestart() " + getString(R.string.method_declare), parseFromAssets("android/java/OnRestart.java"), publisher);
+        addMethodItem("onCreate()", "onCreate()", parseFromAssets("android/java/OnCreate.java"), publisher);
+        addMethodItem("onStart()", "onStart()", parseFromAssets("android/java/OnStart.java"), publisher);
+        addMethodItem("onResume()", "onResume()", parseFromAssets("android/java/OnResume.java"), publisher);
+        addMethodItem("onPause()", "onPause()", parseFromAssets("android/java/OnPause.java"), publisher);
+        addMethodItem("onStop()", "onStop()", parseFromAssets("android/java/OnStop.java"), publisher);
+        addMethodItem("onDestroy()", "onDestroy()", parseFromAssets("android/java/OnDestroy.java"), publisher);
+        addMethodItem("onRestart()", "onRestart()", parseFromAssets("android/java/OnRestart.java"), publisher);
     }
 
     public static void setupAndroidBasics(CompletionPublisher publisher) {

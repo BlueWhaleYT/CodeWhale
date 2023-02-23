@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.preference.Preference;
 
 import com.bluewhaleyt.codewhale.fragments.preferences.about.AboutFragment;
-import com.bluewhaleyt.codewhale.fragments.preferences.codingstyle.CodingStyleFragment;
+import com.bluewhaleyt.codewhale.fragments.preferences.codingstyle.CodeStyleFragment;
 import com.bluewhaleyt.common.IntentUtil;
 import com.bluewhaleyt.component.preferences.CustomPreferenceFragment;
 import com.bluewhaleyt.component.snackbar.SnackbarUtil;
@@ -27,12 +27,12 @@ public class SettingsFragment extends CustomPreferenceFragment {
 
             var btnPrefApp = findPreference("btn_pref_application");
             var btnPrefEditor = findPreference("btn_pref_editor");
-            var btnPrefCodingStyle = findPreference("btn_pref_coding_style");
+            var btnPrefCodeStyle = findPreference("btn_pref_coding_style");
             var btnPrefAbout = findPreference("btn_pref_about");
 
             intentFragment(btnPrefApp, new ApplicationFragment());
             intentFragment(btnPrefEditor, new EditorFragment());
-            intentFragment(btnPrefCodingStyle, new CodingStyleFragment());
+            intentFragment(btnPrefCodeStyle, new CodeStyleFragment());
             intentFragment(btnPrefAbout, new AboutFragment());
 
         } catch (Exception e) {

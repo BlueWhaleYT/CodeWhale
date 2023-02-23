@@ -1,5 +1,11 @@
 package com.bluewhaleyt.codewhale.tools.editor.completion;
 
+import android.graphics.Typeface;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bluewhaleyt.codewhale.R;
-import com.bluewhaleyt.codewhale.WhaleApplication;
 import com.bluewhaleyt.codewhale.databinding.LayoutEditorCompletionListItemBinding;
+import com.bluewhaleyt.codewhale.tools.editor.basic.languages.LanguageHandler;
 import com.bluewhaleyt.codewhale.utils.PreferencesManager;
+import com.bluewhaleyt.common.CommonUtil;
+import com.bluewhaleyt.common.DynamicColorsUtil;
 
 import io.github.rosemoe.sora.lang.completion.CompletionItem;
 import io.github.rosemoe.sora.widget.component.EditorCompletionAdapter;
@@ -24,10 +32,8 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
 
     @Override
     public int getItemHeight() {
-        return (int)
-                TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP, 60,
-                        getContext().getResources().getDisplayMetrics());
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                65, getContext().getResources().getDisplayMetrics());
     }
 
     @Override
@@ -51,12 +57,23 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
             binding.tvDesc.setVisibility(View.GONE);
         }
 
+        var color = new DynamicColorsUtil(getContext()).getColorPrimary();
+        var partial = new LanguageHandler().getPrefix();
+        if (partial != null && partial.length() > 0) {
+            if (item.label.toString().startsWith(partial)) {
+                var span = new SpannableString(item.label);
+                span.setSpan(new ForegroundColorSpan(color), 0, partial.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                span.setSpan(new StyleSpan(Typeface.BOLD), 0, partial.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                binding.tvLabel.setText(span);
+            }
+        }
+
         if (PreferencesManager.isAutoCompletionFollowCursorEnabled()) {
             binding.tvDesc.setVisibility(View.GONE);
         }
 
         var type = item.desc.subSequence(0, 1);
-        setupTypeIcon(type, binding.tvImage, binding.tvDesc);
+        setupTypeIcon(type, binding.ivImage, binding.tvDesc);
 
         return convertView;
     }
@@ -83,7 +100,7 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
             case "M":
                 icon = R.drawable.ic_intellisence_symbol_method;
                 text = context.getString(R.string.method) + desc;
-                color = 0xFF652d90;
+                color = CommonUtil.isInDarkMode(context) ? 0xFF843bbd : 0xFF652d90;
                 break;
         }
         imageView.setImageResource(icon);
@@ -91,4 +108,5 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
 
         if (!PreferencesManager.isAutoCompletionFollowCursorEnabled()) textView.setText(text);
     }
+
 }

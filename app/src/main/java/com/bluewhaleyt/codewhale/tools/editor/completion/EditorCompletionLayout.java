@@ -47,6 +47,7 @@ public class EditorCompletionLayout implements CompletionLayout {
         gd.setColor(colorScheme.getColor(EditorColorScheme.COMPLETION_WND_BACKGROUND));
         setStroke(colorScheme);
         rootView.setBackground(gd);
+        textView.setTextColor(colorScheme.getColor(EditorColorScheme.TEXT_NORMAL));
     }
 
     @Override
@@ -68,8 +69,8 @@ public class EditorCompletionLayout implements CompletionLayout {
         setEnabledAnimation(false);
 
         rootLayout.addView(progressBar, new LinearLayout.LayoutParams(-1, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, context.getResources().getDisplayMetrics())));
+        rootLayout.addView(listView, new LinearLayout.LayoutParams(-1, 0, 1.0f));
         rootLayout.addView(textView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        rootLayout.addView(listView, new LinearLayout.LayoutParams(-1, LinearLayout.LayoutParams.WRAP_CONTENT));
 
         textView.setText(context.getString(R.string.auto_completion_hint, "⏎"));
         textView.setTextSize(12);
@@ -81,7 +82,7 @@ public class EditorCompletionLayout implements CompletionLayout {
 
         rootLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        progressBarLayoutParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -8, context.getResources().getDisplayMetrics());
+        progressBarLayoutParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -12, context.getResources().getDisplayMetrics());
         progressBarLayoutParams.bottomMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -8, context.getResources().getDisplayMetrics());
         progressBarLayoutParams.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
         progressBarLayoutParams.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, context.getResources().getDisplayMetrics());
