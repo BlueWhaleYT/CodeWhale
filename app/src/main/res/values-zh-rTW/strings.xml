@@ -78,6 +78,7 @@
     <string name="indentation">縮排</string>
     <string name="auto_indent">自動縮排</string>
     <string name="auto_indent_summary">啟用後會在新建行時自動縮排</string>
+    <string name="choose_theme">選擇主題</string>
 
     <string name="keyword">關鍵字</string>
     <string name="identifier">識別字</string>

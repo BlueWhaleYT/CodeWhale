@@ -78,6 +78,7 @@
     <string name="indentation">Indentation</string>
     <string name="auto_indent">Auto Indent</string>
     <string name="auto_indent_summary">Indent next line when it\'s created</string>
+    <string name="choose_theme">Choose theme</string>
 
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>

@@ -18,6 +18,7 @@ import androidx.appcompat.view.menu.MenuBuilder;
 
 import com.bluewhaleyt.codeeditor.textmate.syntaxhighlight.SyntaxHighlightUtil;
 import com.bluewhaleyt.codewhale.WhaleApplication;
+import com.bluewhaleyt.codewhale.tools.editor.basic.ThemeHandler;
 import com.bluewhaleyt.codewhale.tools.editor.basic.languages.JavaLanguage;
 import com.bluewhaleyt.codewhale.tools.editor.basic.languages.LanguageHandler;
 import com.bluewhaleyt.codewhale.tools.editor.basic.languages.modules.AndroidJavaLanguage;
@@ -58,7 +59,7 @@ public class MainActivity extends BaseActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         bindView(binding);
 
-        editorUtil = new EditorUtil(binding.editor);
+        editorUtil = new EditorUtil(this, binding.editor);
         editorUtil.setSymbolInputView(binding.symbolInputView);
     }
 
@@ -91,10 +92,14 @@ public class MainActivity extends BaseActivity {
 
     private void initialize() {
 
-        editorUtil = new EditorUtil(binding.editor);
+        editorUtil = new EditorUtil(this, binding.editor);
         editorUtil.setNonPrintFlag();
+        editorUtil.setup();
 
-        setupEditor();
+        setupAutoComplete();
+        setupMagnifier();
+        setEditorText(AssetsFileLoader.getAssetsFileContent(this, "presets/Main.java"));
+
         setupMoveSelectionEvent();
         setupToolbar();
 
@@ -144,41 +149,10 @@ public class MainActivity extends BaseActivity {
         binding.btnDuplicateLine.setColorFilter(colorText);
     }
 
-    private void setupEditor() {
-
-        var margin = 30;
-        var font = Typeface.createFromAsset(getAssets(), Constants.CODE_FONT);
-        binding.editor.setTypefaceText(font);
-        binding.editor.setTypefaceLineNumber(font);
-        binding.editor.setDividerMargin(margin);
-        binding.editor.setLineNumberMarginLeft(margin);
-        binding.editor.setLineSpacing(2f, 1.5f);
-
-        setupAutoComplete();
-        setupMagnifier();
-        setEditorText(AssetsFileLoader.getAssetsFileContent(this, "presets/Main.java"));
-
-        binding.editor.setWordwrap(PreferencesManager.isWordWrapEnabled());
-        binding.editor.setScalable(PreferencesManager.isPinchZoomEnabled());
-        binding.editor.setLineNumberEnabled(PreferencesManager.isLineNumberEnabled());
-        binding.editor.setPinLineNumber(PreferencesManager.isPinLineNumberEnabled());
-        binding.editor.setTextSize(PreferencesManager.getFontSize());
-        binding.editor.setTabWidth(PreferencesManager.getTabSize());
-        binding.editor.setLigatureEnabled(PreferencesManager.isFontLigaturesEnabled());
-
-        binding.editor.getProps().useICULibToSelectWords = PreferencesManager.isICULibEnabled();
-        binding.editor.getProps().deleteEmptyLineFast = PreferencesManager.isDeleteEmptyLineFastEnabled();
-        binding.editor.getProps().autoIndent = PreferencesManager.isAutoIndentEnabled();
-        binding.editor.getProps().disallowSuggestions = PreferencesManager.isKeyboardSuggestionsEnabled();
-
-        binding.editor.getComponent(Magnifier.class).setEnabled(PreferencesManager.isMagnifierEnabled());
-
-    }
-
     private void setupNormalHighlight() {
 //        var scheme = CommonUtil.isInDarkMode(this) ? new SchemeMaterialPalenight() : new SchemeEclipse();
 //        binding.editor.setColorScheme(scheme);
-        binding.editor.setColorScheme(new SchemeMaterialPalenight());
+        ThemeHandler.setTheme(binding.editor, PreferencesManager.getEditorTheme(this), ThemeHandler.THEME_NORMAL);
 
         Language language;
         if (PreferencesManager.isLanguageJavaEnabled()) {

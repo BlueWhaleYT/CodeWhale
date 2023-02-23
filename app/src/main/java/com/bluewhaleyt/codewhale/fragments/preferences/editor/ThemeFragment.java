@@ -1,11 +1,31 @@
 package com.bluewhaleyt.codewhale.fragments.preferences.editor;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 
-import com.bluewhaleyt.component.preferences.CustomPreferenceFragment;
+import androidx.preference.Preference;
+
 import com.bluewhaleyt.codewhale.R;
+import com.bluewhaleyt.codewhale.tools.editor.basic.ThemeHandler;
+import com.bluewhaleyt.codewhale.utils.AssetsFileLoader;
+import com.bluewhaleyt.codewhale.utils.EditorUtil;
+import com.bluewhaleyt.codewhale.utils.PreferencesManager;
+import com.bluewhaleyt.codewhale.utils.SharedPrefsUtil;
+import com.bluewhaleyt.component.preferences.CustomPreferenceFragment;
+import com.bluewhaleyt.component.snackbar.SnackbarUtil;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.textfield.TextInputLayout;
+
+import io.github.rosemoe.sora.langs.java.JavaLanguage;
+import io.github.rosemoe.sora.widget.CodeEditor;
 
 public class ThemeFragment extends CustomPreferenceFragment {
+
+    private SharedPrefsUtil sharedPrefsUtil;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -15,6 +35,84 @@ public class ThemeFragment extends CustomPreferenceFragment {
 
     private void initialize() {
 
+        try {
+
+            var btnPrefTheme = findPreference("btn_pref_editor_theme");
+            btnPrefTheme.setSummary(getTheme());
+            btnPrefTheme.setOnPreferenceClickListener(preference -> {
+                if (PreferencesManager.isTextmateEnabled()) {
+                    SnackbarUtil.makeSnackbar(requireActivity(), "coming soon");
+                } else {
+                    showThemeDialog(btnPrefTheme);
+                }
+                return true;
+            });
+
+        } catch (Exception e) {
+            SnackbarUtil.makeErrorSnackbar(requireActivity(), e.getMessage(), e.toString());
+        }
+
+    }
+
+    private void showThemeDialog(Preference pref) {
+        var v = LayoutInflater.from(requireActivity()).inflate(R.layout.dialog_layout_choose_theme, null);
+
+        CodeEditor editor = v.findViewById(R.id.editor);
+        EditorUtil editorUtil = new EditorUtil(requireActivity(), editor);
+        editorUtil.setup();
+        editorUtil.setText(AssetsFileLoader.getAssetsFileContent(requireActivity(), "presets/Main.java"));
+        editor.setEditable(false);
+        editor.setScalable(false);
+        editor.setTextSize(11);
+
+        var dialog = new BottomSheetDialog(requireActivity());
+        dialog.setContentView(v);
+        dialog.create();
+        dialog.show();
+
+        int themeType;
+        if (PreferencesManager.isTextmateEnabled()) {
+            showTextMateThemes(v, editor, pref);
+            themeType = ThemeHandler.THEME_TEXTMATE;
+        } else {
+            showNormalThemes(v, editor, pref);
+            themeType = ThemeHandler.THEME_NORMAL;
+        }
+        ThemeHandler.setTheme(editor, getTheme(), themeType);
+
+    }
+
+    private void showNormalThemes(View v, CodeEditor editor, Preference pref) {
+        TextInputLayout menuDropdown = v.findViewById(R.id.menu_dropdown);
+        AutoCompleteTextView autoCompleteTextView = v.findViewById(R.id.auto_complete_tv);
+
+        ((AutoCompleteTextView) menuDropdown.getEditText()).setOnItemClickListener((adapterView, view, position, id) -> {
+            var selectedTheme = menuDropdown.getEditText().getText().toString();
+            ThemeHandler.setTheme(editor, selectedTheme, ThemeHandler.THEME_NORMAL);
+            pref.setSummary(selectedTheme);
+            saveTheme(selectedTheme);
+        });
+
+        String[] themes = getContext().getResources().getStringArray(R.array.normal_editor_theme);
+        var adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, themes);
+        autoCompleteTextView.setAdapter(adapter);
+
+        autoCompleteTextView.setText(getTheme(), false);
+        editor.setEditorLanguage(new JavaLanguage());
+
+    }
+
+    private void showTextMateThemes(View v, CodeEditor editor, Preference pref) {
+
+    }
+
+    private void saveTheme(String theme) {
+        sharedPrefsUtil = new SharedPrefsUtil(requireContext(), "pref_editor_theme", theme);
+        sharedPrefsUtil.saveData();
+    }
+
+    private String getTheme() {
+        return PreferencesManager.getEditorTheme(requireContext());
     }
 
 }

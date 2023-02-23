@@ -1,5 +1,6 @@
 package com.bluewhaleyt.codewhale.utils;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.preference.PreferenceManager;
@@ -146,6 +147,13 @@ public class PreferencesManager {
 
     public static String getAppLanguage() {
         return getPrefs().getString("pref_app_language", "auto");
+    }
+
+    public static String getEditorTheme(Context context) {
+        var key = "pref_editor_theme";
+        var theme = isTextmateEnabled() ? "QuietLight" : "Default";
+        var sharedPrefs = context.getSharedPreferences(key, Context.MODE_PRIVATE);
+        return sharedPrefs.getString(key, theme);
     }
 
     public static SharedPreferences getPrefs() {

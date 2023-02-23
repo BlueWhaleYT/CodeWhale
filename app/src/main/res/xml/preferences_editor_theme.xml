@@ -5,6 +5,11 @@
     <com.bluewhaleyt.component.preferences.TitlePreference
         app:title="@string/theme" />
 
+    <com.bluewhaleyt.component.preferences.ButtonPreference
+        app:key="btn_pref_editor_theme"
+        app:title="@string/theme"
+        app:icon="@drawable/ic_outline_style_24"/>
+
     <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
         app:key="pref_enable_follow_editor_theme"
         app:title="@string/follow_editor_theme"

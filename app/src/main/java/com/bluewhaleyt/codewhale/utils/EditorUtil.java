@@ -1,16 +1,47 @@
 package com.bluewhaleyt.codewhale.utils;
 
+import android.content.Context;
+import android.graphics.Typeface;
+
 import com.bluewhaleyt.codewhale.tools.PrettyPrint;
 
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.SymbolInputView;
+import io.github.rosemoe.sora.widget.component.Magnifier;
 
 public class EditorUtil {
 
+    private Context context;
     private CodeEditor editor;
 
-    public EditorUtil(CodeEditor editor) {
+    public EditorUtil(Context context, CodeEditor editor) {
+        this.context = context;
         this.editor = editor;
+    }
+
+    public void setup() {
+        var margin = 30;
+        var font = Typeface.createFromAsset(context.getAssets(), Constants.CODE_FONT);
+        editor.setTypefaceText(font);
+        editor.setTypefaceLineNumber(font);
+        editor.setDividerMargin(margin);
+        editor.setLineNumberMarginLeft(margin);
+        editor.setLineSpacing(2f, 1.5f);
+
+        editor.setWordwrap(PreferencesManager.isWordWrapEnabled());
+        editor.setScalable(PreferencesManager.isPinchZoomEnabled());
+        editor.setLineNumberEnabled(PreferencesManager.isLineNumberEnabled());
+        editor.setPinLineNumber(PreferencesManager.isPinLineNumberEnabled());
+        editor.setTextSize(PreferencesManager.getFontSize());
+        editor.setTabWidth(PreferencesManager.getTabSize());
+        editor.setLigatureEnabled(PreferencesManager.isFontLigaturesEnabled());
+
+        editor.getProps().useICULibToSelectWords = PreferencesManager.isICULibEnabled();
+        editor.getProps().deleteEmptyLineFast = PreferencesManager.isDeleteEmptyLineFastEnabled();
+        editor.getProps().autoIndent = PreferencesManager.isAutoIndentEnabled();
+        editor.getProps().disallowSuggestions = PreferencesManager.isKeyboardSuggestionsEnabled();
+
+        editor.getComponent(Magnifier.class).setEnabled(PreferencesManager.isMagnifierEnabled());
     }
 
     public void setText(String text) {
