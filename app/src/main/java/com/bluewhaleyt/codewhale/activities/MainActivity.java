@@ -152,7 +152,7 @@ public class MainActivity extends BaseActivity {
     private void setupNormalHighlight() {
 //        var scheme = CommonUtil.isInDarkMode(this) ? new SchemeMaterialPalenight() : new SchemeEclipse();
 //        binding.editor.setColorScheme(scheme);
-        ThemeHandler.setTheme(binding.editor, PreferencesManager.getEditorTheme(this), ThemeHandler.THEME_NORMAL);
+        ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(this), ThemeHandler.THEME_NORMAL);
 
         Language language;
         if (PreferencesManager.isLanguageJavaEnabled()) {
@@ -165,21 +165,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setupTextmateHighlight() {
-        var themeDark = "material_palenight.json";
-        var themeLight = "material_lighter.json";
         try {
-            SyntaxHighlightUtil highlighter = new SyntaxHighlightUtil();
-            String[] themes = {themeDark, themeLight};
-            highlighter.setLanguageBase("languages.json");
-            highlighter.setLanguageDirectory(Constants.LANGUAGE_DIR);
-            highlighter.setThemeDirectory(Constants.THEME_DIR);
-            highlighter.setThemes(themes);
-
-//            var theme = CommonUtil.isInDarkMode(this) ? themeDark : themeLight;
-//            highlighter.setTheme(theme);
-            highlighter.setTheme(themeDark);
-
-            highlighter.setup(this, binding.editor, "test.java");
+            ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(this), ThemeHandler.THEME_TEXTMATE);
 
             CustomSyntaxHighlighter customHighlighter = new CustomSyntaxHighlighter();
             customHighlighter.applyLanguages(binding.editor);
@@ -190,8 +177,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setNoSyntaxHighlighting() {
-        var scheme = CommonUtil.isInDarkMode(this) ? new SchemeMaterialPalenight() : new SchemeEclipse();
-        binding.editor.setColorScheme(scheme);
+        ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(this), ThemeHandler.THEME_NORMAL);
         binding.editor.setEditorLanguage(new EmptyLanguage());
     }
 

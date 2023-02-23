@@ -33,4 +33,9 @@
         <item>Material Palenight</item>
     </string-array>
 
+    <string-array name="textmate_editor_theme">
+        <item>Material Lighter</item>
+        <item>Material Palenight</item>
+    </string-array>
+
 </resources>

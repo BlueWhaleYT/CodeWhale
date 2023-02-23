@@ -9,9 +9,11 @@ import android.widget.AutoCompleteTextView;
 
 import androidx.preference.Preference;
 
+import com.bluewhaleyt.codeeditor.textmate.syntaxhighlight.SyntaxHighlightUtil;
 import com.bluewhaleyt.codewhale.R;
 import com.bluewhaleyt.codewhale.tools.editor.basic.ThemeHandler;
 import com.bluewhaleyt.codewhale.utils.AssetsFileLoader;
+import com.bluewhaleyt.codewhale.utils.Constants;
 import com.bluewhaleyt.codewhale.utils.EditorUtil;
 import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 import com.bluewhaleyt.codewhale.utils.SharedPrefsUtil;
@@ -27,6 +29,9 @@ public class ThemeFragment extends CustomPreferenceFragment {
 
     private SharedPrefsUtil sharedPrefsUtil;
 
+    private TextInputLayout menuDropdown;
+    private AutoCompleteTextView autoCompleteTextView;
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences_editor_theme, rootKey);
@@ -40,11 +45,7 @@ public class ThemeFragment extends CustomPreferenceFragment {
             var btnPrefTheme = findPreference("btn_pref_editor_theme");
             btnPrefTheme.setSummary(getTheme());
             btnPrefTheme.setOnPreferenceClickListener(preference -> {
-                if (PreferencesManager.isTextmateEnabled()) {
-                    SnackbarUtil.makeSnackbar(requireActivity(), "coming soon");
-                } else {
-                    showThemeDialog(btnPrefTheme);
-                }
+                showThemeDialog(btnPrefTheme);
                 return true;
             });
 
@@ -78,24 +79,28 @@ public class ThemeFragment extends CustomPreferenceFragment {
             showNormalThemes(v, editor, pref);
             themeType = ThemeHandler.THEME_NORMAL;
         }
-        ThemeHandler.setTheme(editor, getTheme(), themeType);
+        ThemeHandler.setTheme(requireContext(), editor, getTheme(), themeType);
 
     }
 
-    private void showNormalThemes(View v, CodeEditor editor, Preference pref) {
-        TextInputLayout menuDropdown = v.findViewById(R.id.menu_dropdown);
-        AutoCompleteTextView autoCompleteTextView = v.findViewById(R.id.auto_complete_tv);
+    private void basicSetup(View v, CodeEditor editor, Preference pref, String[] array, int themeType) {
+        menuDropdown = v.findViewById(R.id.menu_dropdown);
+        autoCompleteTextView = v.findViewById(R.id.auto_complete_tv);
 
         ((AutoCompleteTextView) menuDropdown.getEditText()).setOnItemClickListener((adapterView, view, position, id) -> {
             var selectedTheme = menuDropdown.getEditText().getText().toString();
-            ThemeHandler.setTheme(editor, selectedTheme, ThemeHandler.THEME_NORMAL);
+            ThemeHandler.setTheme(requireContext(), editor, selectedTheme, themeType);
             pref.setSummary(selectedTheme);
             saveTheme(selectedTheme);
         });
 
-        String[] themes = getContext().getResources().getStringArray(R.array.normal_editor_theme);
-        var adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, themes);
+        var adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, array);
         autoCompleteTextView.setAdapter(adapter);
+    }
+
+    private void showNormalThemes(View v, CodeEditor editor, Preference pref) {
+        String[] themes = getContext().getResources().getStringArray(R.array.normal_editor_theme);
+        basicSetup(v, editor, pref, themes, ThemeHandler.THEME_NORMAL);
 
         autoCompleteTextView.setText(getTheme(), false);
         editor.setEditorLanguage(new JavaLanguage());
@@ -103,7 +108,10 @@ public class ThemeFragment extends CustomPreferenceFragment {
     }
 
     private void showTextMateThemes(View v, CodeEditor editor, Preference pref) {
+        String[] themes = getContext().getResources().getStringArray(R.array.textmate_editor_theme);
+        basicSetup(v, editor, pref, themes, ThemeHandler.THEME_TEXTMATE);
 
+        autoCompleteTextView.setText(getTheme(), false);
     }
 
     private void saveTheme(String theme) {

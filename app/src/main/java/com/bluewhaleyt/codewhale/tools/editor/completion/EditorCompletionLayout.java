@@ -171,6 +171,10 @@ public class EditorCompletionLayout implements CompletionLayout {
         ev.recycle();
     }
 
+//    private void setSelectedBackground(EditorColorScheme colorScheme) {
+//        if (colorScheme.getColor(EditorColorScheme))
+//    }
+
     private void setStroke(EditorColorScheme colorScheme) {
         if (PreferencesManager.isAutoCompletionStrokeEnabled()) {
             gd.setStroke(6, colorScheme.getColor(EditorColorScheme.COMPLETION_WND_CORNER));
