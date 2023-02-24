@@ -24,6 +24,8 @@ import com.bluewhaleyt.component.snackbar.SnackbarUtil;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.FileNotFoundException;
+
 import io.github.rosemoe.sora.langs.java.JavaLanguage;
 import io.github.rosemoe.sora.langs.textmate.registry.GrammarRegistry;
 import io.github.rosemoe.sora.widget.CodeEditor;
@@ -43,6 +45,11 @@ public class ThemeFragment extends CustomPreferenceFragment {
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences_editor_theme, rootKey);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         initialize();
     }
 
@@ -72,6 +79,7 @@ public class ThemeFragment extends CustomPreferenceFragment {
 
         bottomSheetDialog = new BottomSheetDialog(requireActivity());
         bottomSheetDialog.setContentView(v);
+        bottomSheetDialog.setCanceledOnTouchOutside(false);
         bottomSheetDialog.create();
 
         editorUtil = new EditorUtil(requireActivity(), editor, editor.getColorScheme());
@@ -79,9 +87,11 @@ public class ThemeFragment extends CustomPreferenceFragment {
         int themeType;
         if (PreferencesManager.isTextmateEnabled()) {
             showTextMateThemes(v, editor, pref);
+            menuDropDownLanguage.setVisibility(View.VISIBLE);
             themeType = ThemeHandler.THEME_TEXTMATE;
         } else {
             showNormalThemes(v, editor, pref);
+            menuDropDownLanguage.setVisibility(View.GONE);
             themeType = ThemeHandler.THEME_NORMAL;
         }
         ThemeHandler.setTheme(requireContext(), editor, PreferencesManager.getEditorTheme(), themeType, Constants.TEST_SYNTAX);
@@ -91,6 +101,8 @@ public class ThemeFragment extends CustomPreferenceFragment {
         editor.setScalable(false);
         editor.setTextSize(11);
         setPresetText();
+
+        v.findViewById(R.id.fabClose).setOnClickListener(view -> bottomSheetDialog.dismiss());
 
     }
 
@@ -155,7 +167,7 @@ public class ThemeFragment extends CustomPreferenceFragment {
         basicSetupLanguage(v, editor, pref, languages, ThemeHandler.THEME_TEXTMATE);
 
         autoCompleteTextViewTheme.setText(PreferencesManager.getEditorTheme(), false);
-        autoCompleteTextViewLanguage.setText("java", false);
+        autoCompleteTextViewLanguage.setText(selectedLanguage, false);
     }
 
     private void saveTheme(String theme) {
@@ -164,7 +176,8 @@ public class ThemeFragment extends CustomPreferenceFragment {
     }
 
     private void setPresetText() {
-        editorUtil.setText(AssetsFileLoader.getAssetsFileContent(requireContext(), "presets/main." + LanguageNameHandler.getLanguageCode(selectedLanguage)));
+        var file = LanguageNameHandler.getLanguageCode(selectedLanguage);
+        editorUtil.setText(AssetsFileLoader.getAssetsFileContent(requireContext(), "presets/main." + file));
     }
 
 }
