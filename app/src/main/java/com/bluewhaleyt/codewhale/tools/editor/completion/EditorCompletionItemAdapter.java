@@ -47,7 +47,7 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
         binding.tvLabel.setTextColor(getThemeColor(EditorColorScheme.TEXT_NORMAL));
 
         binding.tvDesc.setText(item.desc);
-        binding.tvDesc.setTextColor(getThemeColor(EditorColorScheme.TEXT_NORMAL));
+        binding.tvDesc.setTextColor(getThemeColor(EditorColorScheme.LINE_NUMBER_CURRENT));
 
         convertView.setTag(position);
         if (isCurrentCursorPosition) {
@@ -64,7 +64,7 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
 
         var type = item.desc.subSequence(0, 1);
         setupTypeIcon(type, binding.ivImage, binding.tvDesc);
-        setPartialColorSpan(new LanguageHandler().getPrefix(), new DynamicColorsUtil(getContext()).getColorPrimary());
+        setPartialColorSpan(new LanguageHandler().getPrefix(), getThemeColor(EditorColorScheme.SELECTION_HANDLE));
 
         return convertView;
     }
@@ -117,8 +117,10 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
     }
 
     private void setSpan(SpannableString span, int color, int start, int end) {
-        span.setSpan(new ForegroundColorSpan(color), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        span.setSpan(new StyleSpan(Typeface.BOLD), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (PreferencesManager.isAutoCompletionHighlightEnabled())
+            span.setSpan(new ForegroundColorSpan(color), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (PreferencesManager.isAutoCompletionHighlightEnabled() && PreferencesManager.isAutoCompletionHighlightBoldEnabled())
+            span.setSpan(new StyleSpan(Typeface.BOLD), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
 }

@@ -137,6 +137,14 @@ public class PreferencesManager {
         return getPrefs().getBoolean("pref_enable_highlight_bracket_delimiter", true);
     }
 
+    public static boolean isAutoCompletionHighlightEnabled() {
+        return getPrefs().getBoolean("pref_enable_auto_completion_highlight", true);
+    }
+
+    public static boolean isAutoCompletionHighlightBoldEnabled() {
+        return getPrefs().getBoolean("pref_enable_auto_completion_highlight_bold", true);
+    }
+
     public static int getFontSize() {
         return getPrefs().getInt("pref_font_size", 18);
     }

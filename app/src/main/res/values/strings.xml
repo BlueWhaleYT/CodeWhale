@@ -93,6 +93,8 @@
     <string name="replace_all">Replace All</string>
     <string name="last">Last</string>
     <string name="next">Next</string>
+    <string name="highlight">Highlight</string>
+    <string name="highlight_bold">Highlight Bold</string>
 
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>

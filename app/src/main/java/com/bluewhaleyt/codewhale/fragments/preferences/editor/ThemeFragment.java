@@ -32,6 +32,8 @@ public class ThemeFragment extends CustomPreferenceFragment {
     private TextInputLayout menuDropdown;
     private AutoCompleteTextView autoCompleteTextView;
 
+    private BottomSheetDialog bottomSheetDialog;
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences_editor_theme, rootKey);
@@ -44,8 +46,10 @@ public class ThemeFragment extends CustomPreferenceFragment {
 
             var btnPrefTheme = findPreference("btn_pref_editor_theme");
             btnPrefTheme.setSummary(PreferencesManager.getEditorTheme());
+
+            showThemeDialog(btnPrefTheme);
             btnPrefTheme.setOnPreferenceClickListener(preference -> {
-                showThemeDialog(btnPrefTheme);
+                bottomSheetDialog.show();
                 return true;
             });
 
@@ -66,10 +70,9 @@ public class ThemeFragment extends CustomPreferenceFragment {
         editor.setScalable(false);
         editor.setTextSize(11);
 
-        var dialog = new BottomSheetDialog(requireActivity());
-        dialog.setContentView(v);
-        dialog.create();
-        dialog.show();
+        bottomSheetDialog = new BottomSheetDialog(requireActivity());
+        bottomSheetDialog.setContentView(v);
+        bottomSheetDialog.create();
 
         int themeType;
         if (PreferencesManager.isTextmateEnabled()) {

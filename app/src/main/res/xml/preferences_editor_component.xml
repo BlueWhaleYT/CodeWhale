@@ -83,6 +83,18 @@
             app:icon="@drawable/ic_baseline_animation_24"
             app:defaultValue="true"/>
 
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_auto_completion_highlight"
+            app:title="@string/highlight"
+            app:icon="@drawable/ic_outline_colorize_24"
+            app:defaultValue="true"/>
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_auto_completion_highlight_bold"
+            app:title="@string/highlight_bold"
+            app:icon="@drawable/ic_baseline_format_bold_24"
+            app:defaultValue="true"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

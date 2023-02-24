@@ -58,8 +58,8 @@ public class SchemeMaterialPalenight extends EditorColorScheme {
         setColor(SELECTED_TEXT_BACKGROUND, darkBlack);
 
         // selections
-        setColor(SELECTION_HANDLE, colorAccent);
-        setColor(SELECTION_INSERT, colorAccent);
+        setColor(SELECTION_HANDLE, yellow);
+        setColor(SELECTION_INSERT, yellow);
 
         // scrollbars
         setColor(SCROLL_BAR_THUMB, darkBlack);
