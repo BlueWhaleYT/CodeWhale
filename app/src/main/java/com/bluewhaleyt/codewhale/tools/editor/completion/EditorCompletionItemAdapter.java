@@ -1,6 +1,5 @@
 package com.bluewhaleyt.codewhale.tools.editor.completion;
 
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bluewhaleyt.codewhale.R;
 import com.bluewhaleyt.codewhale.databinding.LayoutEditorCompletionListItemBinding;
@@ -22,7 +20,6 @@ import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 import com.bluewhaleyt.common.CommonUtil;
 import com.bluewhaleyt.common.DynamicColorsUtil;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import io.github.rosemoe.sora.lang.completion.CompletionItem;
@@ -47,14 +44,14 @@ public class EditorCompletionItemAdapter extends EditorCompletionAdapter {
         item = getItem(position);
 
         binding.tvLabel.setText(item.label);
-        binding.tvLabel.setTextColor(getThemeColor(EditorColorScheme.COMPLETION_WND_TEXT_PRIMARY));
+        binding.tvLabel.setTextColor(getThemeColor(EditorColorScheme.TEXT_NORMAL));
 
         binding.tvDesc.setText(item.desc);
-        binding.tvDesc.setTextColor(getThemeColor(EditorColorScheme.COMPLETION_WND_TEXT_SECONDARY));
+        binding.tvDesc.setTextColor(getThemeColor(EditorColorScheme.TEXT_NORMAL));
 
         convertView.setTag(position);
         if (isCurrentCursorPosition) {
-            convertView.setBackgroundColor(getThemeColor(EditorColorScheme.COMPLETION_WND_ITEM_CURRENT));
+            convertView.setBackgroundColor(getThemeColor(EditorColorScheme.CURRENT_LINE));
             binding.tvDesc.setVisibility(View.VISIBLE);
         } else {
             convertView.setBackgroundColor(0);

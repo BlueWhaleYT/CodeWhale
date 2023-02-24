@@ -68,9 +68,29 @@ public class ThemeHandler {
     }
 
     private static void setTextMateTheme(Context context, CodeEditor editor, String theme) throws Exception {
+        var quietlight = "quietlight.json";
+        var darcula = "darcula.json";
+        var abyss = "abyss-color-theme.json";
+        var tokyoNight = "tokyo-night-theme.json";
+        var materialDefault = "material_default.json";
         var materialLighter = "material_lighter.json";
         var materialPalenight = "material_palenight.json";
         switch (theme) {
+            case "QuietLight":
+                theme = quietlight;
+                break;
+            case "Darcula":
+                theme = darcula;
+                break;
+            case "Abyss":
+                theme = abyss;
+                break;
+            case "Tokyo Night":
+                theme = tokyoNight;
+                break;
+            case "Material Default":
+                theme = materialDefault;
+                break;
             case "Material Lighter":
                 theme = materialLighter;
                 break;
@@ -80,7 +100,10 @@ public class ThemeHandler {
         }
 
         SyntaxHighlightUtil highlighter = new SyntaxHighlightUtil();
-        String[] themesAva = {materialLighter, materialPalenight};
+        String[] themesAva = {
+                quietlight, darcula, abyss, tokyoNight,
+                materialDefault, materialLighter, materialPalenight
+        };
         highlighter.setLanguageBase("languages.json");
         highlighter.setLanguageDirectory(Constants.LANGUAGE_DIR);
         highlighter.setThemeDirectory(Constants.THEME_DIR);

@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +20,7 @@ import androidx.appcompat.view.menu.MenuBuilder;
 
 import com.bluewhaleyt.codeeditor.textmate.syntaxhighlight.SyntaxHighlightUtil;
 import com.bluewhaleyt.codewhale.WhaleApplication;
+import com.bluewhaleyt.codewhale.databinding.LayoutSearchPanelBinding;
 import com.bluewhaleyt.codewhale.tools.editor.basic.ThemeHandler;
 import com.bluewhaleyt.codewhale.tools.editor.basic.languages.JavaLanguage;
 import com.bluewhaleyt.codewhale.tools.editor.basic.languages.LanguageHandler;
@@ -36,11 +39,14 @@ import com.bluewhaleyt.codewhale.tools.editor.completion.EditorCompletionLayout;
 import com.bluewhaleyt.codewhale.utils.Constants;
 import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 
+import java.util.regex.PatternSyntaxException;
+
 import io.github.rosemoe.sora.event.ContentChangeEvent;
 import io.github.rosemoe.sora.event.SelectionChangeEvent;
 import io.github.rosemoe.sora.lang.EmptyLanguage;
 import io.github.rosemoe.sora.lang.Language;
 import io.github.rosemoe.sora.widget.CodeEditor;
+import io.github.rosemoe.sora.widget.EditorSearcher;
 import io.github.rosemoe.sora.widget.component.EditorAutoCompletion;
 import io.github.rosemoe.sora.widget.component.EditorTextActionWindow;
 import io.github.rosemoe.sora.widget.component.Magnifier;
@@ -83,6 +89,9 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_search:
+//                setupSearchPanel();
+                break;
             case R.id.menu_settings:
                 IntentUtil.intent(this, SettingsActivity.class);
                 break;
@@ -147,6 +156,12 @@ public class MainActivity extends BaseActivity {
         binding.btnUp.setColorFilter(colorText);
         binding.btnDown.setColorFilter(colorText);
         binding.btnDuplicateLine.setColorFilter(colorText);
+
+        // set search panel bg color
+        binding.layoutSearchPanel.searchPanel.setBackgroundColor(colorBg);
+        binding.layoutReplacePanel.replacePanel.setBackgroundColor(colorBg);
+        binding.layoutSearchPanel.etSearch.setBackgroundColor(colorBgHc);
+        binding.layoutReplacePanel.etReplace.setBackgroundColor(colorBgHc);
     }
 
     private void setupNormalHighlight() {
@@ -243,5 +258,97 @@ public class MainActivity extends BaseActivity {
             binding.editor.getComponent(Magnifier.class).setScaleFactor(scaleSaved);
         }
     }
+
+//    private void setupSearchPanel() {
+//        var bindingSearch = binding.layoutSearchPanel;
+//        var bindingReplace = binding.layoutReplacePanel;
+//        var searcher = binding.editor.getSearcher();
+//
+//        binding.layoutSearchPanel.getRoot().setVisibility(View.VISIBLE);
+//        bindingSearch.imgBtnPrev.setEnabled(false);
+//        bindingSearch.imgBtnNext.setEnabled(false);
+//        bindingReplace.imgBtnReplace.setEnabled(false);
+//        bindingReplace.imgBtnReplaceAll.setEnabled(false);
+//
+//        bindingSearch.imgBtnPrev.setOnClickListener(v -> searcher.gotoPrevious());
+//        bindingSearch.imgBtnNext.setOnClickListener(v -> searcher.gotoNext());
+//        bindingReplace.imgBtnReplace.setOnClickListener(v -> searcher.replaceThis(bindingReplace.etReplace.getText().toString()));
+//        bindingReplace.imgBtnReplaceAll.setOnClickListener(v -> searcher.replaceAll(bindingReplace.etReplace.getText().toString()));
+//
+//        bindingSearch.etSearch.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                updateSearchBtnState();
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                if (!s.toString().isEmpty()) {
+//                    try {
+//                        binding.editor
+//                                .getSearcher()
+//                                .search(
+//                                        s.toString(),
+//                                        new EditorSearcher.SearchOptions(true, true));
+//                    } catch (PatternSyntaxException e) {
+//                        SnackbarUtil.makeErrorSnackbar(MainActivity.this, e.getMessage(), e.toString());
+//                    }
+//                } else {
+//                    binding.editor.getSearcher().stopSearch();
+//                }
+//            }
+//        });
+//
+//        bindingReplace.etReplace.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                updateSearchBtnState();
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
+//
+//        bindingSearch.imgBtnExpand.setOnClickListener(v -> {
+//            binding.layoutReplacePanel.getRoot().setVisibility(View.VISIBLE);
+//        });
+//
+//    }
+//
+//    private void updateSearchBtnState() {
+//        var bindingSearch = binding.layoutSearchPanel;
+//        var bindingReplace = binding.layoutReplacePanel;
+//        if (bindingReplace.etReplace.getText().toString().isEmpty()) {
+//            bindingReplace.imgBtnReplace.setEnabled(false);
+//            bindingReplace.imgBtnReplaceAll.setEnabled(false);
+//        } else if (!bindingReplace.etReplace.getText().toString().isEmpty()
+//                && bindingSearch.etSearch.getText().toString().isEmpty()) {
+//            bindingReplace.imgBtnReplace.setEnabled(false);
+//            bindingReplace.imgBtnReplaceAll.setEnabled(false);
+//        } else {
+//            bindingReplace.imgBtnReplace.setEnabled(true);
+//            bindingReplace.imgBtnReplaceAll.setEnabled(true);
+//        }
+//        if (bindingSearch.etSearch.getText().toString().isEmpty()
+//                && bindingSearch.etSearch.getText().toString().isEmpty()) {
+//            bindingSearch.imgBtnPrev.setEnabled(false);
+//            bindingSearch.imgBtnNext.setEnabled(false);
+//        } else {
+//            bindingSearch.imgBtnPrev.setEnabled(true);
+//            bindingSearch.imgBtnNext.setEnabled(true);
+//        }
+//    }
 
 }

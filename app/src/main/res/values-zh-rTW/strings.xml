@@ -88,6 +88,11 @@
     <string name="left">向左對齊</string>
     <string name="right">向右對齊</string>
     <string name="center">置中對齊</string>
+    <string name="find">尋找</string>
+    <string name="replace">取代</string>
+    <string name="replace_all">取代全部</string>
+    <string name="last">上一個</string>
+    <string name="next">下一個</string>
 
     <string name="keyword">關鍵字</string>
     <string name="identifier">識別字</string>

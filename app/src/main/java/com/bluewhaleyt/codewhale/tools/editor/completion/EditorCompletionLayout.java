@@ -44,7 +44,7 @@ public class EditorCompletionLayout implements CompletionLayout {
     public void onApplyColorScheme(@NonNull EditorColorScheme colorScheme) {
         gd = new GradientDrawable();
 //        gd.setCornerRadius(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, editorAutoCompletion.getContext().getResources().getDisplayMetrics()))
-        gd.setColor(colorScheme.getColor(EditorColorScheme.COMPLETION_WND_BACKGROUND));
+        gd.setColor(colorScheme.getColor(EditorColorScheme.WHOLE_BACKGROUND));
         setStroke(colorScheme);
         rootView.setBackground(gd);
         textView.setTextColor(colorScheme.getColor(EditorColorScheme.TEXT_NORMAL));
@@ -177,7 +177,7 @@ public class EditorCompletionLayout implements CompletionLayout {
 
     private void setStroke(EditorColorScheme colorScheme) {
         if (PreferencesManager.isAutoCompletionStrokeEnabled()) {
-            gd.setStroke(6, colorScheme.getColor(EditorColorScheme.COMPLETION_WND_CORNER));
+            gd.setStroke(6, colorScheme.getColor(EditorColorScheme.CURRENT_LINE));
         }
     }
 

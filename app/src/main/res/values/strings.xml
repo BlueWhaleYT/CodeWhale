@@ -88,6 +88,11 @@
     <string name="left">Left</string>
     <string name="right">Right</string>
     <string name="center">Center</string>
+    <string name="find">Find</string>
+    <string name="replace">Replace</string>
+    <string name="replace_all">Replace All</string>
+    <string name="last">Last</string>
+    <string name="next">Next</string>
 
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>
