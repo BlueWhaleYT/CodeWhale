@@ -34,13 +34,23 @@
     </string-array>
 
     <string-array name="textmate_editor_theme">
+        <item>@string/custom</item>
         <item>QuietLight</item>
         <item>Darcula</item>
         <item>Abyss</item>
         <item>Tokyo Night</item>
+        <item>Solarized Dark</item>
         <item>Material Default</item>
         <item>Material Lighter</item>
         <item>Material Palenight</item>
+    </string-array>
+
+    <string-array name="textmate_editor_language">
+        <item>HTML</item>
+        <item>Java</item>
+        <item>JavaScript</item>
+        <item>JSON</item>
+        <item>Python</item>
     </string-array>
 
     <string-array name="line_number_align_text">

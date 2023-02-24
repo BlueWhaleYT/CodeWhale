@@ -95,6 +95,8 @@
     <string name="next">下一個</string>
     <string name="highlight">着色</string>
     <string name="highlight_bold">着色粗體</string>
+    <string name="custom">自訂</string>
+    <string name="coming_soon">哎唷～此功能暫未開放，敬請期待</string>
 
     <string name="keyword">關鍵字</string>
     <string name="identifier">識別字</string>

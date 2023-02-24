@@ -1,29 +1,19 @@
 package com.bluewhaleyt.codewhale.activities;
 
 import android.annotation.SuppressLint;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.view.menu.MenuBuilder;
 
-import com.bluewhaleyt.codeeditor.textmate.syntaxhighlight.SyntaxHighlightUtil;
-import com.bluewhaleyt.codewhale.WhaleApplication;
-import com.bluewhaleyt.codewhale.databinding.LayoutSearchPanelBinding;
 import com.bluewhaleyt.codewhale.tools.editor.basic.ThemeHandler;
-import com.bluewhaleyt.codewhale.tools.editor.basic.languages.JavaLanguage;
-import com.bluewhaleyt.codewhale.tools.editor.basic.languages.LanguageHandler;
 import com.bluewhaleyt.codewhale.tools.editor.basic.languages.modules.AndroidJavaLanguage;
 import com.bluewhaleyt.codewhale.tools.editor.textmate.CustomSyntaxHighlighter;
 import com.bluewhaleyt.codewhale.utils.AssetsFileLoader;
@@ -33,25 +23,18 @@ import com.bluewhaleyt.common.IntentUtil;
 import com.bluewhaleyt.component.snackbar.SnackbarUtil;
 import com.bluewhaleyt.codewhale.R;
 import com.bluewhaleyt.codewhale.databinding.ActivityMainBinding;
-import com.bluewhaleyt.codewhale.tools.editor.basic.SchemeMaterialPalenight;
 import com.bluewhaleyt.codewhale.tools.editor.completion.EditorCompletionItemAdapter;
 import com.bluewhaleyt.codewhale.tools.editor.completion.EditorCompletionLayout;
 import com.bluewhaleyt.codewhale.utils.Constants;
 import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 
-import java.util.regex.PatternSyntaxException;
-
-import io.github.rosemoe.sora.event.ContentChangeEvent;
 import io.github.rosemoe.sora.event.SelectionChangeEvent;
 import io.github.rosemoe.sora.lang.EmptyLanguage;
 import io.github.rosemoe.sora.lang.Language;
 import io.github.rosemoe.sora.widget.CodeEditor;
-import io.github.rosemoe.sora.widget.EditorSearcher;
 import io.github.rosemoe.sora.widget.component.EditorAutoCompletion;
-import io.github.rosemoe.sora.widget.component.EditorTextActionWindow;
 import io.github.rosemoe.sora.widget.component.Magnifier;
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
-import io.github.rosemoe.sora.widget.schemes.SchemeEclipse;
 
 public class MainActivity extends BaseActivity {
 
@@ -101,13 +84,9 @@ public class MainActivity extends BaseActivity {
 
     private void initialize() {
 
-        editorUtil = new EditorUtil(this, binding.editor);
-        editorUtil.setNonPrintFlag();
-        editorUtil.setup();
-
         setupAutoComplete();
         setupMagnifier();
-        setEditorText(AssetsFileLoader.getAssetsFileContent(this, "presets/Main.java"));
+        setEditorText(AssetsFileLoader.getAssetsFileContent(this, "presets/main.java"));
 
         setupMoveSelectionEvent();
         setupToolbar();
@@ -124,6 +103,10 @@ public class MainActivity extends BaseActivity {
             fixColorSurfaces();
             fixColorSurfaces2();
         }
+
+        editorUtil = new EditorUtil(this, binding.editor, binding.editor.getColorScheme());
+        editorUtil.setNonPrintFlag();
+        editorUtil.setup();
 
     }
 
@@ -167,7 +150,7 @@ public class MainActivity extends BaseActivity {
     private void setupNormalHighlight() {
 //        var scheme = CommonUtil.isInDarkMode(this) ? new SchemeMaterialPalenight() : new SchemeEclipse();
 //        binding.editor.setColorScheme(scheme);
-        ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(), ThemeHandler.THEME_NORMAL);
+        ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(), ThemeHandler.THEME_NORMAL, Constants.TEST_SYNTAX);
 
         Language language;
         if (PreferencesManager.isLanguageJavaEnabled()) {
@@ -181,7 +164,7 @@ public class MainActivity extends BaseActivity {
 
     private void setupTextmateHighlight() {
         try {
-            ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(), ThemeHandler.THEME_TEXTMATE);
+            ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(), ThemeHandler.THEME_TEXTMATE, Constants.TEST_SYNTAX);
 
             CustomSyntaxHighlighter customHighlighter = new CustomSyntaxHighlighter();
             customHighlighter.applyLanguages(binding.editor);
@@ -192,7 +175,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setNoSyntaxHighlighting() {
-        ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(), ThemeHandler.THEME_NORMAL);
+        ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(), ThemeHandler.THEME_NORMAL, Constants.TEST_SYNTAX);
         binding.editor.setEditorLanguage(new EmptyLanguage());
     }
 

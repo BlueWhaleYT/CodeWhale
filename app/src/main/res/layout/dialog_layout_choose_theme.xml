@@ -14,25 +14,63 @@
         android:textColor="?colorOnBackground"
         android:layout_marginBottom="20dp"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/menu_dropdown"
-        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/theme"
+        android:orientation="horizontal"
         android:layout_marginBottom="10dp">
 
-        <AutoCompleteTextView
-            android:id="@+id/auto_complete_tv"
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/menu_dropdown_theme"
+            style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="none" />
+            android:layout_weight="2"
+            android:hint="@string/theme"
+            android:layout_marginEnd="10dp">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <AutoCompleteTextView
+                android:id="@+id/auto_complete_tv_theme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:ellipsize="end"/>
 
-    <io.github.rosemoe.sora.widget.CodeEditor
-        android:id="@+id/editor"
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/menu_dropdown_language"
+            style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/syntax_language">
+
+            <AutoCompleteTextView
+                android:id="@+id/auto_complete_tv_language"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:ellipsize="end"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="200dp"
+        android:fillViewport="true">
+
+        <io.github.rosemoe.sora.widget.CodeEditor
+            android:id="@+id/editor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

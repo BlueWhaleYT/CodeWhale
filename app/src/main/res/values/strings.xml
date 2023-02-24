@@ -95,6 +95,8 @@
     <string name="next">Next</string>
     <string name="highlight">Highlight</string>
     <string name="highlight_bold">Highlight Bold</string>
+    <string name="custom">Custom</string>
+    <string name="coming_soon">Coming soon</string>
 
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>

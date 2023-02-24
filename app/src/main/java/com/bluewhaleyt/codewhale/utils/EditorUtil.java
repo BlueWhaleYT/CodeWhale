@@ -3,22 +3,36 @@ package com.bluewhaleyt.codewhale.utils;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
+import com.bluewhaleyt.codewhale.R;
 import com.bluewhaleyt.codewhale.tools.PrettyPrint;
 
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.DirectAccessProps;
 import io.github.rosemoe.sora.widget.SymbolInputView;
+import io.github.rosemoe.sora.widget.component.EditorTextActionWindow;
 import io.github.rosemoe.sora.widget.component.Magnifier;
+import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
 
 public class EditorUtil {
 
     private Context context;
     private CodeEditor editor;
+    private EditorColorScheme colorScheme;
 
     public EditorUtil(Context context, CodeEditor editor) {
         this.context = context;
         this.editor = editor;
+    }
+
+    public EditorUtil(Context context, CodeEditor editor, EditorColorScheme colorScheme) {
+        this.context = context;
+        this.editor = editor;
+        this.colorScheme = colorScheme;
     }
 
     public void setup() {
@@ -38,7 +52,8 @@ public class EditorUtil {
         editor.setTabWidth(PreferencesManager.getTabSize());
         editor.setLigatureEnabled(PreferencesManager.isFontLigaturesEnabled());
         editor.setHighlightBracketPair(PreferencesManager.isHighlightBracketDelimiterEnabled());
-        
+
+        editor.getProps().drawSideBlockLine = false;
         editor.getProps().useICULibToSelectWords = PreferencesManager.isICULibEnabled();
         editor.getProps().deleteEmptyLineFast = PreferencesManager.isDeleteEmptyLineFastEnabled();
         editor.getProps().autoIndent = PreferencesManager.isAutoIndentEnabled();
@@ -48,6 +63,7 @@ public class EditorUtil {
         editor.getComponent(Magnifier.class).setEnabled(PreferencesManager.isMagnifierEnabled());
 
         setLineNumberAlign();
+        setTextActionWindow(context, colorScheme);
     }
 
     public void setText(String text) {
@@ -94,6 +110,32 @@ public class EditorUtil {
                 break;
         }
         editor.setLineNumberAlign(align);
+    }
+
+    public void setTextActionWindow(Context context, EditorColorScheme colorScheme) {
+        var colorBg = colorScheme.getColor(EditorColorScheme.WHOLE_BACKGROUND);
+        var colorText = colorScheme.getColor(EditorColorScheme.TEXT_NORMAL);
+
+        View v = LayoutInflater.from(context).inflate(io.github.rosemoe.sora.R.layout.text_compose_panel, null);
+
+        var root = v.findViewById(io.github.rosemoe.sora.R.id.panel_root);
+        ImageButton btnSelectAll = v.findViewById(io.github.rosemoe.sora.R.id.panel_btn_select_all);
+        ImageButton btnCopy = v.findViewById(io.github.rosemoe.sora.R.id.panel_btn_copy);
+        ImageButton btnPaste = v.findViewById(io.github.rosemoe.sora.R.id.panel_btn_paste);
+        ImageButton btnCut = v.findViewById(io.github.rosemoe.sora.R.id.panel_btn_cut);
+
+        root.setBackgroundColor(colorBg);
+        btnSelectAll.setColorFilter(colorText);
+        btnCopy.setColorFilter(colorText);
+        btnPaste.setColorFilter(colorText);
+        btnCut.setColorFilter(colorText);
+        editor.getComponent(EditorTextActionWindow.class).setContentView(v);
+
+        btnSelectAll.setOnClickListener(view -> editor.selectAll());
+        btnCopy.setOnClickListener(view -> editor.copyText());
+        btnPaste.setOnClickListener(view -> editor.pasteText());
+        btnCut.setOnClickListener(view -> editor.cutText());
+
     }
 
 }

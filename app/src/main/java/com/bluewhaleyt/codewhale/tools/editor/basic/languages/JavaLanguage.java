@@ -61,7 +61,7 @@ public class JavaLanguage extends LanguageHandler {
     }
 
     public static void setupJavaMethods(CompletionPublisher publisher) {
-        addMethodItem("main()", "main()", parseFromAssets("java/Main.java"), publisher);
+        addMethodItem("main()", "main()", parseFromAssets("java/main.java"), publisher);
     }
 
 }

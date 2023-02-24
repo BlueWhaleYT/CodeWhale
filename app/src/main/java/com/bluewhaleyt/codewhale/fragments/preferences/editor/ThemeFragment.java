@@ -6,12 +6,14 @@ import android.view.View;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import androidx.preference.Preference;
 
 import com.bluewhaleyt.codeeditor.textmate.syntaxhighlight.SyntaxHighlightUtil;
 import com.bluewhaleyt.codewhale.R;
 import com.bluewhaleyt.codewhale.tools.editor.basic.ThemeHandler;
+import com.bluewhaleyt.codewhale.tools.editor.basic.languages.LanguageNameHandler;
 import com.bluewhaleyt.codewhale.utils.AssetsFileLoader;
 import com.bluewhaleyt.codewhale.utils.Constants;
 import com.bluewhaleyt.codewhale.utils.EditorUtil;
@@ -23,16 +25,20 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputLayout;
 
 import io.github.rosemoe.sora.langs.java.JavaLanguage;
+import io.github.rosemoe.sora.langs.textmate.registry.GrammarRegistry;
 import io.github.rosemoe.sora.widget.CodeEditor;
 
 public class ThemeFragment extends CustomPreferenceFragment {
 
     private SharedPrefsUtil sharedPrefsUtil;
+    private EditorUtil editorUtil;
 
-    private TextInputLayout menuDropdown;
-    private AutoCompleteTextView autoCompleteTextView;
+    private TextInputLayout menuDropdownTheme, menuDropDownLanguage;
+    private AutoCompleteTextView autoCompleteTextViewTheme, autoCompleteTextViewLanguage;
 
     private BottomSheetDialog bottomSheetDialog;
+
+    private String selectedLanguage = "Java";
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -63,16 +69,12 @@ public class ThemeFragment extends CustomPreferenceFragment {
         var v = LayoutInflater.from(requireActivity()).inflate(R.layout.dialog_layout_choose_theme, null);
 
         CodeEditor editor = v.findViewById(R.id.editor);
-        EditorUtil editorUtil = new EditorUtil(requireActivity(), editor);
-        editorUtil.setup();
-        editorUtil.setText(AssetsFileLoader.getAssetsFileContent(requireActivity(), "presets/Main.java"));
-        editor.setEditable(false);
-        editor.setScalable(false);
-        editor.setTextSize(11);
 
         bottomSheetDialog = new BottomSheetDialog(requireActivity());
         bottomSheetDialog.setContentView(v);
         bottomSheetDialog.create();
+
+        editorUtil = new EditorUtil(requireActivity(), editor, editor.getColorScheme());
 
         int themeType;
         if (PreferencesManager.isTextmateEnabled()) {
@@ -82,44 +84,87 @@ public class ThemeFragment extends CustomPreferenceFragment {
             showNormalThemes(v, editor, pref);
             themeType = ThemeHandler.THEME_NORMAL;
         }
-        ThemeHandler.setTheme(requireContext(), editor, PreferencesManager.getEditorTheme(), themeType);
+        ThemeHandler.setTheme(requireContext(), editor, PreferencesManager.getEditorTheme(), themeType, Constants.TEST_SYNTAX);
+
+        editorUtil.setup();
+        editor.setEditable(false);
+        editor.setScalable(false);
+        editor.setTextSize(11);
+        setPresetText();
 
     }
 
-    private void basicSetup(View v, CodeEditor editor, Preference pref, String[] array, int themeType) {
-        menuDropdown = v.findViewById(R.id.menu_dropdown);
-        autoCompleteTextView = v.findViewById(R.id.auto_complete_tv);
+    private void set(CodeEditor editor, Preference pref, int themeType) {
+        ((AutoCompleteTextView) menuDropdownTheme.getEditText()).setOnItemClickListener((adapterView, view, position, id) -> {
+            var selectedTheme = menuDropdownTheme.getEditText().getText().toString();
+            selectedLanguage = menuDropDownLanguage.getEditText().getText().toString();
 
-        ((AutoCompleteTextView) menuDropdown.getEditText()).setOnItemClickListener((adapterView, view, position, id) -> {
-            var selectedTheme = menuDropdown.getEditText().getText().toString();
-            ThemeHandler.setTheme(requireContext(), editor, selectedTheme, themeType);
-            pref.setSummary(selectedTheme);
-            saveTheme(selectedTheme);
+            if (selectedTheme.equals(getString(R.string.custom))) {
+                Toast.makeText(requireContext(), R.string.coming_soon, Toast.LENGTH_SHORT).show();
+            } else {
+                ThemeHandler.setTheme(requireContext(), editor, selectedTheme, themeType, "." + LanguageNameHandler.getLanguageCode(selectedLanguage));
+                pref.setSummary(selectedTheme);
+                saveTheme(selectedTheme);
+                editorUtil.setTextActionWindow(requireContext(), editor.getColorScheme());
+            }
         });
 
+        ((AutoCompleteTextView) menuDropDownLanguage.getEditText()).setOnItemClickListener((adapterView, view, position, id) -> {
+            var selectedTheme = menuDropdownTheme.getEditText().getText().toString();
+            selectedLanguage = menuDropDownLanguage.getEditText().getText().toString();
+            ThemeHandler.setTheme(requireContext(), editor, selectedTheme, themeType, "." + LanguageNameHandler.getLanguageCode(selectedLanguage));
+            setPresetText();
+        });
+    }
+
+    private void basicSetupTheme(View v, CodeEditor editor, Preference pref, String[] array, int themeType) {
+        menuDropdownTheme = v.findViewById(R.id.menu_dropdown_theme);
+        menuDropDownLanguage = v.findViewById(R.id.menu_dropdown_language);
+        autoCompleteTextViewTheme = v.findViewById(R.id.auto_complete_tv_theme);
+
+        set(editor, pref, themeType);
+
         var adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, array);
-        autoCompleteTextView.setAdapter(adapter);
+        autoCompleteTextViewTheme.setAdapter(adapter);
+    }
+
+    private void basicSetupLanguage(View v, CodeEditor editor, Preference pref, String[] array, int themeType) {
+        menuDropdownTheme = v.findViewById(R.id.menu_dropdown_theme);
+        menuDropDownLanguage = v.findViewById(R.id.menu_dropdown_language);
+        autoCompleteTextViewLanguage = v.findViewById(R.id.auto_complete_tv_language);
+
+        set(editor, pref, themeType);
+
+        var adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, array);
+        autoCompleteTextViewLanguage.setAdapter(adapter);
     }
 
     private void showNormalThemes(View v, CodeEditor editor, Preference pref) {
         String[] themes = getContext().getResources().getStringArray(R.array.normal_editor_theme);
-        basicSetup(v, editor, pref, themes, ThemeHandler.THEME_NORMAL);
+        basicSetupTheme(v, editor, pref, themes, ThemeHandler.THEME_NORMAL);
 
-        autoCompleteTextView.setText(PreferencesManager.getEditorTheme(), false);
+        autoCompleteTextViewTheme.setText(PreferencesManager.getEditorTheme(), false);
         editor.setEditorLanguage(new JavaLanguage());
 
     }
 
     private void showTextMateThemes(View v, CodeEditor editor, Preference pref) {
-        String[] themes = getContext().getResources().getStringArray(R.array.textmate_editor_theme);
-        basicSetup(v, editor, pref, themes, ThemeHandler.THEME_TEXTMATE);
+        var themes = getContext().getResources().getStringArray(R.array.textmate_editor_theme);
+        var languages = getContext().getResources().getStringArray(R.array.textmate_editor_language);
+        basicSetupTheme(v, editor, pref, themes, ThemeHandler.THEME_TEXTMATE);
+        basicSetupLanguage(v, editor, pref, languages, ThemeHandler.THEME_TEXTMATE);
 
-        autoCompleteTextView.setText(PreferencesManager.getEditorTheme(), false);
+        autoCompleteTextViewTheme.setText(PreferencesManager.getEditorTheme(), false);
+        autoCompleteTextViewLanguage.setText("java", false);
     }
 
     private void saveTheme(String theme) {
         sharedPrefsUtil = new SharedPrefsUtil(requireContext(), "pref_editor_theme", theme);
         sharedPrefsUtil.saveData();
+    }
+
+    private void setPresetText() {
+        editorUtil.setText(AssetsFileLoader.getAssetsFileContent(requireContext(), "presets/main." + LanguageNameHandler.getLanguageCode(selectedLanguage)));
     }
 
 }
