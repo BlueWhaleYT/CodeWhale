@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
 
 import com.bluewhaleyt.codewhale.WhaleApplication;
+import com.bluewhaleyt.common.CommonUtil;
 
 public class PreferencesManager {
 
@@ -175,7 +176,12 @@ public class PreferencesManager {
 
     public static String getEditorTheme() {
         var key = "pref_editor_theme";
-        var theme = isTextmateEnabled() ? "QuietLight" : "Default";
+        var theme = "";
+        if (CommonUtil.isInDarkMode(WhaleApplication.getContext())) {
+            theme = "Darcula";
+        } else {
+            theme = isTextmateEnabled() ? "QuietLight" : "Default";
+        }
         return getPrefs(key).getString(key, theme);
     }
 

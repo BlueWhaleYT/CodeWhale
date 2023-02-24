@@ -44,6 +44,7 @@ public class SchemeMaterialPalenight extends EditorColorScheme {
 
         // line number text color
         setColor(LINE_NUMBER, grey);
+        setColor(LINE_NUMBER_CURRENT, grey);
         setColor(LINE_NUMBER_PANEL_TEXT, grey);
 
         // non printable flags color
