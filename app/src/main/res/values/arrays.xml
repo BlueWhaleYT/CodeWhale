@@ -41,15 +41,20 @@
         <item>@string/custom</item>
 
         <!-- light -->
+        <item>Light Owl</item>
         <item>Material Lighter</item>
         <item>One Light</item>
         <item>QuietLight</item>
+        <item>Solarized Light</item>
 
         <!-- dark -->
         <item>Abyss</item>
         <item>Darcula</item>
         <item>Material Default</item>
         <item>Material Palenight</item>
+        <item>Mirage</item>
+        <item>Monokai</item>
+        <item>Night Owl</item>
         <item>One Dark</item>
         <item>One Dark Pro</item>
         <item>One Dark Pro Darker</item>

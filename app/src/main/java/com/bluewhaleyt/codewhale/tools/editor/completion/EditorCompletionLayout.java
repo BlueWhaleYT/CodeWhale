@@ -177,7 +177,7 @@ public class EditorCompletionLayout implements CompletionLayout {
 
     private void setStroke(EditorColorScheme colorScheme) {
         if (PreferencesManager.isAutoCompletionStrokeEnabled()) {
-            gd.setStroke(6, colorScheme.getColor(EditorColorScheme.CURRENT_LINE));
+            gd.setStroke(4, colorScheme.getColor(EditorColorScheme.CURRENT_LINE));
         }
     }
 

@@ -1,11 +1,13 @@
 package com.bluewhaleyt.codewhale.tools.editor.basic;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.bluewhaleyt.codeeditor.textmate.syntaxhighlight.SyntaxHighlightUtil;
 import com.bluewhaleyt.codewhale.utils.Constants;
 import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 import com.bluewhaleyt.common.CommonUtil;
+import com.bluewhaleyt.component.snackbar.SnackbarUtil;
 
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
@@ -35,7 +37,7 @@ public class ThemeHandler {
                 try {
                     setTextMateTheme(context, editor, theme, path);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    SnackbarUtil.makeErrorSnackbar((Activity) context, e.getMessage(), e.toString());
                 }
                 break;
         }
@@ -69,69 +71,67 @@ public class ThemeHandler {
     }
 
     private static void setTextMateTheme(Context context, CodeEditor editor, String theme, String path) throws Exception {
-        var quietlight = "quietlight.json";
-        var darcula = "darcula.json";
-        var abyss = "abyss-color-theme.json";
-        var tokyoNight = "tokyo-night-theme.json";
-        var solarizedDark = "solarized_dark.json";
-        var materialDefault = "material_default.json";
-        var materialLighter = "material_lighter.json";
-        var materialPalenight = "material_palenight.json";
-        var oneLight = "OneLight.json";
-        var oneDark = "OneDark.json";
-        var oneDarkPro = "OneDark-Pro.json";
-        var oneDarkProDarker = "OneDark-Pro-darker.json";
         switch (theme) {
             case "QuietLight":
-                theme = quietlight;
+                theme = "quietlight.json";
                 break;
             case "Darcula":
-                theme = darcula;
+                theme = "darcula.json";
                 break;
             case "Abyss":
-                theme = abyss;
+                theme = "abyss-color-theme.json";
                 break;
             case "Tokyo Night":
-                theme = tokyoNight;
+                theme = "tokyo-night-theme.json";
+                break;
+            case "Solarized Light":
+                theme = "solarized_light.json";
                 break;
             case "Solarized Dark":
-                theme = solarizedDark;
+                theme = "solarized_dark.json";
                 break;
             case "Material Default":
-                theme = materialDefault;
+                theme = "material_default.json";
                 break;
             case "Material Lighter":
-                theme = materialLighter;
+                theme = "material_lighter.json";
                 break;
             case "Material Palenight":
-                theme = materialPalenight;
+                theme = "material_palenight.json";
                 break;
             case "One Light":
-                theme = oneLight;
+                theme = "OneLight.json";
                 break;
             case "One Dark":
-                theme = oneDark;
+                theme = "OneDark.json";
                 break;
             case "One Dark Pro":
-                theme = oneDarkPro;
+                theme = "OneDark-Pro.json";
                 break;
             case "One Dark Pro Darker":
-                theme = oneDarkProDarker;
+                theme = "OneDark-Pro-darker.json";
+                break;
+            case "Monokai":
+                theme = "monokai-color-theme.json";
+                break;
+            case "Mirage":
+                theme = "Mirage-color-theme.json";
+                break;
+            case "Light Owl":
+                theme = "light-owl-color-theme.json";
+                break;
+            case "Night Owl":
+                theme = "night-owl-color-theme.json";
                 break;
             default:
                 theme = CommonUtil.isInDarkMode(context) ? Constants.DEFAULT_DARK_THEME : Constants.DEFAULT_LIGHT_THEME;
         }
 
         SyntaxHighlightUtil highlighter = new SyntaxHighlightUtil();
-        String[] themesAva = {
-                quietlight, darcula, abyss, tokyoNight, solarizedDark,
-                materialDefault, materialLighter, materialPalenight,
-                oneLight, oneDark, oneDarkPro, oneDarkProDarker
-        };
         highlighter.setLanguageBase("languages.json");
         highlighter.setLanguageDirectory(Constants.LANGUAGE_DIR);
         highlighter.setThemeDirectory(Constants.THEME_DIR);
-        highlighter.setThemes(themesAva);
+        highlighter.setThemes(new String[]{theme});
         highlighter.setTheme(theme);
         highlighter.setup(context, editor, path);
     }
