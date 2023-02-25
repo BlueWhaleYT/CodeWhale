@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_gravity="center_vertical"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -22,18 +22,18 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/choose_theme"
-                android:textSize="24sp"
-                android:textColor="?colorOnBackground"
+                android:layout_marginBottom="5dp"
                 android:gravity="center_vertical"
-                android:layout_marginBottom="5dp"/>
+                android:text="@string/choose_theme"
+                android:textColor="?colorOnBackground"
+                android:textSize="24sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:text="@string/choose_favorite_theme"
-                android:textColor="?colorOnBackground"
-                android:gravity="center_vertical"/>
+                android:textColor="?colorOnBackground" />
 
         </LinearLayout>
 
@@ -42,15 +42,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_baseline_clear_24"
-            app:fabSize="mini"/>
+            app:fabSize="mini" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/menu_dropdown_theme"
@@ -64,10 +64,10 @@
                 android:id="@+id/auto_complete_tv_theme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:inputType="none"
                 android:maxLines="1"
-                android:singleLine="true"
-                android:ellipsize="end"/>
+                android:singleLine="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -76,33 +76,26 @@
             style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
-            android:hint="@string/syntax_language"
-            android:layout_marginStart="10dp">
+            android:hint="@string/syntax_language">
 
             <AutoCompleteTextView
                 android:id="@+id/auto_complete_tv_language"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:inputType="none"
                 android:maxLines="1"
-                android:singleLine="true"
-                android:ellipsize="end"/>
+                android:singleLine="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <io.github.rosemoe.sora.widget.CodeEditor
+        android:id="@+id/editor"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:fillViewport="true">
-
-        <io.github.rosemoe.sora.widget.CodeEditor
-            android:id="@+id/editor"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </androidx.core.widget.NestedScrollView>
+        android:layout_height="200dp" />
 
 </LinearLayout>
