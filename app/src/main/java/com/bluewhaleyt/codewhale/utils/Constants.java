@@ -10,6 +10,9 @@ public class Constants {
 
     public static final String CODE_FONT = "fonts/JetBrainsMono-Regular.ttf";
 
+    public static final String DEFAULT_LIGHT_THEME = PreferencesManager.isTextmateEnabled() ? "Material Lighter" : "Default";
+    public static final String DEFAULT_DARK_THEME = "Material Palenight";
+
     public static final String TEST_SYNTAX = "test.java";
 
 }

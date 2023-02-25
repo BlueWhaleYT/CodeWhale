@@ -178,9 +178,9 @@ public class PreferencesManager {
         var key = "pref_editor_theme";
         var theme = "";
         if (CommonUtil.isInDarkMode(WhaleApplication.getContext())) {
-            theme = "Darcula";
+            theme = Constants.DEFAULT_DARK_THEME;
         } else {
-            theme = isTextmateEnabled() ? "QuietLight" : "Default";
+            theme = Constants.DEFAULT_LIGHT_THEME;
         }
         return getPrefs(key).getString(key, theme);
     }

@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity {
 
         setupAutoComplete();
         setupMagnifier();
-        setEditorText(AssetsFileLoader.getAssetsFileContent(this, "presets/main.java"));
+        setEditorText(AssetsFileLoader.getAssetsFileContent(this, "presets/test.java"));
 
         setupMoveSelectionEvent();
         setupToolbar();

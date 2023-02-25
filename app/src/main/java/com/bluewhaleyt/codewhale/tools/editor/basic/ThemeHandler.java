@@ -77,6 +77,10 @@ public class ThemeHandler {
         var materialDefault = "material_default.json";
         var materialLighter = "material_lighter.json";
         var materialPalenight = "material_palenight.json";
+        var oneLight = "OneLight.json";
+        var oneDark = "OneDark.json";
+        var oneDarkPro = "OneDark-Pro.json";
+        var oneDarkProDarker = "OneDark-Pro-darker.json";
         switch (theme) {
             case "QuietLight":
                 theme = quietlight;
@@ -102,14 +106,27 @@ public class ThemeHandler {
             case "Material Palenight":
                 theme = materialPalenight;
                 break;
+            case "One Light":
+                theme = oneLight;
+                break;
+            case "One Dark":
+                theme = oneDark;
+                break;
+            case "One Dark Pro":
+                theme = oneDarkPro;
+                break;
+            case "One Dark Pro Darker":
+                theme = oneDarkProDarker;
+                break;
             default:
-                theme = CommonUtil.isInDarkMode(context) ? darcula : quietlight;
+                theme = CommonUtil.isInDarkMode(context) ? Constants.DEFAULT_DARK_THEME : Constants.DEFAULT_LIGHT_THEME;
         }
 
         SyntaxHighlightUtil highlighter = new SyntaxHighlightUtil();
         String[] themesAva = {
                 quietlight, darcula, abyss, tokyoNight, solarizedDark,
-                materialDefault, materialLighter, materialPalenight
+                materialDefault, materialLighter, materialPalenight,
+                oneLight, oneDark, oneDarkPro, oneDarkProDarker
         };
         highlighter.setLanguageBase("languages.json");
         highlighter.setLanguageDirectory(Constants.LANGUAGE_DIR);

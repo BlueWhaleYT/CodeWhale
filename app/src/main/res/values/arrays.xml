@@ -24,9 +24,13 @@
     </string-array>
 
     <string-array name="normal_editor_theme">
+
+        <!-- light -->
         <item>Default</item>
         <item>Github</item>
         <item>Eclipse</item>
+
+        <!-- dark -->
         <item>NotepadXX</item>
         <item>Darcula</item>
         <item>VS2019</item>
@@ -35,14 +39,22 @@
 
     <string-array name="textmate_editor_theme">
         <item>@string/custom</item>
-        <item>QuietLight</item>
-        <item>Darcula</item>
-        <item>Abyss</item>
-        <item>Tokyo Night</item>
-        <item>Solarized Dark</item>
-        <item>Material Default</item>
+
+        <!-- light -->
         <item>Material Lighter</item>
+        <item>One Light</item>
+        <item>QuietLight</item>
+
+        <!-- dark -->
+        <item>Abyss</item>
+        <item>Darcula</item>
+        <item>Material Default</item>
         <item>Material Palenight</item>
+        <item>One Dark</item>
+        <item>One Dark Pro</item>
+        <item>One Dark Pro Darker</item>
+        <item>Solarized Dark</item>
+        <item>Tokyo Night</item>
     </string-array>
 
     <string-array name="textmate_editor_language">

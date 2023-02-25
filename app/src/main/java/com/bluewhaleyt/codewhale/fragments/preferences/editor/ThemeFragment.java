@@ -75,13 +75,10 @@ public class ThemeFragment extends CustomPreferenceFragment {
     }
 
     private void showThemeDialog(Preference pref) {
-        var v = LayoutInflater.from(requireActivity()).inflate(R.layout.dialog_layout_choose_theme, null);
-
-        CodeEditor editor = v.findViewById(R.id.editor);
-
         bottomSheetDialog = new BottomSheetDialog(requireActivity());
+        var v = LayoutInflater.from(requireActivity()).inflate(R.layout.dialog_layout_choose_theme, null);
+        CodeEditor editor = v.findViewById(R.id.editor);
         bottomSheetDialog.setContentView(v);
-        bottomSheetDialog.setCanceledOnTouchOutside(false);
         bottomSheetDialog.create();
         disableDragBottomSheetDialog();
 
@@ -100,8 +97,8 @@ public class ThemeFragment extends CustomPreferenceFragment {
         ThemeHandler.setTheme(requireContext(), editor, PreferencesManager.getEditorTheme(), themeType, Constants.TEST_SYNTAX);
 
         editorUtil.setup();
+        editorUtil.setNonPrintFlag();
         editor.setEditable(false);
-        editor.setScalable(false);
         editor.setTextSize(11);
         setPresetText();
 
