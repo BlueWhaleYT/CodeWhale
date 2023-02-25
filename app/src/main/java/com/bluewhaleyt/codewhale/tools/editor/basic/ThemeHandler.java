@@ -123,6 +123,9 @@ public class ThemeHandler {
             case "Night Owl":
                 theme = "night-owl-color-theme.json";
                 break;
+            case "Palenight":
+                theme = "palenight.json";
+                break;
             default:
                 theme = CommonUtil.isInDarkMode(context) ? Constants.DEFAULT_DARK_THEME : Constants.DEFAULT_LIGHT_THEME;
         }
