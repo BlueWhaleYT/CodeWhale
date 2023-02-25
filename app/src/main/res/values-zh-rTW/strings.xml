@@ -97,6 +97,7 @@
     <string name="highlight_bold">着色粗體</string>
     <string name="custom">自訂</string>
     <string name="coming_soon">哎唷～此功能暫未開放，敬請期待</string>
+    <string name="choose_favorite_theme">選擇你喜愛的配置，作為編輯器所應用的主題</string>
 
     <string name="keyword">關鍵字</string>
     <string name="identifier">識別字</string>

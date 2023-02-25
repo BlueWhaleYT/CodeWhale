@@ -46,10 +46,13 @@
     </string-array>
 
     <string-array name="textmate_editor_language">
+        <item>CSS</item>
         <item>HTML</item>
         <item>Java</item>
         <item>JavaScript</item>
         <item>JSON</item>
+        <item>Kotlin</item>
+        <item>PHP</item>
         <item>Python</item>
     </string-array>
 

@@ -5,6 +5,9 @@ public class LanguageNameHandler {
     public static String getLanguageCode(String lang) {
         var langCode = "";
         switch (lang) {
+            case "CSS":
+                langCode = "css";
+                break;
             case "HTML":
                 langCode = "html";
                 break;
@@ -16,6 +19,12 @@ public class LanguageNameHandler {
                 break;
             case "JSON":
                 langCode = "json";
+                break;
+            case "Kotlin":
+                langCode = "kt";
+                break;
+            case "PHP":
+                langCode = "php";
                 break;
             case "Python":
                 langCode = "py";

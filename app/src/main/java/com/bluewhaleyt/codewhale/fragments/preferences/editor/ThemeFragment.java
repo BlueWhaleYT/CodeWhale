@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 
 import com.bluewhaleyt.codeeditor.textmate.syntaxhighlight.SyntaxHighlightUtil;
@@ -21,6 +22,7 @@ import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 import com.bluewhaleyt.codewhale.utils.SharedPrefsUtil;
 import com.bluewhaleyt.component.preferences.CustomPreferenceFragment;
 import com.bluewhaleyt.component.snackbar.SnackbarUtil;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -81,6 +83,7 @@ public class ThemeFragment extends CustomPreferenceFragment {
         bottomSheetDialog.setContentView(v);
         bottomSheetDialog.setCanceledOnTouchOutside(false);
         bottomSheetDialog.create();
+        disableDragBottomSheetDialog();
 
         editorUtil = new EditorUtil(requireActivity(), editor, editor.getColorScheme());
 
@@ -178,6 +181,21 @@ public class ThemeFragment extends CustomPreferenceFragment {
     private void setPresetText() {
         var file = LanguageNameHandler.getLanguageCode(selectedLanguage);
         editorUtil.setText(AssetsFileLoader.getAssetsFileContent(requireContext(), "presets/main." + file));
+    }
+
+    private void disableDragBottomSheetDialog() {
+        var behavior = bottomSheetDialog.getBehavior();
+        behavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_DRAGGING) {
+                    behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                }
+            }
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+            }
+        });
     }
 
 }

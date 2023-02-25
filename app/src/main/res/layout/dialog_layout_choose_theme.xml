@@ -31,7 +31,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/theme_summary"
+                android:text="@string/choose_favorite_theme"
                 android:textColor="?colorOnBackground"
                 android:gravity="center_vertical"/>
 
@@ -95,7 +95,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="250dp"
         android:fillViewport="true">
 
         <io.github.rosemoe.sora.widget.CodeEditor
