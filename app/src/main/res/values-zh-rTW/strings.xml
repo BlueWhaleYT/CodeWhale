@@ -7,9 +7,9 @@
     <string name="settings">偏好設定</string>
     <string name="application">應用程式</string>
     <string name="editor">編輯器</string>
-    <string name="theme">主題</string>
-    <string name="theme_summary">為編輯器配置美麗的主題</string>
-    <string name="follow_editor_theme">跟隨編輯器主題</string>
+    <string name="theme">佈景主題</string>
+    <string name="theme_summary">為編輯器配置目不暇給的主題</string>
+    <string name="follow_editor_theme">跟隨編輯器佈景主題</string>
     <string name="follow_editor_theme_summary">啟用後會把編輯器界面外觀顏色看起來一致</string>
     <string name="syntax_highlighting">語法高亮</string>
     <string name="syntax_highlighting_summary">啟用後編輯器會應用語法高亮</string>
