@@ -399,7 +399,6 @@ public class MainActivity extends BaseActivity {
                 if (FileUtil.isFile(clickedPath)) {
                     editorUtil.setText(FileUtil.readFile(clickedPath));
                     ThemeHandler.setTheme(getApplicationContext(), binding.editor, PreferencesManager.getEditorTheme(), ThemeHandler.THEME_TEXTMATE, FileUtil.getFileNameOfPath(clickedPath));
-
                 } else {
                     if (FileUtil.isDirectory(clickedPath)) {
 

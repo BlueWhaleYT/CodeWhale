@@ -288,6 +288,7 @@ public class TreeView {
                 } else {
                     notifyItemRangeRemoved(positionStart, removeChildNodes(selectedNode, true));
                 }
+
             });
 
 
@@ -672,9 +673,13 @@ public class TreeView {
 
     private static void setColor(TextView textview, ImageView imageView) {
         if (PreferencesManager.isFollowEditorThemeEnabled()) {
-            var color = MainActivity.getEditorColorScheme().getColor(EditorColorScheme.TEXT_NORMAL);
+            var color = getEditorColorScheme().getColor(EditorColorScheme.TEXT_NORMAL);
             textview.setTextColor(color);
             if (imageView != null) imageView.setColorFilter(color);
         }
+    }
+
+    private static EditorColorScheme getEditorColorScheme() {
+        return MainActivity.getEditorColorScheme();
     }
 }

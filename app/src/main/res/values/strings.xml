@@ -100,7 +100,11 @@
     <string name="choose_favorite_theme">Choose your favorite theme for the editor</string>
     <string name="home">Home</string>
     <string name="open">Open</string>
+    <string name="open_file">Open file</string>
+    <string name="open_folder">Open folder</string>
     <string name="close">Close</string>
+    <string name="file">File</string>
+    <string name="create">Create</string>
 
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>
