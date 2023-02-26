@@ -1,12 +1,15 @@
 package com.bluewhaleyt.codewhale.components;
 
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
@@ -17,11 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bluewhaleyt.codewhale.R;
 import com.bluewhaleyt.codewhale.activities.MainActivity;
 import com.bluewhaleyt.codewhale.utils.PreferencesManager;
+import com.bluewhaleyt.common.SDKUtil;
 import com.bluewhaleyt.filemanagement.FileIconUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
 
@@ -244,6 +249,7 @@ public class TreeView {
         @Override
         public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
             holder.itemView.setPaddingRelative(displayNodes.get(position).getHeight() * (padding + 20), 3, 3, 3);
+
             final TextView txt = holder.itemView.findViewById(R.id.tv_name);
 
 //                txt.setTextColor(textColor);
@@ -613,6 +619,9 @@ public class TreeView {
 
             if (node.isRoot()) holder.imageView.setImageResource(R.drawable.ic_material_folder_base);
             else holder.imageView.setColorFilter(0xFF7e939e);
+
+            setColor(node, holder.imageView);
+
         }
 
         @Override
@@ -680,5 +689,41 @@ public class TreeView {
 
     private static EditorColorScheme getEditorColorScheme() {
         return MainActivity.getEditorColorScheme();
+    }
+
+    private static int getRandomColor() {
+        var rand = new Random();
+        float r,g,b;
+        r = rand.nextFloat();
+        g = rand.nextFloat();
+        b = rand.nextFloat();
+        return Color.rgb(r,g,b);
+    }
+
+    private static void setColor(TreeNode node, ImageView imageView) {
+        var color = 0;
+//        switch (node.getHeight()) {
+//            case 2:
+//                color = Color.RED;
+//                break;
+//            case 3:
+//                color = Color.BLUE;
+//                break;
+//            case 4:
+//                color = Color.GREEN;
+//                break;
+//            case 5:
+//                color = Color.YELLOW;
+//        }
+        var height = node.getHeight();
+        height = ((height-1)%5)+1;
+        switch (height) {
+            case 1: color = Color.RED; break;
+            case 2: color = Color.BLUE; break;
+            case 3: color = Color.GREEN; break;
+            case 4: color = Color.YELLOW; break;
+            case 5: color = Color.CYAN; break;
+        }
+        imageView.setColorFilter(color);
     }
 }
