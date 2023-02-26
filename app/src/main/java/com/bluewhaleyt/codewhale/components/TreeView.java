@@ -703,9 +703,9 @@ public class TreeView {
         switch (height) {
             case 1: color = 0xFF1dd1a1; break; // green
             case 2: color = 0xFFff9f43; break; // orange
-            case 3: color = 0xFF5f27cd; break; // purple
+            case 3: color = 0xFF6c5ce7; break; // purple
             case 4: color = 0xFFee5253; break; // red
-            case 5: color = 0xFF00d2d3; break; // cyan
+            case 5: color = 0xFF0984e3; break; // blue
             case 6: color = 0xFFf368e0; break; // magenta
         }
         imageView.setColorFilter(color);
