@@ -25,6 +25,7 @@
             android:name=".activities.MainActivity"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:configChanges="locale"
+            android:theme="@style/Theme.CodeWhale.NoActionBar"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

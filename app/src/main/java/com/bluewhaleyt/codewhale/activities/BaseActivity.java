@@ -31,7 +31,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         CrashDebugger.init(this);
         updateLanguage();
-        getSupportActionBar().setTitle(R.string.app_name);
+//        getSupportActionBar().setTitle(R.string.app_name);
     }
 
     @Override
@@ -62,10 +62,13 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void fixColorSurfaces() {
-        var color = CommonUtil.SURFACE_FOLLOW_WINDOW_BACKGROUND;
-        CommonUtil.setStatusBarColorWithSurface(this, color);
-        CommonUtil.setNavigationBarColorWithSurface(this, color);
-        CommonUtil.setToolBarColorWithSurface(this, color);
+        Class<?> clz = getClass();
+        if (clz != MainActivity.class) {
+            var color = CommonUtil.SURFACE_FOLLOW_WINDOW_BACKGROUND;
+            CommonUtil.setStatusBarColorWithSurface(this, color);
+            CommonUtil.setNavigationBarColorWithSurface(this, color);
+            CommonUtil.setToolBarColorWithSurface(this, color);
+        }
     }
 
     private void requestPermission() {
