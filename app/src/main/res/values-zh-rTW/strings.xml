@@ -105,6 +105,8 @@
     <string name="close">關閉</string>
     <string name="file">檔案</string>
     <string name="create">建立</string>
+    <string name="create_file">建立檔案</string>
+    <string name="create_folder">建立資料夾</string>
 
     <string name="keyword">關鍵字</string>
     <string name="identifier">識別字</string>

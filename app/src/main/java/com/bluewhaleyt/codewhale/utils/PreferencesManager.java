@@ -10,6 +10,8 @@ import com.bluewhaleyt.common.CommonUtil;
 
 public class PreferencesManager {
 
+    private SharedPrefsUtil sharedPrefsUtil;
+
     public static boolean isSyntaxHighlightingEnabled() {
         return getPrefs().getBoolean("pref_enable_syntax_highlighting", true);
     }
@@ -183,6 +185,22 @@ public class PreferencesManager {
             theme = Constants.DEFAULT_LIGHT_THEME;
         }
         return getPrefs(key).getString(key, theme);
+    }
+
+    public static String getRecentOpenFolderKey() {
+        return "pref_recent_open_folder";
+    }
+
+    public static String getRecentOpenFolder() {
+        return getPrefs(getRecentOpenFolderKey()).getString(getRecentOpenFolderKey(), "");
+    }
+
+    public static String getRecentOpenFileKey() {
+        return "pref_recent_open_file";
+    }
+
+    public static String getRecentOpenFile() {
+        return getPrefs(getRecentOpenFileKey()).getString(getRecentOpenFileKey(), "");
     }
 
     public static SharedPreferences getPrefs() {

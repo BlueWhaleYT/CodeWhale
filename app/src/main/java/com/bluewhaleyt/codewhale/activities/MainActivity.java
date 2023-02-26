@@ -1,10 +1,14 @@
 package com.bluewhaleyt.codewhale.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
+import android.provider.DocumentsContract;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -14,6 +18,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.view.menu.MenuBuilder;
@@ -26,6 +33,8 @@ import com.bluewhaleyt.codewhale.tools.editor.basic.languages.modules.AndroidJav
 import com.bluewhaleyt.codewhale.tools.editor.textmate.CustomSyntaxHighlighter;
 import com.bluewhaleyt.codewhale.utils.AssetsFileLoader;
 import com.bluewhaleyt.codewhale.utils.EditorUtil;
+import com.bluewhaleyt.codewhale.utils.SharedPrefsUtil;
+import com.bluewhaleyt.codewhale.utils.UriResolver;
 import com.bluewhaleyt.common.CommonUtil;
 import com.bluewhaleyt.common.IntentUtil;
 import com.bluewhaleyt.common.PermissionUtil;
@@ -41,6 +50,7 @@ import com.bluewhaleyt.filemanagement.FileUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import io.github.rosemoe.sora.event.SelectionChangeEvent;
 import io.github.rosemoe.sora.lang.EmptyLanguage;
@@ -53,12 +63,16 @@ import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
 public class MainActivity extends BaseActivity {
 
     private static ActivityMainBinding binding;
+    private Intent intent = new Intent();
 
     private EditorUtil editorUtil;
+    private SharedPrefsUtil sharedPrefsUtil;
 
     private TreeView.TreeViewAdapter adapterTreeView;
     private List<TreeView.TreeNode> nodesTreeView;
     private TreeView.TreeNode<TreeView.Dir> nodeTreeView;
+
+    private RecyclerView rvTreeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +104,12 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_open_file:
+                openFileChooser();
+                break;
+            case R.id.menu_open_folder:
+                openFolderChooser();
+                break;
             case R.id.menu_search:
 //                setupSearchPanel();
                 break;
@@ -107,15 +127,14 @@ public class MainActivity extends BaseActivity {
 
         setupAutoComplete();
         setupMagnifier();
-        setEditorText(AssetsFileLoader.getAssetsFileContent(this, "presets/test.java"));
 
         setupMoveSelectionEvent();
         setupToolbar();
 
         if (PermissionUtil.isAlreadyGrantedExternalStorageAccess()) {
-            var path = FileUtil.getExternalStoragePath() + "/Documents";
-            RecyclerView recyclerview = binding.navigationView.getHeaderView(0).findViewById(R.id.rvFileList);
-            setupTreeView(path, recyclerview, FileUtil.getFileNameOfPath(path));
+            var path = PreferencesManager.getRecentOpenFolder();
+            rvTreeView = binding.navigationView.getHeaderView(0).findViewById(R.id.rvFileList);
+            setupTreeView(path, rvTreeView, FileUtil.getFileNameOfPath(path));
         }
 
         if (PreferencesManager.isSyntaxHighlightingEnabled()) {
@@ -134,6 +153,8 @@ public class MainActivity extends BaseActivity {
         editorUtil = new EditorUtil(this, binding.editor, binding.editor.getColorScheme());
         editorUtil.setNonPrintFlag();
         editorUtil.setup();
+
+        setEditorContentFromFile(PreferencesManager.getRecentOpenFile());
 
     }
 
@@ -382,46 +403,47 @@ public class MainActivity extends BaseActivity {
 
     private void setupTreeView(String filePath, RecyclerView recyclerView, String rootDirName) {
 
-        TreeView.isPath = true;
-        nodesTreeView = new ArrayList<>();
-        nodeTreeView = new TreeView.TreeNode<>(new TreeView.Dir(rootDirName));
-        nodesTreeView.add(nodeTreeView);
+        if (!filePath.equals("")) {
+            TreeView.isPath = true;
+            nodesTreeView = new ArrayList<>();
+            nodeTreeView = new TreeView.TreeNode<>(new TreeView.Dir(rootDirName));
+            nodesTreeView.add(nodeTreeView);
 
-        setupTreeViewData(filePath, nodeTreeView);
+            setupTreeViewData(filePath, nodeTreeView);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapterTreeView = new TreeView.TreeViewAdapter(nodesTreeView, Arrays.asList(new TreeView.FileNodeBinder(), new TreeView.DirectoryNodeBinder()));
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            adapterTreeView = new TreeView.TreeViewAdapter(nodesTreeView, Arrays.asList(new TreeView.FileNodeBinder(), new TreeView.DirectoryNodeBinder()));
 
-        adapterTreeView.setOnTreeNodeListener(new TreeView.TreeViewAdapter.OnTreeNodeListener() {
-            @Override
-            public boolean onClick(String clickedPath, TreeView.TreeNode node, RecyclerView.ViewHolder holder) {
-                if (!node.isLeaf()) onToggle(!node.isExpand(), holder);
-                if (FileUtil.isFile(clickedPath)) {
-                    editorUtil.setText(FileUtil.readFile(clickedPath));
-                    ThemeHandler.setTheme(getApplicationContext(), binding.editor, PreferencesManager.getEditorTheme(), ThemeHandler.THEME_TEXTMATE, FileUtil.getFileNameOfPath(clickedPath));
-                } else {
-                    if (FileUtil.isDirectory(clickedPath)) {
+            adapterTreeView.setOnTreeNodeListener(new TreeView.TreeViewAdapter.OnTreeNodeListener() {
+                @Override
+                public boolean onClick(String clickedPath, TreeView.TreeNode node, RecyclerView.ViewHolder holder) {
+                    if (!node.isLeaf()) onToggle(!node.isExpand(), holder);
+                    if (FileUtil.isFile(clickedPath)) {
+                        setEditorContentFromFile(clickedPath);
+                    } else {
+                        if (FileUtil.isDirectory(clickedPath)) {
 
+                        }
                     }
+                    return false;
                 }
-                return false;
-            }
 
-            @Override
-            public void onToggle(boolean isExpand, RecyclerView.ViewHolder holder) {
-                var dirViewHolder = (TreeView.DirectoryNodeBinder.ViewHolder) holder;
-                final ImageView ivArrow = dirViewHolder.getIvArrow();
-                int img = isExpand ? R.drawable.ic_baseline_keyboard_arrow_down_24 : R.drawable.ic_baseline_keyboard_arrow_right_24;
-                ivArrow.setImageResource(img);
-            }
+                @Override
+                public void onToggle(boolean isExpand, RecyclerView.ViewHolder holder) {
+                    var dirViewHolder = (TreeView.DirectoryNodeBinder.ViewHolder) holder;
+                    final ImageView ivArrow = dirViewHolder.getIvArrow();
+                    int img = isExpand ? R.drawable.ic_baseline_keyboard_arrow_down_24 : R.drawable.ic_baseline_keyboard_arrow_right_24;
+                    ivArrow.setImageResource(img);
+                }
 
-            @Override
-            public void onLongClick(String clickedPath) {
+                @Override
+                public void onLongClick(String clickedPath) {
 
-            }
-        });
+                }
+            });
 
-        recyclerView.setAdapter(adapterTreeView);
+            recyclerView.setAdapter(adapterTreeView);
+        }
 
     }
 
@@ -451,5 +473,63 @@ public class MainActivity extends BaseActivity {
     public static EditorColorScheme getEditorColorScheme() {
         return binding.editor.getColorScheme();
     }
+
+    private void setEditorContentFromFile(String path) {
+        editorUtil.setText(FileUtil.readFile(path));
+        ThemeHandler.setTheme(getApplicationContext(), binding.editor, PreferencesManager.getEditorTheme(), ThemeHandler.THEME_TEXTMATE, FileUtil.getFileNameOfPath(path));
+
+        // save recent open file
+        sharedPrefsUtil = new SharedPrefsUtil(this, PreferencesManager.getRecentOpenFileKey(), path);
+        sharedPrefsUtil.saveData();
+    }
+
+    private void openFileChooser() {
+        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+        intent.setType("*/*");
+        resultLauncherChooseFile.launch(intent);
+    }
+
+    private void openFolderChooser() {
+        intent.setAction(Intent.ACTION_OPEN_DOCUMENT_TREE);
+        resultLauncherChooseFolder.launch(intent);
+    }
+
+    public static String getFilePathFromUri(Context context, Uri uri) {
+        return UriResolver.getPathFromUri(context, uri);
+    }
+
+    public static String getFilePathFromDirUri(Context context, Uri uri) {
+        return UriResolver.getPathFromUri(context, getDocumentUriFromUri(uri));
+    }
+
+    public static Uri getDocumentUriFromUri(Uri uri) {
+        return DocumentsContract.buildDocumentUriUsingTree(uri, DocumentsContract.getTreeDocumentId(uri));
+    }
+
+    ActivityResultLauncher<Intent> resultLauncherChooseFile = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    var path = result.getData().getData();
+                    var pathConvert = getFilePathFromUri(this, path);
+                    setEditorContentFromFile(pathConvert);
+                }
+            }
+    );
+
+    ActivityResultLauncher<Intent> resultLauncherChooseFolder = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    var path = result.getData().getData();
+                    var pathConvert = getFilePathFromDirUri(this, path);
+
+                    sharedPrefsUtil = new SharedPrefsUtil(this, PreferencesManager.getRecentOpenFolderKey(), pathConvert);
+                    sharedPrefsUtil.saveData();
+
+                    setupTreeView(pathConvert, rvTreeView, FileUtil.getFileNameOfPath(pathConvert));
+                }
+            }
+    );
 
 }

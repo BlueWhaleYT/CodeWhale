@@ -105,6 +105,8 @@
     <string name="close">Close</string>
     <string name="file">File</string>
     <string name="create">Create</string>
+    <string name="create_file">Create file</string>
+    <string name="create_folder">Create folder</string>
 
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>
