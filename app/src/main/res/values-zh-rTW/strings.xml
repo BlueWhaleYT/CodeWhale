@@ -109,6 +109,8 @@
     <string name="create_folder">建立資料夾</string>
     <string name="save">儲存</string>
     <string name="save_as">另存新檔</string>
+    <string name="theme_warning">部分主題風格不完善</string>
+    <string name="theme_warning_summary">部分主題取至 VSCode，可能無法完全應用至編輯器</string>
 
     <string name="keyword">關鍵字</string>
     <string name="identifier">識別字</string>

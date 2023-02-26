@@ -5,6 +5,11 @@
     <com.bluewhaleyt.component.preferences.TitlePreference
         app:title="@string/theme" />
 
+    <com.bluewhaleyt.component.preferences.material3.Material3ButtonPreference
+        app:icon="@drawable/ic_baseline_warning_amber_24"
+        app:title="@string/theme_warning"
+        app:summary="@string/theme_warning_summary"/>
+
     <com.bluewhaleyt.component.preferences.ButtonPreference
         app:key="btn_pref_editor_theme"
         app:title="@string/theme"

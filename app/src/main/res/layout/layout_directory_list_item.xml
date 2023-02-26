@@ -28,7 +28,6 @@
         android:layout_height="match_parent"
         android:text="HTML Project"
         android:textSize="14sp"
-        android:textStyle="bold"
         android:layout_marginStart="6dp"
         android:gravity="center_vertical"/>
 </LinearLayout>

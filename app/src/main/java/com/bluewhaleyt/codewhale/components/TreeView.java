@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bluewhaleyt.codewhale.R;
 import com.bluewhaleyt.codewhale.activities.MainActivity;
-import com.bluewhaleyt.codewhale.databinding.ActivityMainBinding;
 import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 import com.bluewhaleyt.filemanagement.FileIconUtil;
 
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
 
 public class TreeView {
@@ -307,7 +305,6 @@ public class TreeView {
 
                 return true;
             });
-
 
             for (TreeViewBinder viewBinder : viewBinders) {
                 if (viewBinder.getLayoutId() == displayNodes.get(position).getContent().getLayoutId())
@@ -614,12 +611,8 @@ public class TreeView {
 
             setColor(holder.tvName, holder.ivArrow);
 
-            if (node.isRoot()){
-                holder.imageView.setImageResource(R.drawable.ic_material_folder_base);
-            }
-            else {
-                holder.imageView.setColorFilter(0xFF1976d2);
-            }
+            if (node.isRoot()) holder.imageView.setImageResource(R.drawable.ic_material_folder_base);
+            else holder.imageView.setColorFilter(0xFF7e939e);
         }
 
         @Override
