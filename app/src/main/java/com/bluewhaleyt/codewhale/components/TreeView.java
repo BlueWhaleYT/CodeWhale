@@ -691,15 +691,6 @@ public class TreeView {
         return MainActivity.getEditorColorScheme();
     }
 
-    private static int getRandomColor() {
-        var rand = new Random();
-        float r,g,b;
-        r = rand.nextFloat();
-        g = rand.nextFloat();
-        b = rand.nextFloat();
-        return Color.rgb(r,g,b);
-    }
-
     private static void setColor(TreeNode node, ImageView imageView) {
         var color = 0;
 //        switch (node.getHeight()) {
