@@ -107,6 +107,8 @@
     <string name="create">Create</string>
     <string name="create_file">Create file</string>
     <string name="create_folder">Create folder</string>
+    <string name="save">Save</string>
+    <string name="save_as">Save as</string>
 
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>

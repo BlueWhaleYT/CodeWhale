@@ -82,6 +82,14 @@ public class MainActivity extends BaseActivity {
 
         editorUtil = new EditorUtil(this, binding.editor);
         editorUtil.setSymbolInputView(binding.symbolInputView);
+
+        setEditorContentFromFile(PreferencesManager.getRecentOpenFile());
+
+        if (PermissionUtil.isAlreadyGrantedExternalStorageAccess()) {
+            var path = PreferencesManager.getRecentOpenFolder();
+            rvTreeView = binding.navigationView.getHeaderView(0).findViewById(R.id.rvFileList);
+            setupTreeView(path, rvTreeView, FileUtil.getFileNameOfPath(path));
+        }
     }
 
     @Override
@@ -104,6 +112,9 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_save_file:
+                saveFile(PreferencesManager.getRecentOpenFile());
+                break;
             case R.id.menu_open_file:
                 openFileChooser();
                 break;
@@ -131,10 +142,10 @@ public class MainActivity extends BaseActivity {
         setupMoveSelectionEvent();
         setupToolbar();
 
-        if (PermissionUtil.isAlreadyGrantedExternalStorageAccess()) {
-            var path = PreferencesManager.getRecentOpenFolder();
-            rvTreeView = binding.navigationView.getHeaderView(0).findViewById(R.id.rvFileList);
-            setupTreeView(path, rvTreeView, FileUtil.getFileNameOfPath(path));
+        if (PreferencesManager.isFollowEditorThemeEnabled()) setColorSurfacesFollowEditorTheme();
+        else {
+            fixColorSurfaces();
+            fixColorSurfaces2();
         }
 
         if (PreferencesManager.isSyntaxHighlightingEnabled()) {
@@ -144,17 +155,9 @@ public class MainActivity extends BaseActivity {
             setNoSyntaxHighlighting();
         }
 
-        if (PreferencesManager.isFollowEditorThemeEnabled()) setColorSurfacesFollowEditorTheme();
-        else {
-            fixColorSurfaces();
-            fixColorSurfaces2();
-        }
-
         editorUtil = new EditorUtil(this, binding.editor, binding.editor.getColorScheme());
         editorUtil.setNonPrintFlag();
         editorUtil.setup();
-
-        setEditorContentFromFile(PreferencesManager.getRecentOpenFile());
 
     }
 
@@ -231,7 +234,7 @@ public class MainActivity extends BaseActivity {
 
     private void setupTextmateHighlight() {
         try {
-            ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(), ThemeHandler.THEME_TEXTMATE, Constants.TEST_SYNTAX);
+            ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(), ThemeHandler.THEME_TEXTMATE, PreferencesManager.getRecentOpenFile());
 
             CustomSyntaxHighlighter customHighlighter = new CustomSyntaxHighlighter();
             customHighlighter.applyLanguages(binding.editor);
@@ -481,6 +484,10 @@ public class MainActivity extends BaseActivity {
         // save recent open file
         sharedPrefsUtil = new SharedPrefsUtil(this, PreferencesManager.getRecentOpenFileKey(), path);
         sharedPrefsUtil.saveData();
+    }
+
+    private void saveFile(String path) {
+        if (FileUtil.isFileExist(path)) FileUtil.writeFile(path, binding.editor.getText().toString());
     }
 
     private void openFileChooser() {

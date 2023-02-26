@@ -246,7 +246,6 @@ public class TreeView {
         @Override
         public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
             holder.itemView.setPaddingRelative(displayNodes.get(position).getHeight() * (padding + 20), 3, 3, 3);
-
             final TextView txt = holder.itemView.findViewById(R.id.tv_name);
 
 //                txt.setTextColor(textColor);
@@ -614,6 +613,13 @@ public class TreeView {
             else holder.ivArrow.setVisibility(View.VISIBLE);
 
             setColor(holder.tvName, holder.ivArrow);
+
+            if (node.isRoot()){
+                holder.imageView.setImageResource(R.drawable.ic_material_folder_base);
+            }
+            else {
+                holder.imageView.setColorFilter(0xFF1976d2);
+            }
         }
 
         @Override

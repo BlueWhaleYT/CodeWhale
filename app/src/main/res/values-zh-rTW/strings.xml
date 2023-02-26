@@ -107,6 +107,8 @@
     <string name="create">建立</string>
     <string name="create_file">建立檔案</string>
     <string name="create_folder">建立資料夾</string>
+    <string name="save">儲存</string>
+    <string name="save_as">另存新檔</string>
 
     <string name="keyword">關鍵字</string>
     <string name="identifier">識別字</string>
