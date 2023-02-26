@@ -52,7 +52,7 @@ import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
 
 public class MainActivity extends BaseActivity {
 
-    private ActivityMainBinding binding;
+    private static ActivityMainBinding binding;
 
     private EditorUtil editorUtil;
 
@@ -127,7 +127,7 @@ public class MainActivity extends BaseActivity {
 
         if (PreferencesManager.isFollowEditorThemeEnabled()) setColorSurfacesFollowEditorTheme();
         else {
-//            fixColorSurfaces();
+            fixColorSurfaces();
             fixColorSurfaces2();
         }
 
@@ -190,6 +190,7 @@ public class MainActivity extends BaseActivity {
         binding.layoutReplacePanel.replacePanel.setBackgroundColor(colorBg);
         binding.layoutSearchPanel.etSearch.setBackgroundColor(colorBgHc);
         binding.layoutReplacePanel.etReplace.setBackgroundColor(colorBgHc);
+
     }
 
     private void setupNormalHighlight() {
@@ -446,6 +447,10 @@ public class MainActivity extends BaseActivity {
                 }
             }
         }).start();
+    }
+
+    public static EditorColorScheme getEditorColorScheme() {
+        return binding.editor.getColorScheme();
     }
 
 }

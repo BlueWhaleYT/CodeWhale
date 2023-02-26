@@ -63,12 +63,12 @@ public class BaseActivity extends AppCompatActivity {
 
     public void fixColorSurfaces() {
         Class<?> clz = getClass();
+        var color = CommonUtil.SURFACE_FOLLOW_WINDOW_BACKGROUND;
         if (clz != MainActivity.class) {
-            var color = CommonUtil.SURFACE_FOLLOW_WINDOW_BACKGROUND;
-            CommonUtil.setStatusBarColorWithSurface(this, color);
-            CommonUtil.setNavigationBarColorWithSurface(this, color);
             CommonUtil.setToolBarColorWithSurface(this, color);
         }
+        CommonUtil.setStatusBarColorWithSurface(this, color);
+        CommonUtil.setNavigationBarColorWithSurface(this, color);
     }
 
     private void requestPermission() {

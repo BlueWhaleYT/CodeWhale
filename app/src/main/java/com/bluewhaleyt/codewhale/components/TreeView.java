@@ -15,11 +15,17 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bluewhaleyt.codewhale.R;
+import com.bluewhaleyt.codewhale.activities.MainActivity;
+import com.bluewhaleyt.codewhale.databinding.ActivityMainBinding;
+import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 import com.bluewhaleyt.filemanagement.FileIconUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import io.github.rosemoe.sora.widget.CodeEditor;
+import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
 
 public class TreeView {
 
@@ -554,6 +560,8 @@ public class TreeView {
             ImageView imageView = holder.itemView.findViewById(R.id.imageview1);
             var fileIconUtil = new FileIconUtil(holder.tvName.getText().toString(), "");
             fileIconUtil.bindFileIcon(imageView);
+
+            setColor(holder.tvName, null);
         }
 
         @Override
@@ -604,8 +612,7 @@ public class TreeView {
                 holder.ivArrow.setVisibility(View.INVISIBLE);
             else holder.ivArrow.setVisibility(View.VISIBLE);
 
-
-
+            setColor(holder.tvName, holder.ivArrow);
         }
 
         @Override
@@ -660,6 +667,14 @@ public class TreeView {
         @Override
         public int getLayoutId() {
             return R.layout.layout_file_list_item;
+        }
+    }
+
+    private static void setColor(TextView textview, ImageView imageView) {
+        if (PreferencesManager.isFollowEditorThemeEnabled()) {
+            var color = MainActivity.getEditorColorScheme().getColor(EditorColorScheme.TEXT_NORMAL);
+            textview.setTextColor(color);
+            if (imageView != null) imageView.setColorFilter(color);
         }
     }
 }
