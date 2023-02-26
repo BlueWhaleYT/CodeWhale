@@ -160,6 +160,10 @@ public class PreferencesManager {
         return getPrefs().getInt("pref_line_number_margin", 30);
     }
 
+    public static int getTreeViewFolderMaxColor() {
+        return getPrefs().getInt("pref_treeview_folder_max_color", 4);
+    }
+
     public static String getMagnifierScale() {
         return getPrefs().getString("pref_magnifier_scale", "1.25");
     }

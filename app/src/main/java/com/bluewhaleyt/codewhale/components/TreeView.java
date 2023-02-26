@@ -23,11 +23,15 @@ import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 import com.bluewhaleyt.common.SDKUtil;
 import com.bluewhaleyt.filemanagement.FileIconUtil;
 
+import org.eclipse.tm4e.core.internal.theme.ThemeRaw;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import io.github.rosemoe.sora.langs.textmate.TextMateColorScheme;
+import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry;
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
 
 public class TreeView {
@@ -693,27 +697,16 @@ public class TreeView {
 
     private static void setColor(TreeNode node, ImageView imageView) {
         var color = 0;
-//        switch (node.getHeight()) {
-//            case 2:
-//                color = Color.RED;
-//                break;
-//            case 3:
-//                color = Color.BLUE;
-//                break;
-//            case 4:
-//                color = Color.GREEN;
-//                break;
-//            case 5:
-//                color = Color.YELLOW;
-//        }
         var height = node.getHeight();
-        height = ((height-1)%5)+1;
+        var maxHeight = PreferencesManager.getTreeViewFolderMaxColor();
+        height = ((height - 1) % maxHeight) + 1;
         switch (height) {
-            case 1: color = Color.RED; break;
-            case 2: color = Color.BLUE; break;
-            case 3: color = Color.GREEN; break;
-            case 4: color = Color.YELLOW; break;
-            case 5: color = Color.CYAN; break;
+            case 1: color = 0xFF1dd1a1; break; // green
+            case 2: color = 0xFFff9f43; break; // orange
+            case 3: color = 0xFF5f27cd; break; // purple
+            case 4: color = 0xFFee5253; break; // red
+            case 5: color = 0xFF00d2d3; break; // cyan
+            case 6: color = 0xFFf368e0; break; // magenta
         }
         imageView.setColorFilter(color);
     }

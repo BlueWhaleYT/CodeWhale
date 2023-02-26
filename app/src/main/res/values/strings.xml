@@ -111,6 +111,7 @@
     <string name="save_as">Save as</string>
     <string name="theme_warning">Themes are not completed</string>
     <string name="theme_warning_summary">The themes are from VSCode, they may not be fully applied to the editor perhaps.</string>
+    <string name="folder_max_color">Folder max colors</string>
 
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>
