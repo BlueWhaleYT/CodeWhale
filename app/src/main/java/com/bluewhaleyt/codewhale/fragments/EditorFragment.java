@@ -4,19 +4,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.bluewhaleyt.codewhale.R;
 import com.bluewhaleyt.filemanagement.FileUtil;
 
-public class FileFragment extends Fragment {
+public class EditorFragment extends Fragment {
 
     private String fileName;
     private String filePath;
 
-    public FileFragment(String filePath) {
+    public EditorFragment(String filePath) {
         this.filePath = filePath;
     }
 
@@ -30,7 +29,7 @@ public class FileFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_file, container, false);
+        View view = inflater.inflate(R.layout.fragment_layout_editor, container, false);
 
         Bundle args = getArguments();
         if(args != null) {

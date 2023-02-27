@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,14 +13,11 @@ import android.provider.DocumentsContract;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -30,15 +26,13 @@ import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import com.bluewhaleyt.codewhale.adapters.FilePagerAdapter;
 import com.bluewhaleyt.codewhale.components.TreeView;
-import com.bluewhaleyt.codewhale.fragments.FileFragment;
+import com.bluewhaleyt.codewhale.fragments.EditorFragment;
 import com.bluewhaleyt.codewhale.tools.editor.basic.ThemeHandler;
 import com.bluewhaleyt.codewhale.tools.editor.basic.languages.modules.AndroidJavaLanguage;
 import com.bluewhaleyt.codewhale.tools.editor.textmate.CustomSyntaxHighlighter;
-import com.bluewhaleyt.codewhale.utils.AssetsFileLoader;
 import com.bluewhaleyt.codewhale.utils.EditorUtil;
 import com.bluewhaleyt.codewhale.utils.SharedPrefsUtil;
 import com.bluewhaleyt.codewhale.utils.UriResolver;
@@ -54,28 +48,20 @@ import com.bluewhaleyt.codewhale.tools.editor.completion.EditorCompletionLayout;
 import com.bluewhaleyt.codewhale.utils.Constants;
 import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 import com.bluewhaleyt.filemanagement.FileUtil;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.internal.NavigationMenuView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Callable;
 
 import io.github.rosemoe.sora.event.SelectionChangeEvent;
 import io.github.rosemoe.sora.lang.EmptyLanguage;
 import io.github.rosemoe.sora.lang.Language;
-import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry;
-import io.github.rosemoe.sora.langs.textmate.registry.model.ThemeModel;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.component.EditorAutoCompletion;
 import io.github.rosemoe.sora.widget.component.Magnifier;
@@ -97,8 +83,8 @@ public class MainActivity extends BaseActivity {
     private RecyclerView rvTreeView;
 
     private List<String> filePaths;
-    public static List<FileFragment> fileFragments = new ArrayList<>();
-    private FilePagerAdapter filePagerAdapter = new FilePagerAdapter(getSupportFragmentManager(), fileFragments);
+    public static List<EditorFragment> editorFragments = new ArrayList<>();
+    private FilePagerAdapter filePagerAdapter = new FilePagerAdapter(getSupportFragmentManager(), editorFragments);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,12 +160,6 @@ public class MainActivity extends BaseActivity {
         setupMoveSelectionEvent();
         setupToolbar();
 
-        if (PreferencesManager.isFollowEditorThemeEnabled()) setColorSurfacesFollowEditorTheme();
-        else {
-            fixColorSurfaces();
-            fixColorSurfaces2();
-        }
-
         if (PreferencesManager.isSyntaxHighlightingEnabled()) {
             if (PreferencesManager.isTextmateEnabled()) setupTextmateHighlight();
             else setupNormalHighlight();
@@ -187,9 +167,17 @@ public class MainActivity extends BaseActivity {
             setNoSyntaxHighlighting();
         }
 
+        if (PreferencesManager.isFollowEditorThemeEnabled()) setColorSurfacesFollowEditorTheme();
+        else {
+            fixColorSurfaces();
+            fixColorSurfaces2();
+        }
+
         editorUtil = new EditorUtil(this, binding.editor, binding.editor.getColorScheme());
         editorUtil.setNonPrintFlag();
         editorUtil.setup();
+
+        updateEditorState();
 
     }
 
@@ -246,7 +234,6 @@ public class MainActivity extends BaseActivity {
         var colorBg = binding.editor.getColorScheme().getColor(EditorColorScheme.WHOLE_BACKGROUND);
         var colorBgHc = binding.editor.getColorScheme().getColor(EditorColorScheme.CURRENT_LINE);
         var colorText = binding.editor.getColorScheme().getColor(EditorColorScheme.TEXT_NORMAL);
-        var colorTextAlt = binding.editor.getColorScheme().getColor(EditorColorScheme.SELECTION_HANDLE);
 
         if (PreferencesManager.isSymbolInputEnabled() || PreferencesManager.isSelectionActionEnabled()) {
             getWindow().setNavigationBarColor(colorBgHc);
@@ -283,6 +270,7 @@ public class MainActivity extends BaseActivity {
         binding.layoutReplacePanel.etReplace.setBackgroundColor(colorBgHc);
 
         // set tab layout color
+        binding.viewPager.setBackgroundColor(colorBg);
         binding.tabLayoutFiles.setBackgroundColor(colorBg);
         binding.tabLayoutFiles.setTabTextColors(colorText, new DynamicColorsUtil(this).getColorPrimary());
     }
@@ -563,7 +551,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 var position = tab.getPosition();
-                var filePath = fileFragments.get(position).getFilePath();
+                var filePath = editorFragments.get(position).getFilePath();
                 binding.viewPager.setCurrentItem(position);
                 setEditorContentFromFile(filePath);
             }
@@ -581,18 +569,26 @@ public class MainActivity extends BaseActivity {
     }
 
     private void addFileTab(String path) {
-        FileFragment fileFragment = new FileFragment(path);
-        fileFragments.add(fileFragment);
+        var fileFragment = new EditorFragment(path);
+        editorFragments.add(fileFragment);
         filePagerAdapter.notifyDataSetChanged();
-        binding.tabLayoutFiles.selectTab(binding.tabLayoutFiles.getTabAt(fileFragments.size() - 1));
+        binding.tabLayoutFiles.selectTab(binding.tabLayoutFiles.getTabAt(editorFragments.size() - 1));
         saveFileTab();
+        updateEditorState();
+    }
+
+    private void removeFileTab(int position) {
+        editorFragments.remove(position);
+        filePagerAdapter.notifyDataSetChanged();
+        saveFileTab();
+        updateEditorState();
     }
 
     private void saveFileTab() {
         var prefs = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         Set<String> filePaths = new HashSet<>();
-        for (FileFragment fragment : fileFragments) {
+        for (EditorFragment fragment : editorFragments) {
 //            filePaths.add(fragment.getArguments().getString("filePath"));
             filePaths.add(fragment.getFilePath());
         }
@@ -606,24 +602,39 @@ public class MainActivity extends BaseActivity {
         for (String filePath : filePaths) {
             File file = new File(filePath);
             if (file.exists()) {
-                FileFragment fileFragment = new FileFragment(file.getAbsolutePath());
+                EditorFragment editorFragment = new EditorFragment(file.getAbsolutePath());
                 Bundle args = new Bundle();
                 args.putString("filePath", filePath);
-                fileFragment.setArguments(args);
-                fileFragments.add(fileFragment);
+                editorFragment.setArguments(args);
+                editorFragments.add(editorFragment);
                 filePagerAdapter.notifyDataSetChanged();
                 var position = binding.tabLayoutFiles.getSelectedTabPosition();
                 binding.tabLayoutFiles.selectTab(binding.tabLayoutFiles.getTabAt(position));
-                setEditorContentFromFile(fileFragments.get(position).getFilePath());
+                setEditorContentFromFile(editorFragments.get(position).getFilePath());
 //                binding.tabLayoutFiles.addTab(binding.tabLayoutFiles.newTab().setText(file.getName()));
             }
         }
     }
 
     private void closeFileTab() {
-//        var position = binding.tabLayoutFiles.getSelectedTabPosition();
-//        binding.tabLayoutFiles.removeTabAt(position);
-//        setEditorContentFromFile(fileFragments.get(position).getFilePath());
+        var position = binding.tabLayoutFiles.getSelectedTabPosition();
+        if (filePagerAdapter.getCount() > 0) {
+            removeFileTab(position);
+        }
+    }
+
+    private void updateEditorState() {
+        if (filePagerAdapter.getCount() <= 0) {
+            binding.editor.setVisibility(View.GONE);
+            binding.hscrollSymbolView.setVisibility(View.GONE);
+            binding.layoutMoveSelection.setVisibility(View.GONE);
+            binding.tabLayoutFiles.setVisibility(View.GONE);
+        } else {
+            binding.editor.setVisibility(View.VISIBLE);
+            binding.hscrollSymbolView.setVisibility(View.VISIBLE);
+            binding.layoutMoveSelection.setVisibility(View.VISIBLE);
+            binding.tabLayoutFiles.setVisibility(View.VISIBLE);
+        }
     }
 
     public static EditorColorScheme getEditorColorScheme() {

@@ -28,7 +28,7 @@
             app:tabIndicatorColor="?colorPrimary"
             app:tabSelectedTextColor="?colorPrimary"
             app:tabIndicatorFullWidth="false"
-            app:tabIndicatorHeight="4dp"
+            app:tabIndicatorHeight="5dp"
             app:tabInlineLabel="true"/>
 
         <androidx.viewpager.widget.ViewPager
@@ -39,6 +39,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
+        android:id="@+id/layoutMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
