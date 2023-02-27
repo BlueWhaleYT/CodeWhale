@@ -24,6 +24,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,6 +47,8 @@ import com.bluewhaleyt.codewhale.tools.editor.completion.EditorCompletionLayout;
 import com.bluewhaleyt.codewhale.utils.Constants;
 import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 import com.bluewhaleyt.filemanagement.FileUtil;
+import com.google.android.material.internal.NavigationMenuView;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -175,7 +178,41 @@ public class MainActivity extends BaseActivity {
                         R.string.open,
                         R.string.close);
         binding.drawerLayout.addDrawerListener(drawerToggle);
+        binding.drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {
+                binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
         drawerToggle.syncState();
+
+        disableNavScroll(binding.navigationView);
+        binding.navigationView.getHeaderView(0).findViewById(R.id.btnClose).setOnClickListener(v -> binding.drawerLayout.close());
+    }
+
+    private void disableNavScroll(NavigationView navView) {
+        NavigationMenuView navMenu = (NavigationMenuView) navView.getChildAt(0);
+        navMenu.setLayoutManager(new LinearLayoutManager(this) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
     }
 
     private void setColorSurfacesFollowEditorTheme() {
@@ -437,8 +474,11 @@ public class MainActivity extends BaseActivity {
                 public void onToggle(boolean isExpand, RecyclerView.ViewHolder holder) {
                     var dirViewHolder = (TreeView.DirectoryNodeBinder.ViewHolder) holder;
                     final ImageView ivArrow = dirViewHolder.getIvArrow();
+                    final ImageView imageView = dirViewHolder.getImageView();
                     int img = isExpand ? R.drawable.ic_baseline_keyboard_arrow_down_24 : R.drawable.ic_baseline_keyboard_arrow_right_24;
+                    int img2 = isExpand ? R.drawable.ic_baseline_folder_open_24 : R.drawable.ic_baseline_folder_24;
                     ivArrow.setImageResource(img);
+                    imageView.setImageResource(img2);
                 }
 
                 @Override
@@ -481,7 +521,7 @@ public class MainActivity extends BaseActivity {
 
     private void setEditorContentFromFile(String path) {
         editorUtil.setText(FileUtil.readFile(path));
-        ThemeHandler.setTheme(getApplicationContext(), binding.editor, PreferencesManager.getEditorTheme(), ThemeHandler.THEME_TEXTMATE, FileUtil.getFileNameOfPath(path));
+        ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(), ThemeHandler.THEME_TEXTMATE, FileUtil.getFileNameOfPath(path));
 
         // save recent open file
         sharedPrefsUtil = new SharedPrefsUtil(this, PreferencesManager.getRecentOpenFileKey(), path);

@@ -581,7 +581,7 @@ public class TreeView {
 
             public ViewHolder(View rootView) {
                 super(rootView);
-                this.tvName = (TextView) rootView.findViewById(R.id.tv_name);
+                this.tvName = rootView.findViewById(R.id.tv_name);
             }
 
         }
@@ -607,6 +607,10 @@ public class TreeView {
 //            holder.ivArrow.setRotation(rotateDegree);
             int img = node.isExpand() ? R.drawable.ic_baseline_keyboard_arrow_down_24 : R.drawable.ic_baseline_keyboard_arrow_right_24;
             holder.ivArrow.setImageResource(img);
+
+            int img2 = node.isExpand() ? R.drawable.ic_baseline_folder_open_24 : R.drawable.ic_baseline_folder_24;
+            holder.imageView.setImageResource(img2);
+
             Dir dirNode = (Dir) node.getContent();
 
             if (isPath) {
@@ -615,16 +619,13 @@ public class TreeView {
                 holder.tvName.setText(dirNode.dirName);
             }
 
-            if (node.isLeaf())
-                holder.ivArrow.setVisibility(View.INVISIBLE);
+            if (node.isLeaf()) holder.ivArrow.setVisibility(View.INVISIBLE);
             else holder.ivArrow.setVisibility(View.VISIBLE);
 
             setColor(holder.tvName, holder.ivArrow);
-
-            if (node.isRoot()) holder.imageView.setImageResource(R.drawable.ic_material_folder_base);
-            else holder.imageView.setColorFilter(0xFF7e939e);
-
             setColor(node, holder.imageView);
+
+            if (node.isRoot()) holder.imageView.setColorFilter(0xFF7e939e);
 
         }
 
@@ -640,9 +641,9 @@ public class TreeView {
 
             public ViewHolder(View rootView) {
                 super(rootView);
-                this.ivArrow = (ImageView) rootView.findViewById(R.id.iv_arrow);
-                this.tvName = (TextView) rootView.findViewById(R.id.tv_name);
-                this.imageView = (ImageView) rootView.findViewById(R.id.imageview2);
+                this.ivArrow = rootView.findViewById(R.id.iv_arrow);
+                this.tvName = rootView.findViewById(R.id.tv_name);
+                this.imageView = rootView.findViewById(R.id.imageview2);
             }
 
             public ImageView getIvArrow() {
@@ -651,6 +652,10 @@ public class TreeView {
 
             public TextView getTvName() {
                 return tvName;
+            }
+
+            public ImageView getImageView() {
+                return imageView;
             }
         }
     }
