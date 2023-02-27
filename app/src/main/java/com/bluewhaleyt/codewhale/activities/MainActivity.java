@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ import com.bluewhaleyt.codewhale.utils.EditorUtil;
 import com.bluewhaleyt.codewhale.utils.SharedPrefsUtil;
 import com.bluewhaleyt.codewhale.utils.UriResolver;
 import com.bluewhaleyt.common.CommonUtil;
+import com.bluewhaleyt.common.DynamicColorsUtil;
 import com.bluewhaleyt.common.IntentUtil;
 import com.bluewhaleyt.common.PermissionUtil;
 import com.bluewhaleyt.component.snackbar.SnackbarUtil;
@@ -142,6 +144,9 @@ public class MainActivity extends BaseActivity {
             case R.id.menu_save_file:
                 saveFile(PreferencesManager.getRecentOpenFile());
                 break;
+            case R.id.menu_close_file:
+                closeFileTab();
+                break;
             case R.id.menu_open_file:
                 openFileChooser();
                 break;
@@ -241,6 +246,7 @@ public class MainActivity extends BaseActivity {
         var colorBg = binding.editor.getColorScheme().getColor(EditorColorScheme.WHOLE_BACKGROUND);
         var colorBgHc = binding.editor.getColorScheme().getColor(EditorColorScheme.CURRENT_LINE);
         var colorText = binding.editor.getColorScheme().getColor(EditorColorScheme.TEXT_NORMAL);
+        var colorTextAlt = binding.editor.getColorScheme().getColor(EditorColorScheme.SELECTION_HANDLE);
 
         if (PreferencesManager.isSymbolInputEnabled() || PreferencesManager.isSelectionActionEnabled()) {
             getWindow().setNavigationBarColor(colorBgHc);
@@ -276,9 +282,9 @@ public class MainActivity extends BaseActivity {
         binding.layoutSearchPanel.etSearch.setBackgroundColor(colorBgHc);
         binding.layoutReplacePanel.etReplace.setBackgroundColor(colorBgHc);
 
-        // set tab layout bg color
+        // set tab layout color
         binding.tabLayoutFiles.setBackgroundColor(colorBg);
-
+        binding.tabLayoutFiles.setTabTextColors(colorText, new DynamicColorsUtil(this).getColorPrimary());
     }
 
     private void setupNormalHighlight() {
@@ -512,13 +518,12 @@ public class MainActivity extends BaseActivity {
 
                 }
             });
-
+            recyclerView.setAdapter(adapterTreeView);
         }
 
         var emptyText = binding.navigationView.getHeaderView(0).findViewById(R.id.tvNoData);
         if (!PreferencesManager.getRecentOpenFolder().equals("")) {
             emptyText.setVisibility(View.GONE);
-            recyclerView.setAdapter(adapterTreeView);
         } else emptyText.setVisibility(View.VISIBLE);
 
     }
@@ -550,37 +555,29 @@ public class MainActivity extends BaseActivity {
         binding.viewPager.setAdapter(filePagerAdapter);
         binding.tabLayoutFiles.setupWithViewPager(binding.viewPager);
 
-        try {
-            loadFileTab();
+        loadFileTab();
 
-            Runtime.getRuntime().addShutdownHook(new Thread(this::saveFileTab));
+        Runtime.getRuntime().addShutdownHook(new Thread(this::saveFileTab));
 
-            binding.tabLayoutFiles.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                @Override
-                public void onTabSelected(TabLayout.Tab tab) {
-                    try {
-                        var position = tab.getPosition();
-                        var filePath = fileFragments.get(position).getFilePath();
-                        binding.viewPager.setCurrentItem(position);
-                        setEditorContentFromFile(filePath);
-                    } catch (Exception e) {
-                        SnackbarUtil.makeErrorSnackbar(MainActivity.this, e.getMessage(), e.toString());
-                    }
-                }
+        binding.tabLayoutFiles.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                var position = tab.getPosition();
+                var filePath = fileFragments.get(position).getFilePath();
+                binding.viewPager.setCurrentItem(position);
+                setEditorContentFromFile(filePath);
+            }
 
-                @Override
-                public void onTabUnselected(TabLayout.Tab tab) {
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
 
-                }
+            }
 
-                @Override
-                public void onTabReselected(TabLayout.Tab tab) {
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
 
-                }
-            });
-        } catch (Exception e) {
-            SnackbarUtil.makeErrorSnackbar(this, e.getMessage(), e.toString());
-        }
+            }
+        });
     }
 
     private void addFileTab(String path) {
@@ -615,15 +612,18 @@ public class MainActivity extends BaseActivity {
                 fileFragment.setArguments(args);
                 fileFragments.add(fileFragment);
                 filePagerAdapter.notifyDataSetChanged();
-                binding.tabLayoutFiles.selectTab(binding.tabLayoutFiles.getTabAt(0));
-                setEditorContentFromFile(fileFragments.get(0).getFilePath());
+                var position = binding.tabLayoutFiles.getSelectedTabPosition();
+                binding.tabLayoutFiles.selectTab(binding.tabLayoutFiles.getTabAt(position));
+                setEditorContentFromFile(fileFragments.get(position).getFilePath());
 //                binding.tabLayoutFiles.addTab(binding.tabLayoutFiles.newTab().setText(file.getName()));
             }
         }
     }
 
     private void closeFileTab() {
-        // TODO
+//        var position = binding.tabLayoutFiles.getSelectedTabPosition();
+//        binding.tabLayoutFiles.removeTabAt(position);
+//        setEditorContentFromFile(fileFragments.get(position).getFilePath());
     }
 
     public static EditorColorScheme getEditorColorScheme() {

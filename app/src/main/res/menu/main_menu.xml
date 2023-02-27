@@ -8,6 +8,11 @@
         android:title="@string/save"/>
 
     <item
+        android:id="@+id/menu_close_file"
+        android:icon="@drawable/ic_baseline_close_24"
+        android:title="@string/close"/>
+
+    <item
         android:icon="@drawable/ic_baseline_create_new_file_24"
         android:title="@string/create">
         <menu>

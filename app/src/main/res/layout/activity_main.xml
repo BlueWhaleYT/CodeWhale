@@ -28,6 +28,7 @@
             app:tabIndicatorColor="?colorPrimary"
             app:tabSelectedTextColor="?colorPrimary"
             app:tabIndicatorFullWidth="false"
+            app:tabIndicatorHeight="4dp"
             app:tabInlineLabel="true"/>
 
         <androidx.viewpager.widget.ViewPager
