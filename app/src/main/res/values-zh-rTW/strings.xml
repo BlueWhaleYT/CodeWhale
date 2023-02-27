@@ -113,6 +113,8 @@
     <string name="theme_warning_summary">部分主題取至 VSCode，可能無法完全應用至編輯器</string>
     <string name="folder_max_color">資料夾可使用顏色</string>
     <string name="treeview_file_list">樹狀檔案列表</string>
+    <string name="file_manager">檔案總管</string>
+    <string name="empty">空</string>
 
     <string name="keyword">關鍵字</string>
     <string name="identifier">識別字</string>

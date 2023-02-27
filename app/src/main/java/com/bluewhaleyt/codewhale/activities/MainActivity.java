@@ -487,8 +487,13 @@ public class MainActivity extends BaseActivity {
                 }
             });
 
-            recyclerView.setAdapter(adapterTreeView);
         }
+
+        var emptyText = binding.navigationView.getHeaderView(0).findViewById(R.id.tvNoData);
+        if (!PreferencesManager.getRecentOpenFolder().equals("")) {
+            emptyText.setVisibility(View.GONE);
+            recyclerView.setAdapter(adapterTreeView);
+        } else emptyText.setVisibility(View.VISIBLE);
 
     }
 

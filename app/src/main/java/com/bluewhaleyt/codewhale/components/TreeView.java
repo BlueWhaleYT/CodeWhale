@@ -567,11 +567,9 @@ public class TreeView {
             }
 
             ImageView imageView = holder.itemView.findViewById(R.id.imageview1);
-            var fileIconUtil = new FileIconUtil(holder.tvName.getText().toString(), "");
 
-            if (FileUtil.isFile(holder.tvName.getText().toString())) {
-                fileIconUtil.bindFileIcon(imageView);
-            }
+            var fileIconUtil = new FileIconUtil(holder.tvName.getText().toString(), "");
+            fileIconUtil.bindFileIcon(imageView);
 
             setColor(holder.tvName, null);
         }
