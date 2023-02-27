@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.provider.DocumentsContract;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,8 +29,11 @@ import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
+import com.bluewhaleyt.codewhale.adapters.FilePagerAdapter;
 import com.bluewhaleyt.codewhale.components.TreeView;
+import com.bluewhaleyt.codewhale.fragments.FileFragment;
 import com.bluewhaleyt.codewhale.tools.editor.basic.ThemeHandler;
 import com.bluewhaleyt.codewhale.tools.editor.basic.languages.modules.AndroidJavaLanguage;
 import com.bluewhaleyt.codewhale.tools.editor.textmate.CustomSyntaxHighlighter;
@@ -47,12 +52,21 @@ import com.bluewhaleyt.codewhale.tools.editor.completion.EditorCompletionLayout;
 import com.bluewhaleyt.codewhale.utils.Constants;
 import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 import com.bluewhaleyt.filemanagement.FileUtil;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.internal.NavigationMenuView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Callable;
 
 import io.github.rosemoe.sora.event.SelectionChangeEvent;
@@ -72,12 +86,17 @@ public class MainActivity extends BaseActivity {
 
     private EditorUtil editorUtil;
     private SharedPrefsUtil sharedPrefsUtil;
+    private SharedPreferences sharedPrefs;
 
     private TreeView.TreeViewAdapter adapterTreeView;
     private List<TreeView.TreeNode> nodesTreeView;
     private TreeView.TreeNode<TreeView.Dir> nodeTreeView;
 
     private RecyclerView rvTreeView;
+
+    private List<String> filePaths;
+    public static List<FileFragment> fileFragments = new ArrayList<>();
+    private FilePagerAdapter filePagerAdapter = new FilePagerAdapter(getSupportFragmentManager(), fileFragments);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,13 +107,16 @@ public class MainActivity extends BaseActivity {
         editorUtil = new EditorUtil(this, binding.editor);
         editorUtil.setSymbolInputView(binding.symbolInputView);
 
-        setEditorContentFromFile(PreferencesManager.getRecentOpenFile());
-
         if (PermissionUtil.isAlreadyGrantedExternalStorageAccess()) {
+//            setEditorContentFromFile(PreferencesManager.getRecentOpenFile());
+
             var path = PreferencesManager.getRecentOpenFolder();
             rvTreeView = binding.navigationView.getHeaderView(0).findViewById(R.id.rvFileList);
             setupTreeView(path, rvTreeView, FileUtil.getFileNameOfPath(path));
+
+            setupTabView();
         }
+
     }
 
     @Override
@@ -253,6 +275,9 @@ public class MainActivity extends BaseActivity {
         binding.layoutReplacePanel.replacePanel.setBackgroundColor(colorBg);
         binding.layoutSearchPanel.etSearch.setBackgroundColor(colorBgHc);
         binding.layoutReplacePanel.etReplace.setBackgroundColor(colorBgHc);
+
+        // set tab layout bg color
+        binding.tabLayoutFiles.setBackgroundColor(colorBg);
 
     }
 
@@ -461,6 +486,7 @@ public class MainActivity extends BaseActivity {
                 public boolean onClick(String clickedPath, TreeView.TreeNode node, RecyclerView.ViewHolder holder) {
                     if (!node.isLeaf()) onToggle(!node.isExpand(), holder);
                     if (FileUtil.isFile(clickedPath)) {
+                        addFileTab(clickedPath);
                         setEditorContentFromFile(clickedPath);
                     } else {
                         if (FileUtil.isDirectory(clickedPath)) {
@@ -520,6 +546,86 @@ public class MainActivity extends BaseActivity {
         }).start();
     }
 
+    private void setupTabView() {
+        binding.viewPager.setAdapter(filePagerAdapter);
+        binding.tabLayoutFiles.setupWithViewPager(binding.viewPager);
+
+        try {
+            loadFileTab();
+
+            Runtime.getRuntime().addShutdownHook(new Thread(this::saveFileTab));
+
+            binding.tabLayoutFiles.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    try {
+                        var position = tab.getPosition();
+                        var filePath = fileFragments.get(position).getFilePath();
+                        binding.viewPager.setCurrentItem(position);
+                        setEditorContentFromFile(filePath);
+                    } catch (Exception e) {
+                        SnackbarUtil.makeErrorSnackbar(MainActivity.this, e.getMessage(), e.toString());
+                    }
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+
+                }
+            });
+        } catch (Exception e) {
+            SnackbarUtil.makeErrorSnackbar(this, e.getMessage(), e.toString());
+        }
+    }
+
+    private void addFileTab(String path) {
+        FileFragment fileFragment = new FileFragment(path);
+        fileFragments.add(fileFragment);
+        filePagerAdapter.notifyDataSetChanged();
+        binding.tabLayoutFiles.selectTab(binding.tabLayoutFiles.getTabAt(fileFragments.size() - 1));
+        saveFileTab();
+    }
+
+    private void saveFileTab() {
+        var prefs = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        Set<String> filePaths = new HashSet<>();
+        for (FileFragment fragment : fileFragments) {
+//            filePaths.add(fragment.getArguments().getString("filePath"));
+            filePaths.add(fragment.getFilePath());
+        }
+        editor.putStringSet("filePaths", filePaths);
+        editor.apply();
+    }
+
+    private void loadFileTab() {
+        var prefs = getPreferences(Context.MODE_PRIVATE);
+        Set<String> filePaths = prefs.getStringSet("filePaths", new HashSet<>());
+        for (String filePath : filePaths) {
+            File file = new File(filePath);
+            if (file.exists()) {
+                FileFragment fileFragment = new FileFragment(file.getAbsolutePath());
+                Bundle args = new Bundle();
+                args.putString("filePath", filePath);
+                fileFragment.setArguments(args);
+                fileFragments.add(fileFragment);
+                filePagerAdapter.notifyDataSetChanged();
+                binding.tabLayoutFiles.selectTab(binding.tabLayoutFiles.getTabAt(0));
+                setEditorContentFromFile(fileFragments.get(0).getFilePath());
+//                binding.tabLayoutFiles.addTab(binding.tabLayoutFiles.newTab().setText(file.getName()));
+            }
+        }
+    }
+
+    private void closeFileTab() {
+        // TODO
+    }
+
     public static EditorColorScheme getEditorColorScheme() {
         return binding.editor.getColorScheme();
     }
@@ -534,7 +640,22 @@ public class MainActivity extends BaseActivity {
     }
 
     private void saveFile(String path) {
-        if (FileUtil.isFileExist(path)) FileUtil.writeFile(path, binding.editor.getText().toString());
+        if (FileUtil.isFileExist(path)){
+            FileUtil.writeFile(path, binding.editor.getText().toString());
+            SnackbarUtil.makeSnackbar(this, getString(R.string.file_save));
+        }
+    }
+
+    private void createFile() {
+        // TODO
+    }
+
+    private void createFolder() {
+        // TODO
+    }
+
+    private void createNewFile() {
+        // TODO
     }
 
     private void openFileChooser() {

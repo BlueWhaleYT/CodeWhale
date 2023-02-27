@@ -14,7 +14,26 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.tabs.TabLayout
+            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+            android:id="@+id/tabLayoutFiles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="5dp"
+            android:orientation="horizontal"
+            app:tabMode="scrollable"
+            app:tabTextColor="?colorOnBackground"
+            app:tabIndicatorColor="?colorPrimary"
+            app:tabSelectedTextColor="?colorPrimary"
+            app:tabIndicatorFullWidth="false"
+            app:tabInlineLabel="true"/>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -22,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="60dp">
+        android:paddingTop="110dp">
 
         <include
             android:id="@+id/layoutSearchPanel"

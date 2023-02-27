@@ -115,6 +115,7 @@
     <string name="treeview_file_list">樹狀檔案列表</string>
     <string name="file_manager">檔案總管</string>
     <string name="empty">空</string>
+    <string name="file_save">檔案已儲存</string>
 
     <string name="keyword">關鍵字</string>
     <string name="identifier">識別字</string>
