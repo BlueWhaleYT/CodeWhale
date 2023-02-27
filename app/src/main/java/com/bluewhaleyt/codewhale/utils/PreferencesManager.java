@@ -148,6 +148,10 @@ public class PreferencesManager {
         return getPrefs().getBoolean("pref_enable_auto_completion_highlight_bold", true);
     }
 
+    public static boolean isTreeViewHighlightEnabled() {
+        return getPrefs().getBoolean("pref_enable_treeview_file_list_highlight", false);
+    }
+
     public static int getFontSize() {
         return getPrefs().getInt("pref_font_size", 18);
     }
@@ -161,7 +165,11 @@ public class PreferencesManager {
     }
 
     public static int getTreeViewFolderMaxColor() {
-        return getPrefs().getInt("pref_treeview_folder_max_color", 4);
+        return getPrefs().getInt("pref_treeview_file_list_folder_max_color", 4);
+    }
+
+    public static int getTreeViewIndent() {
+        return getPrefs().getInt("pref_treeview_file_list_indent", 30);
     }
 
     public static String getMagnifierScale() {

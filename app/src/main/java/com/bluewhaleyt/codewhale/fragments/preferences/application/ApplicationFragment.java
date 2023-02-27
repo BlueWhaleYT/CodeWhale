@@ -11,6 +11,7 @@ import com.bluewhaleyt.codewhale.WhaleApplication;
 import com.bluewhaleyt.codewhale.activities.BaseActivity;
 import com.bluewhaleyt.codewhale.activities.MainActivity;
 import com.bluewhaleyt.codewhale.utils.PreferencesManager;
+import com.bluewhaleyt.common.IntentUtil;
 import com.bluewhaleyt.common.SDKUtil;
 import com.bluewhaleyt.component.preferences.CustomPreferenceFragment;
 import com.bluewhaleyt.component.snackbar.SnackbarUtil;
@@ -33,11 +34,18 @@ public class ApplicationFragment extends CustomPreferenceFragment {
             var prefTheme = findPreference("pref_app_theme");
             var prefDynamicColor = findPreference("pref_enable_dynamic_color");
 
+            var btnPrefComponent = findPreference("btn_pref_app_component");
+
             restartApp(prefDynamicColor);
             restartApp(prefLanguage);
 
             prefTheme.setOnPreferenceChangeListener((preference, newValue) -> {
                 ProcessPhoenix.triggerRebirth(requireContext());
+                return true;
+            });
+
+            btnPrefComponent.setOnPreferenceClickListener(preference -> {
+                IntentUtil.intentFragment(requireActivity(), new ComponentFragment());
                 return true;
             });
 

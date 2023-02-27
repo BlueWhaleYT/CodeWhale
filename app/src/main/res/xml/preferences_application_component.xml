@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.bluewhaleyt.component.preferences.TitlePreference
+        app:title="@string/component" />
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/treeview_file_list">
+
+        <SeekBarPreference
+            android:max="6"
+            app:defaultValue="4"
+            app:icon="@drawable/ic_outline_color_lens_24"
+            app:key="pref_treeview_file_list_folder_max_color"
+            app:layout="@layout/layout_seekbar"
+            app:min="1"
+            app:showSeekBarValue="true"
+            app:title="@string/folder_max_color" />
+
+        <SeekBarPreference
+            android:max="50"
+            app:defaultValue="30"
+            app:icon="@drawable/ic_baseline_keyboard_tab_24"
+            app:key="pref_treeview_file_list_indent"
+            app:layout="@layout/layout_seekbar"
+            app:min="10"
+            app:showSeekBarValue="true"
+            app:title="@string/indentation" />
+
+        <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference
+            app:key="pref_enable_treeview_file_list_highlight"
+            app:title="@string/highlight"
+            app:icon="@drawable/ic_outline_colorize_24"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

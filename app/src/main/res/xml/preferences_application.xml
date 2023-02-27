@@ -6,6 +6,19 @@
         app:title="@string/application" />
 
     <PreferenceCategory
+        app:title="@string/general"
+        app:iconSpaceReserved="false">
+
+        <com.bluewhaleyt.component.preferences.ButtonPreference
+            app:key="btn_pref_app_component"
+            app:icon="@drawable/ic_outline_widgets_24"
+            app:title="@string/component"
+            app:summary="@string/component_summary"
+            app:fragment="com.bluewhaleyt.whalecode.fragments.preferences.application.ComponentFragment" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         app:title="@string/language"
         app:iconSpaceReserved="false">
 
@@ -40,15 +53,5 @@
             app:summary="@string/dynamic_color_summary"/>
 
     </PreferenceCategory>
-
-    <SeekBarPreference
-        app:key="pref_treeview_folder_max_color"
-        app:icon="@drawable/ic_outline_color_lens_24"
-        app:title="@string/folder_max_color"
-        app:showSeekBarValue="true"
-        app:layout="@layout/layout_seekbar"
-        app:defaultValue="4"
-        android:max="6"
-        app:min="1"/>
 
 </PreferenceScreen>

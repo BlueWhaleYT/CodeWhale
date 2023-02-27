@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ import com.bluewhaleyt.codewhale.activities.MainActivity;
 import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 import com.bluewhaleyt.common.SDKUtil;
 import com.bluewhaleyt.filemanagement.FileIconUtil;
+import com.bluewhaleyt.filemanagement.FileUtil;
 
 import org.eclipse.tm4e.core.internal.theme.ThemeRaw;
 
@@ -193,7 +195,7 @@ public class TreeView {
         private static final String KEY_IS_EXPAND = "IS_EXPAND";
         private final List<? extends TreeViewBinder> viewBinders;
         private List<TreeNode> displayNodes;
-        private int padding = 30;
+        private int padding = PreferencesManager.getTreeViewIndent();
         private OnTreeNodeListener onTreeNodeListener;
         private boolean toCollapseChild;
 
@@ -566,7 +568,10 @@ public class TreeView {
 
             ImageView imageView = holder.itemView.findViewById(R.id.imageview1);
             var fileIconUtil = new FileIconUtil(holder.tvName.getText().toString(), "");
-            fileIconUtil.bindFileIcon(imageView);
+
+            if (FileUtil.isFile(holder.tvName.getText().toString())) {
+                fileIconUtil.bindFileIcon(imageView);
+            }
 
             setColor(holder.tvName, null);
         }
@@ -623,9 +628,14 @@ public class TreeView {
             else holder.ivArrow.setVisibility(View.VISIBLE);
 
             setColor(holder.tvName, holder.ivArrow);
-            setColor(node, holder.imageView);
+            setColor(node, holder.imageView, holder.tvName);
 
-            if (node.isRoot()) holder.imageView.setColorFilter(0xFF7e939e);
+            if (node.isRoot()) {
+                var color = 0xFF72939e;
+                holder.imageView.setColorFilter(color);
+                if (PreferencesManager.isTreeViewHighlightEnabled())
+                    holder.tvName.setTextColor(ColorUtils.setAlphaComponent(color, 200));
+            }
 
         }
 
@@ -700,7 +710,7 @@ public class TreeView {
         return MainActivity.getEditorColorScheme();
     }
 
-    private static void setColor(TreeNode node, ImageView imageView) {
+    private static void setColor(TreeNode node, ImageView imageView, TextView textView) {
         var color = 0;
         var height = node.getHeight();
         var maxHeight = PreferencesManager.getTreeViewFolderMaxColor();
@@ -714,5 +724,9 @@ public class TreeView {
             case 6: color = 0xFFf368e0; break; // magenta
         }
         imageView.setColorFilter(color);
+
+        if (textView != null && PreferencesManager.isTreeViewHighlightEnabled()) {
+            textView.setTextColor(ColorUtils.setAlphaComponent(color, 200));
+        }
     }
 }
