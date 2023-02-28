@@ -84,6 +84,9 @@ public class ThemeHandler {
             case "Tokyo Night":
                 theme = "tokyo-night-theme.json";
                 break;
+            case "Tokyo Night Storm":
+                theme = "tokyo-night-storm-theme.json";
+                break;
             case "Solarized Light":
                 theme = "solarized_light.json";
                 break;
@@ -143,6 +146,9 @@ public class ThemeHandler {
                 break;
             case "Ayu Dark":
                 theme = "ayu-dark.json";
+                break;
+            case "Brackets Light Pro":
+                theme = "Brackets-Light-Pro-color-theme.json";
                 break;
             default:
                 theme = CommonUtil.isInDarkMode(context) ? Constants.DEFAULT_DARK_THEME : Constants.DEFAULT_LIGHT_THEME;

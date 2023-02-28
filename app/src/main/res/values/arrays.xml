@@ -42,6 +42,7 @@
 
         <!-- light -->
         <item>Ayu Light</item>
+        <item>Brackets Light Pro</item>
         <item>Light Owl</item>
         <item>Material Lighter</item>
         <item>One Light</item>
@@ -67,6 +68,7 @@
         <item>Shades of Purple</item>
         <item>Solarized Dark</item>
         <item>Tokyo Night</item>
+        <item>Tokyo Night Storm</item>
     </string-array>
 
     <string-array name="textmate_editor_language">

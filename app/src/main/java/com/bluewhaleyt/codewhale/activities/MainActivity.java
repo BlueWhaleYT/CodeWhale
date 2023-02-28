@@ -73,6 +73,7 @@ import java.util.Set;
 import io.github.rosemoe.sora.event.SelectionChangeEvent;
 import io.github.rosemoe.sora.lang.EmptyLanguage;
 import io.github.rosemoe.sora.lang.Language;
+import io.github.rosemoe.sora.langs.java.JavaLanguage;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.component.EditorAutoCompletion;
 import io.github.rosemoe.sora.widget.component.Magnifier;
@@ -304,8 +305,7 @@ public class MainActivity extends BaseActivity {
 
         Language language;
         if (PreferencesManager.isLanguageJavaEnabled()) {
-//            language = new JavaLanguage();
-            language = new AndroidJavaLanguage();
+            language = new JavaLanguage();
         } else {
             language = new EmptyLanguage();
         }
