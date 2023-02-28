@@ -14,11 +14,11 @@ CodeWhale is a code editor for Android.
 
 <div align="center">
 <div>
-    <img src="/screenshots/screenshot1.jpeg" width="30%" />
-    <img src="/screenshots/screenshot2.jpeg" width="30%" />
-    <img src="/screenshots/screenshot3.jpeg" width="30%" />
-    <img src="/screenshots/screenshot4.jpeg" width="30%" />
-    <img src="/screenshots/screenshot5.jpeg" width="30%" />
+    <img src="/screenshots/screenshot1.jpg" width="30%" />
+    <img src="/screenshots/screenshot2.jpg" width="30%" />
+    <img src="/screenshots/screenshot3.jpg" width="30%" />
+    <img src="/screenshots/screenshot4.jpg" width="30%" />
+    <img src="/screenshots/screenshot5.jpg" width="30%" />
 </div>
 </div>
 
