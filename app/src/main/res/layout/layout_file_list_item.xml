@@ -23,7 +23,5 @@
         android:text="index.html"
         android:textSize="14sp"
         android:layout_marginStart="6dp"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        android:ellipsize="end"/>
+        android:gravity="center_vertical"/>
 </LinearLayout>
