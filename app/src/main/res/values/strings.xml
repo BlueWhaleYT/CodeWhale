@@ -120,6 +120,11 @@
     <string name="empty_no_files_desc">Open a file through the navigation drawer</string>
     <string name="open_recent_file">Open recent file</string>
     <string name="git_clone_repo">Clone repository</string>
+    <string name="remote_repo">Remote repository path</string>
+    <string name="local_repo">Local repository path</string>
+    <string name="choose_folder">Choose folder</string>
+    <string name="no_files_picked">No files picked</string>
+    <string name="clone">Clone</string>
 
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>

@@ -41,6 +41,7 @@
         <item>@string/custom</item>
 
         <!-- light -->
+        <item>Ayu Light</item>
         <item>Light Owl</item>
         <item>Material Lighter</item>
         <item>One Light</item>
@@ -49,7 +50,10 @@
 
         <!-- dark -->
         <item>Abyss</item>
+        <item>Ayu Dark</item>
+        <item>Ayu Mirage</item>
         <item>Darcula</item>
+        <item>Dracula</item>
         <item>Material Default</item>
         <item>Material Palenight</item>
         <item>Mirage</item>
@@ -59,6 +63,7 @@
         <item>One Dark Pro</item>
         <item>One Dark Pro Darker</item>
         <item>Palenight</item>
+        <item>Shades of Purple</item>
         <item>Solarized Dark</item>
         <item>Tokyo Night</item>
     </string-array>

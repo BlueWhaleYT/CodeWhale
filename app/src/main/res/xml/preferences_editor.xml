@@ -70,7 +70,7 @@
             app:showSeekBarValue="true"
             app:layout="@layout/layout_seekbar"
             app:defaultValue="18"
-            android:max="50"
+            android:max="80"
             app:min="10"/>
 
         <com.bluewhaleyt.component.preferences.material3.Material3SwitchPreference

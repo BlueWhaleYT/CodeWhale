@@ -126,6 +126,21 @@ public class ThemeHandler {
             case "Palenight":
                 theme = "palenight.json";
                 break;
+            case "Dracula":
+                theme = "dracula.json";
+                break;
+            case "Shades of Purple":
+                theme = "shades-of-purple-color-theme.json";
+                break;
+            case "Ayu Light":
+                theme = "ayu-light.json";
+                break;
+            case "Ayu Mirage":
+                theme = "ayu-mirage.json";
+                break;
+            case "Ayu Dark":
+                theme = "ayu-dark.json";
+                break;
             default:
                 theme = CommonUtil.isInDarkMode(context) ? Constants.DEFAULT_DARK_THEME : Constants.DEFAULT_LIGHT_THEME;
         }

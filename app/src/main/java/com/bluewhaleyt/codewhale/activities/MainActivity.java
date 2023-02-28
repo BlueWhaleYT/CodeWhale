@@ -3,6 +3,7 @@ package com.bluewhaleyt.codewhale.activities;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
@@ -18,13 +19,16 @@ import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,10 +36,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bluewhaleyt.codewhale.adapters.FilePagerAdapter;
 import com.bluewhaleyt.codewhale.components.TreeView;
+import com.bluewhaleyt.codewhale.databinding.DialogLayoutInputBinding;
 import com.bluewhaleyt.codewhale.fragments.EditorFragment;
 import com.bluewhaleyt.codewhale.tools.editor.basic.ThemeHandler;
 import com.bluewhaleyt.codewhale.tools.editor.basic.languages.modules.AndroidJavaLanguage;
 import com.bluewhaleyt.codewhale.tools.editor.textmate.CustomSyntaxHighlighter;
+import com.bluewhaleyt.codewhale.utils.DialogUtil;
 import com.bluewhaleyt.codewhale.utils.EditorUtil;
 import com.bluewhaleyt.codewhale.utils.SharedPrefsUtil;
 import com.bluewhaleyt.codewhale.utils.UriResolver;
@@ -43,7 +49,6 @@ import com.bluewhaleyt.common.CommonUtil;
 import com.bluewhaleyt.common.DynamicColorsUtil;
 import com.bluewhaleyt.common.IntentUtil;
 import com.bluewhaleyt.common.PermissionUtil;
-import com.bluewhaleyt.component.dialog.DialogUtil;
 import com.bluewhaleyt.component.snackbar.SnackbarUtil;
 import com.bluewhaleyt.codewhale.R;
 import com.bluewhaleyt.codewhale.databinding.ActivityMainBinding;
@@ -78,9 +83,12 @@ public class MainActivity extends BaseActivity {
     private static ActivityMainBinding binding;
     private Intent intent;
 
+    private DialogUtil dialogUtil;
     private EditorUtil editorUtil;
     private SharedPrefsUtil sharedPrefsUtil;
     private SharedPreferences sharedPrefs;
+
+    private AlertDialog dialog;
 
     private TreeView.TreeViewAdapter adapterTreeView;
     private List<TreeView.TreeNode> nodesTreeView;
@@ -191,6 +199,7 @@ public class MainActivity extends BaseActivity {
         );
         binding.layoutEmptyFiles.btnOpenRecentFile.setOnClickListener(v -> openFile(recentFile));
         binding.layoutEmptyFiles.btnOpenFolder.setOnClickListener(v -> openFolderChooser());
+        binding.layoutEmptyFiles.btnGitClone.setOnClickListener(v -> cloneGitRepo());
 
     }
 
@@ -691,17 +700,41 @@ public class MainActivity extends BaseActivity {
         setEditorContentFromFile(path);
     }
 
+    private void cloneGitRepo() {
+        DialogLayoutInputBinding binding = DialogLayoutInputBinding.inflate(getLayoutInflater());
+        binding.textInputLayout.setHint(R.string.remote_repo);
+        var builder = new AlertDialog.Builder(this)
+                .setTitle(R.string.git_clone_repo)
+                .setMessage(R.string.no_files_picked)
+                .setView(binding.getRoot())
+                .setPositiveButton(R.string.clone, (d, i) -> startCloneRepo())
+                .setNegativeButton(android.R.string.cancel, null)
+                .setNeutralButton(R.string.choose_folder, null);
+        dialog = builder.create();
+        dialog.setOnShowListener(dialog1 -> {
+            var btn = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+            btn.setOnClickListener(v -> openFolderChooserGit());
+        });
+        dialog.show();
+    }
+
     private void openFileChooser() {
         intent = new Intent();
         intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
         intent.setType("*/*");
-        resultLauncherChooseFile.launch(intent);
+        launchChooseFile.launch(intent);
     }
 
     private void openFolderChooser() {
         intent = new Intent();
         intent.setAction(Intent.ACTION_OPEN_DOCUMENT_TREE);
-        resultLauncherChooseFolder.launch(intent);
+        launchChooseFolder.launch(intent);
+    }
+
+    private void openFolderChooserGit() {
+        intent = new Intent();
+        intent.setAction(Intent.ACTION_OPEN_DOCUMENT_TREE);
+        launchChooseFolderGit.launch(intent);
     }
 
     public static String getFilePathFromUri(Context context, Uri uri) {
@@ -716,7 +749,16 @@ public class MainActivity extends BaseActivity {
         return DocumentsContract.buildDocumentUriUsingTree(uri, DocumentsContract.getTreeDocumentId(uri));
     }
 
-    ActivityResultLauncher<Intent> resultLauncherChooseFile = registerForActivityResult(
+    private void startCloneRepo() {
+        var message = (TextView) dialog.findViewById(android.R.id.message);
+        if (message.getText().toString().equals(getString(R.string.no_files_picked))) {
+            SnackbarUtil.makeErrorSnackbar(this, getString(R.string.no_files_picked));
+        } else {
+            SnackbarUtil.makeSnackbar(this, getString(R.string.coming_soon));
+        }
+    }
+
+    ActivityResultLauncher<Intent> launchChooseFile = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
@@ -727,7 +769,7 @@ public class MainActivity extends BaseActivity {
             }
     );
 
-    ActivityResultLauncher<Intent> resultLauncherChooseFolder = registerForActivityResult(
+    ActivityResultLauncher<Intent> launchChooseFolder = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
@@ -738,6 +780,17 @@ public class MainActivity extends BaseActivity {
                     sharedPrefsUtil.saveData();
 
                     setupTreeView(pathConvert, rvTreeView, FileUtil.getFileNameOfPath(pathConvert));
+                }
+            }
+    );
+
+    ActivityResultLauncher<Intent> launchChooseFolderGit = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    var path = result.getData().getData();
+                    var pathConvert = getFilePathFromDirUri(this, path);
+                    dialog.setMessage(getString(R.string.local_repo) + ":\n" + pathConvert);
                 }
             }
     );

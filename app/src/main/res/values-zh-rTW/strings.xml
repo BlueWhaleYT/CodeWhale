@@ -120,6 +120,11 @@
     <string name="empty_no_files_desc">可於隱藏式側選單開啟檔案</string>
     <string name="open_recent_file">開啟最近使用的檔案</string>
     <string name="git_clone_repo">克隆 Git 存儲庫</string>
+    <string name="remote_repo">遠端存儲庫路徑</string>
+    <string name="local_repo">本地端存儲庫路徑</string>
+    <string name="choose_folder">選擇資料夾</string>
+    <string name="no_files_picked">尚未選取檔案</string>
+    <string name="clone">克隆</string>
 
     <string name="keyword">關鍵字</string>
     <string name="identifier">識別字</string>
