@@ -38,4 +38,9 @@ public class FilePagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return editorFragments.get(position).getFileName();
     }
+
+    public boolean isEmpty() {
+        return getCount() <= 0;
+    }
+
 }

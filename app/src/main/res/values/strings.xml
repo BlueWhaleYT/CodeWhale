@@ -116,6 +116,8 @@
     <string name="file_manager">File Manager</string>
     <string name="empty">Empty</string>
     <string name="file_save">File is saved</string>
+    <string name="empty_no_files">No files</string>
+    <string name="empty_no_files_desc">Open a folder through the navigation drawer</string>
 
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>

@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -70,7 +71,7 @@ import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
 public class MainActivity extends BaseActivity {
 
     private static ActivityMainBinding binding;
-    private Intent intent = new Intent();
+    private Intent intent;
 
     private EditorUtil editorUtil;
     private SharedPrefsUtil sharedPrefsUtil;
@@ -179,6 +180,8 @@ public class MainActivity extends BaseActivity {
 
         updateEditorState();
 
+        binding.layoutEmptyFiles.btnOpenFolder.setOnClickListener(v -> openFolderChooser());
+
     }
 
     private void setupAppToolbar() {
@@ -187,11 +190,11 @@ public class MainActivity extends BaseActivity {
 
     private void setupAppDrawer() {
         var drawerToggle = new ActionBarDrawerToggle(
-                        this,
-                        binding.drawerLayout,
-                        binding.toolbar,
-                        R.string.open,
-                        R.string.close);
+                this,
+                binding.drawerLayout,
+                binding.toolbar,
+                R.string.open,
+                R.string.close);
         binding.drawerLayout.addDrawerListener(drawerToggle);
         binding.drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
@@ -624,16 +627,18 @@ public class MainActivity extends BaseActivity {
     }
 
     private void updateEditorState() {
-        if (filePagerAdapter.getCount() <= 0) {
+        if (filePagerAdapter.isEmpty()) {
             binding.editor.setVisibility(View.GONE);
             binding.hscrollSymbolView.setVisibility(View.GONE);
             binding.layoutMoveSelection.setVisibility(View.GONE);
             binding.tabLayoutFiles.setVisibility(View.GONE);
+            binding.layoutEmptyFiles.getRoot().setVisibility(View.VISIBLE);
         } else {
             binding.editor.setVisibility(View.VISIBLE);
             binding.hscrollSymbolView.setVisibility(View.VISIBLE);
             binding.layoutMoveSelection.setVisibility(View.VISIBLE);
             binding.tabLayoutFiles.setVisibility(View.VISIBLE);
+            binding.layoutEmptyFiles.getRoot().setVisibility(View.GONE);
         }
     }
 
@@ -643,7 +648,10 @@ public class MainActivity extends BaseActivity {
 
     private void setEditorContentFromFile(String path) {
         editorUtil.setText(FileUtil.readFile(path));
-        ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(), ThemeHandler.THEME_TEXTMATE, FileUtil.getFileNameOfPath(path));
+
+        if (PreferencesManager.isTextmateEnabled()) {
+            ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(), ThemeHandler.THEME_TEXTMATE, FileUtil.getFileNameOfPath(path));
+        }
 
         // save recent open file
         sharedPrefsUtil = new SharedPrefsUtil(this, PreferencesManager.getRecentOpenFileKey(), path);
@@ -670,12 +678,14 @@ public class MainActivity extends BaseActivity {
     }
 
     private void openFileChooser() {
+        intent = new Intent();
         intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
         intent.setType("*/*");
         resultLauncherChooseFile.launch(intent);
     }
 
     private void openFolderChooser() {
+        intent = new Intent();
         intent.setAction(Intent.ACTION_OPEN_DOCUMENT_TREE);
         resultLauncherChooseFolder.launch(intent);
     }
@@ -698,6 +708,7 @@ public class MainActivity extends BaseActivity {
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     var path = result.getData().getData();
                     var pathConvert = getFilePathFromUri(this, path);
+                    addFileTab(pathConvert);
                     setEditorContentFromFile(pathConvert);
                 }
             }
