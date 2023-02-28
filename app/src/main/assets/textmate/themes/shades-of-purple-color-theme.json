@@ -392,6 +392,11 @@
     // theme's syntax and several custom setup via Dev scope ext.
     "tokenColors": [
         {
+            "settings": {
+                "foreground": "#FFFFFF"
+            }
+        },
+        {
             "name": "[COMMENTS] — The main comments color",
             "scope": ["comment", "punctuation.definition.comment"],
             "settings": {
