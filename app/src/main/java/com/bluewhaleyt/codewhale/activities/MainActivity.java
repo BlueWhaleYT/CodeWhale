@@ -106,6 +106,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         bindView(binding);
+        binding.toolbar.setTitle("");
 
         editorUtil = new EditorUtil(this, binding.editor);
         editorUtil.setSymbolInputView(binding.symbolInputView);
