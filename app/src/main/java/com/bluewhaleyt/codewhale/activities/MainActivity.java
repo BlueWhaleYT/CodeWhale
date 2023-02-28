@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
@@ -50,12 +51,14 @@ import com.bluewhaleyt.codewhale.tools.editor.completion.EditorCompletionItemAda
 import com.bluewhaleyt.codewhale.tools.editor.completion.EditorCompletionLayout;
 import com.bluewhaleyt.codewhale.utils.Constants;
 import com.bluewhaleyt.codewhale.utils.PreferencesManager;
+import com.bluewhaleyt.filemanagement.FileIconUtil;
 import com.bluewhaleyt.filemanagement.FileUtil;
 import com.google.android.material.internal.NavigationMenuView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -161,7 +164,6 @@ public class MainActivity extends BaseActivity {
         setupMagnifier();
 
         setupMoveSelectionEvent();
-        setupToolbar();
 
         if (PreferencesManager.isSyntaxHighlightingEnabled()) {
             if (PreferencesManager.isTextmateEnabled()) setupTextmateHighlight();
@@ -181,7 +183,13 @@ public class MainActivity extends BaseActivity {
         editorUtil.setup();
 
         updateEditorState();
+        setupToolbar();
 
+        var recentFile = PreferencesManager.getRecentOpenFile();
+        binding.layoutEmptyFiles.btnOpenRecentFile.setText(
+                getString(R.string.open_recent_file) + ":\n" + FileUtil.getFileNameOfPath(recentFile)
+        );
+        binding.layoutEmptyFiles.btnOpenRecentFile.setOnClickListener(v -> openFile(recentFile));
         binding.layoutEmptyFiles.btnOpenFolder.setOnClickListener(v -> openFolderChooser());
 
     }
@@ -485,8 +493,7 @@ public class MainActivity extends BaseActivity {
                 public boolean onClick(String clickedPath, TreeView.TreeNode node, RecyclerView.ViewHolder holder) {
                     if (!node.isLeaf()) onToggle(!node.isExpand(), holder);
                     if (FileUtil.isFile(clickedPath)) {
-                        addFileTab(clickedPath);
-                        setEditorContentFromFile(clickedPath);
+                        openFile(clickedPath);
                     } else {
                         if (FileUtil.isDirectory(clickedPath)) {
 
@@ -679,6 +686,11 @@ public class MainActivity extends BaseActivity {
         // TODO
     }
 
+    private void openFile(String path) {
+        addFileTab(path);
+        setEditorContentFromFile(path);
+    }
+
     private void openFileChooser() {
         intent = new Intent();
         intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
@@ -710,8 +722,7 @@ public class MainActivity extends BaseActivity {
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     var path = result.getData().getData();
                     var pathConvert = getFilePathFromUri(this, path);
-                    addFileTab(pathConvert);
-                    setEditorContentFromFile(pathConvert);
+                    openFile(pathConvert);
                 }
             }
     );

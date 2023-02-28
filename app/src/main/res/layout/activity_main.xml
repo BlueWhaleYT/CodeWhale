@@ -146,6 +146,6 @@
         android:layout_gravity="start"
         android:layout_height="match_parent"
         android:layout_width="300dp"
-        app:headerLayout="@layout/layout_drawer_main"/>
+        app:headerLayout="@layout/layout_drawer_main" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
