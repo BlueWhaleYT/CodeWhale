@@ -99,6 +99,9 @@ public class ThemeHandler {
             case "Material Palenight":
                 theme = "material_palenight.json";
                 break;
+            case "Material Palenight Customized":
+                theme = "material_palenight_customized.json";
+                break;
             case "One Light":
                 theme = "OneLight.json";
                 break;
