@@ -39,6 +39,7 @@ import com.bluewhaleyt.codewhale.components.TreeView;
 import com.bluewhaleyt.codewhale.databinding.DialogLayoutInputBinding;
 import com.bluewhaleyt.codewhale.fragments.EditorFragment;
 import com.bluewhaleyt.codewhale.tools.editor.basic.ThemeHandler;
+import com.bluewhaleyt.codewhale.tools.editor.basic.languages.LanguageNameHandler;
 import com.bluewhaleyt.codewhale.tools.editor.basic.languages.modules.AndroidJavaLanguage;
 import com.bluewhaleyt.codewhale.tools.editor.textmate.CustomSyntaxHighlighter;
 import com.bluewhaleyt.codewhale.utils.DialogUtil;
@@ -58,6 +59,7 @@ import com.bluewhaleyt.codewhale.utils.Constants;
 import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 import com.bluewhaleyt.filemanagement.FileIconUtil;
 import com.bluewhaleyt.filemanagement.FileUtil;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.internal.NavigationMenuView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -143,6 +145,9 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_syntax_language:
+                openSyntaxLanguageDialog();
+                break;
             case R.id.menu_save_file:
                 saveFile(PreferencesManager.getRecentOpenFile());
                 break;
@@ -666,6 +671,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setEditorContentFromFile(String path) {
+        binding.tvFileName.setText(FileUtil.getFileNameOfPath(path));
+
         editorUtil.setText(FileUtil.readFile(path));
 
         if (PreferencesManager.isTextmateEnabled()) {
@@ -699,6 +706,22 @@ public class MainActivity extends BaseActivity {
     private void openFile(String path) {
         addFileTab(path);
         setEditorContentFromFile(path);
+    }
+
+    private void openSyntaxLanguageDialog() {
+        String[] lang = getResources().getStringArray(R.array.textmate_editor_language);
+        String[] selectById = {lang[0]};
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.syntax_language)
+                .setSingleChoiceItems(lang, 0, ((d, which) -> selectById[0] = lang[which]))
+                .setPositiveButton(android.R.string.ok, ((d, which) -> {
+                    var selectedLang = selectById[0];
+                    if (PreferencesManager.isTextmateEnabled())
+                        ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(), ThemeHandler.THEME_TEXTMATE, "." + LanguageNameHandler.getLanguageCode(selectedLang));
+                    else SnackbarUtil.makeErrorSnackbar(this, "Normal language not supported");
+                }))
+                .setNegativeButton(android.R.string.cancel, null)
+                .create().show();
     }
 
     private void cloneGitRepo() {

@@ -125,6 +125,7 @@
     <string name="choose_folder">選擇資料夾</string>
     <string name="no_files_picked">尚未選取檔案</string>
     <string name="clone">克隆</string>
+    <string name="edit">編輯</string>
 
     <string name="keyword">關鍵字</string>
     <string name="identifier">識別字</string>

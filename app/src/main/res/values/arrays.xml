@@ -78,8 +78,10 @@
         <item>JavaScript</item>
         <item>JSON</item>
         <item>Kotlin</item>
+        <item>Markdown</item>
         <item>PHP</item>
         <item>Python</item>
+        <item>XML</item>
     </string-array>
 
     <string-array name="line_number_align_text">

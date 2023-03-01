@@ -23,11 +23,17 @@ public class LanguageNameHandler {
             case "Kotlin":
                 langCode = "kt";
                 break;
+            case "Markdown":
+                langCode = "md";
+                break;
             case "PHP":
                 langCode = "php";
                 break;
             case "Python":
                 langCode = "py";
+                break;
+            case "XML":
+                langCode = "xml";
                 break;
         }
         return langCode;

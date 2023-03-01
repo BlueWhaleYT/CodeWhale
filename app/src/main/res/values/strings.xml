@@ -125,6 +125,7 @@
     <string name="choose_folder">Choose folder</string>
     <string name="no_files_picked">No files picked</string>
     <string name="clone">Clone</string>
+    <string name="edit">Edit</string>
 
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>
