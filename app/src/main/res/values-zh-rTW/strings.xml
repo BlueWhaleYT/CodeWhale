@@ -128,6 +128,7 @@
     <string name="edit">編輯</string>
     <string name="undo">復原</string>
     <string name="redo">重做</string>
+    <string name="current_first_visible_line">目前可見行</string>
 
     <string name="keyword">關鍵字</string>
     <string name="identifier">識別字</string>

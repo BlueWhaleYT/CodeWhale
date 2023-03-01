@@ -3,21 +3,30 @@ package com.bluewhaleyt.codewhale.utils;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.graphics.ColorUtils;
+
 import com.bluewhaleyt.codewhale.R;
 import com.bluewhaleyt.codewhale.tools.PrettyPrint;
+import com.bluewhaleyt.common.DynamicColorsUtil;
 
+import io.github.rosemoe.sora.lang.styling.Styles;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.DirectAccessProps;
 import io.github.rosemoe.sora.widget.SymbolInputView;
 import io.github.rosemoe.sora.widget.component.EditorTextActionWindow;
 import io.github.rosemoe.sora.widget.component.Magnifier;
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
+import io.github.rosemoe.sora.widget.style.LineInfoPanelPosition;
+import io.github.rosemoe.sora.widget.style.LineInfoPanelPositionMode;
+import io.github.rosemoe.sora.widget.style.LineNumberTipTextProvider;
 
 public class EditorUtil {
 
@@ -65,6 +74,18 @@ public class EditorUtil {
 
         setLineNumberAlign();
         setTextActionWindow(context, colorScheme);
+
+        var gd = new GradientDrawable();
+        var color = new DynamicColorsUtil(context).getColorPrimary();
+        gd.setCornerRadius(8);
+        gd.setColor(ColorUtils.setAlphaComponent(color, 50));
+        editor.setHorizontalScrollbarThumbDrawable(gd);
+        editor.setVerticalScrollbarThumbDrawable(gd);
+
+        editor.setLnPanelPositionMode(LineInfoPanelPositionMode.FIXED);
+        editor.setLnPanelPosition(LineInfoPanelPosition.BOTTOM | LineInfoPanelPosition.RIGHT);
+        editor.setLineInfoTextSize(24);
+        editor.setLineNumberTipTextProvider(codeEditor -> context.getString(R.string.current_first_visible_line) + ": " + (editor.getFirstVisibleLine() + 1));
     }
 
     public void undo() {
@@ -172,7 +193,7 @@ public class EditorUtil {
         redo.getIcon().setAlpha(getAlpha());
     }
 
-    private int getAlpha() {
+    public int getAlpha() {
         return 130;
     }
 }

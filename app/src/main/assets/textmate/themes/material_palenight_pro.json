@@ -1,10 +1,10 @@
 {
-    "name": "Material Palenight (Customized)",
+    "name": "Material Palenight Pro",
     "author": "BlueWhaleYT",
     "type": "dark",
     "colors": {
         // Editor
-        "editor.background": "#292D3E",
+        "editor.background": "#24283b",
         "editor.foreground": "#A6ACCD",
 
         // Line Number
@@ -22,12 +22,13 @@
         "editorWhitespace.foreground": "#50A6ACCD",
 
         // Selection
-        "editor.lineHighlightBackground": "#242736"
+//        "editor.lineHighlightBackground": "#242736"
+        "editor.lineHighlightBackground": "#1F2438"
     },
     "tokenColors": [
         {
             "settings": {
-                "background": "#292D3E",
+                "background": "#24283b",
                 "foreground": "#A6ACCD"
             }
         },

@@ -128,6 +128,7 @@
     <string name="edit">Edit</string>
     <string name="undo">Undo</string>
     <string name="redo">Redo</string>
+    <string name="current_first_visible_line">Current First Line</string>
 
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>
