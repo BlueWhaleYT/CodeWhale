@@ -147,7 +147,15 @@
         },
 
         {
-            "name": "[KOTLIN] - Keyword (Package, Import)",
+            "name": "[HTML] - Deprecated Attribute)",
+            "scope": ["invalid.deprecated.entity.other.attribute-name.html"],
+            "settings": {
+                "foreground": "#FFCB6B"
+            }
+        },
+
+        {
+            "name": "[KOTLIN] - Keyword (package, import)",
             "scope": ["keyword.other.kotlin", "keyword.other.import.kotlin"],
             "settings": {
                 "foreground": "#F78C6C"
@@ -179,7 +187,7 @@
             }
         },
         {
-            "name": "[JAVA] - Storage Modifier (Package, Import)",
+            "name": "[JAVA] - Storage Modifier (package, import)",
             "scope": [
                 "storage.modifier.package.java", "storage.modifier.import.java"
             ],
@@ -257,6 +265,43 @@
             "scope": ["source.json meta.structure.dictionary.json meta.structure.dictionary.value.json meta.structure.dictionary.json meta.structure.dictionary.value.json meta.structure.dictionary.json meta.structure.dictionary.value.json meta.structure.dictionary.json meta.structure.dictionary.value.json meta.structure.dictionary.json meta.structure.dictionary.value.json meta.structure.dictionary.json meta.structure.dictionary.value.json meta.structure.dictionary.json meta.structure.dictionary.value.json meta.structure.dictionary.json meta.structure.dictionary.value.json meta.structure.dictionary.json support.type.property-name.json"],
             "settings": {
                 "foreground": "#C3E88D"
+            }
+        },
+
+        {
+            "name": "[PHP] - Keyword (namespace, use, as)",
+            "scope": ["keyword.other.namespace.php", "keyword.other.use.php", "keyword.other.use-as.php"],
+            "settings": {
+                "foreground": "#F78C6C"
+            }
+        },
+        {
+            "name": "[PHP] - Support Namespace",
+            "scope": ["support.other.namespace.php"],
+            "settings": {
+                "foreground": "#C792EA"
+            }
+        },
+        {
+            "name": "[PHP] - Alias",
+            "scope": ["entity.other.alias.php"],
+            "settings": {
+                "foreground": "#FFCB6B"
+            }
+        },
+        {
+            "name": "[PHP] - Variable",
+            "scope": ["variable.other.php"],
+            "settings": {
+                "foreground": "#F78C6C"
+            }
+        },
+        {
+            "name": "[PHP] - Special Variable Language",
+            "scope": ["variable.language.this.php"],
+            "settings": {
+                "foreground": "#FF5370",
+                "fontStyle": "italic"
             }
         },
 

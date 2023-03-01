@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
@@ -290,7 +291,7 @@ public class MainActivity extends BaseActivity {
         binding.btnDuplicateLine.setColorFilter(colorText);
 
         // set drawer bg color
-        binding.navigationView.setBackgroundColor(colorBg);
+        binding.navigationView.setBackgroundTintList(ColorStateList.valueOf(colorBg));
 
         // set search panel bg color
         binding.layoutSearchPanel.searchPanel.setBackgroundColor(colorBg);
