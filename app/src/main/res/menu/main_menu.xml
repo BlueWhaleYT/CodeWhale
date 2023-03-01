@@ -3,9 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/menu_undo"
+        android:title="@string/undo"
+        android:icon="@drawable/ic_baseline_undo_24"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_redo"
+        android:title="@string/redo"
+        android:icon="@drawable/ic_baseline_redo_24"
+        app:showAsAction="always"/>
+
+    <item
         android:title="@string/edit"
         android:icon="@drawable/ic_baseline_edit_24"
-        app:showAsAction="ifRoom">
+        app:showAsAction="always">
         <menu>
             <item
                 android:id="@+id/menu_syntax_language"

@@ -11,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.provider.DocumentsContract;
 import android.text.Spannable;
@@ -73,6 +74,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import io.github.rosemoe.sora.event.ContentChangeEvent;
 import io.github.rosemoe.sora.event.SelectionChangeEvent;
 import io.github.rosemoe.sora.lang.EmptyLanguage;
 import io.github.rosemoe.sora.lang.Language;
@@ -103,6 +105,9 @@ public class MainActivity extends BaseActivity {
     private List<String> filePaths;
     public static List<EditorFragment> editorFragments = new ArrayList<>();
     private FilePagerAdapter filePagerAdapter = new FilePagerAdapter(getSupportFragmentManager(), editorFragments);
+
+    private MenuItem menuItemUndo = null;
+    private MenuItem menuItemRedo = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,12 +145,21 @@ public class MainActivity extends BaseActivity {
             builder.setOptionalIconsVisible(true);
         }
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        menuItemUndo = menu.findItem(R.id.menu_undo);
+        menuItemRedo = menu.findItem(R.id.menu_redo);
+        editorUtil.disableUndoRedo(menuItemUndo, menuItemRedo);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_undo:
+                editorUtil.undo();
+                break;
+            case R.id.menu_redo:
+                editorUtil.redo();
+                break;
             case R.id.menu_syntax_language:
                 openSyntaxLanguageDialog();
                 break;
@@ -199,6 +213,7 @@ public class MainActivity extends BaseActivity {
         editorUtil.setup();
 
         updateEditorState();
+        handleUndoRedo();
         setupToolbar();
 
         var recentFile = PreferencesManager.getRecentOpenFile();
@@ -683,6 +698,19 @@ public class MainActivity extends BaseActivity {
         // save recent open file
         sharedPrefsUtil = new SharedPrefsUtil(this, PreferencesManager.getRecentOpenFileKey(), path);
         sharedPrefsUtil.saveData();
+    }
+
+    private void handleUndoRedo() {
+        Runnable runnable = () -> editorUtil.setUndoRedoState(menuItemUndo, menuItemRedo);
+        binding.editor.subscribeEvent(ContentChangeEvent.class, ((event, unsubscribe) -> {
+            if (event.getAction() == ContentChangeEvent.ACTION_INSERT) {
+                new Handler(Looper.getMainLooper()).postDelayed(runnable, 10);
+            } else if (event.getAction() == ContentChangeEvent.ACTION_DELETE) {
+                new Handler(Looper.getMainLooper()).postDelayed(runnable, 10);
+            } else if (event.getAction() == ContentChangeEvent.ACTION_SET_NEW_TEXT) {
+                new Handler(Looper.getMainLooper()).postDelayed(runnable, 10);
+            }
+        }));
     }
 
     private void saveFile(String path) {

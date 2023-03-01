@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -64,6 +65,14 @@ public class EditorUtil {
 
         setLineNumberAlign();
         setTextActionWindow(context, colorScheme);
+    }
+
+    public void undo() {
+        if (editor.canUndo()) editor.undo();
+    }
+
+    public void redo() {
+        if (editor.canRedo()) editor.redo();
     }
 
     public void setText(String text) {
@@ -138,4 +147,32 @@ public class EditorUtil {
 
     }
 
+    public void setUndoRedoState(MenuItem undo, MenuItem redo) {
+        if (undo == null || redo == null) return;
+        if (editor.canUndo()) {
+            undo.setEnabled(true);
+            undo.getIcon().setAlpha(255);
+        } else {
+            undo.setEnabled(false);
+            undo.getIcon().setAlpha(getAlpha());
+        }
+        if (editor.canRedo()) {
+            redo.setEnabled(true);
+            redo.getIcon().setAlpha(255);
+        } else {
+            redo.setEnabled(false);
+            redo.getIcon().setAlpha(getAlpha());
+        }
+    }
+
+    public void disableUndoRedo(MenuItem undo, MenuItem redo) {
+        undo.setEnabled(false);
+        redo.setEnabled(false);
+        undo.getIcon().setAlpha(getAlpha());
+        redo.getIcon().setAlpha(getAlpha());
+    }
+
+    private int getAlpha() {
+        return 130;
+    }
 }

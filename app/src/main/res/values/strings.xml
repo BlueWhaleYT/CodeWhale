@@ -126,6 +126,8 @@
     <string name="no_files_picked">No files picked</string>
     <string name="clone">Clone</string>
     <string name="edit">Edit</string>
+    <string name="undo">Undo</string>
+    <string name="redo">Redo</string>
 
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>
