@@ -21,6 +21,15 @@ import io.github.rosemoe.sora.util.MyCharacter;
 public class JavaLanguage extends LanguageHandler {
 
     public JavaLanguage() {
+        setupKeywords();
+    }
+
+    @Override
+    public void requireAutoComplete(@NonNull ContentReference content, @NonNull CharPosition position, @NonNull CompletionPublisher publisher, @NonNull Bundle extraArguments) {
+        setupAutoComplete(content, position, publisher, extraArguments);
+    }
+
+    public void setupKeywords() {
         autoComplete = new IdentifierAutoComplete(new String[]{
                 // unused
                 "const", "goto", "strictfp",
@@ -40,11 +49,6 @@ public class JavaLanguage extends LanguageHandler {
                 // literal values
                 "true", "false", "null"
         });
-    }
-
-    @Override
-    public void requireAutoComplete(@NonNull ContentReference content, @NonNull CharPosition position, @NonNull CompletionPublisher publisher, @NonNull Bundle extraArguments) {
-        setupAutoComplete(content, position, publisher, extraArguments);
     }
 
     public static void setupAutoComplete(ContentReference content, CharPosition position, CompletionPublisher publisher, Bundle extraArgument) {

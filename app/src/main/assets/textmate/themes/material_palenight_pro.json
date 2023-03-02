@@ -55,6 +55,13 @@
             }
         },
         {
+            "name": "[Storage Type] - The main storage type color: #FFCB6B",
+            "scope": ["storage.type"],
+            "settings": {
+                "foreground": "#FFCB6B"
+            }
+        },
+        {
             "name": "[String] - The main string color: #C3E88D",
             "scope": ["string"],
             "settings": {
@@ -83,10 +90,10 @@
             }
         },
         {
-            "name": "[Variable] - The main variable color: #F4F552",
+            "name": "[Variable] - The main variable color: #80CBC4",
             "scope": ["variable", "variable.other"],
             "settings": {
-//                "foreground": "#CDEBF7"
+                "foreground": "#B2DFDB"
             }
         },
         {
@@ -123,6 +130,14 @@
             "scope": ["entity.other.inherited-class"],
             "settings": {
                 "foreground": "#C3E88D"
+            }
+        },
+        {
+            "name": "[Annotation] - The main annotation color: #F4F552",
+            "scope": ["storage.type.annotation", "punctuation.definition.annotation.java"],
+            "settings": {
+                "foreground": "#F4F552",
+                "fontStyle": "bold"
             }
         },
         {
@@ -193,7 +208,7 @@
                 "storage.modifier.package.java", "storage.modifier.import.java"
             ],
             "settings": {
-                "foreground": "#FFCB6B"
+                "foreground": "#CCC792EA"
             }
         },
         {
@@ -202,6 +217,27 @@
             "settings": {
                 "foreground": "#FF5370",
                 "fontStyle": "italic"
+            }
+        },
+        {
+            "name": "[JAVA] - Primitive Storage type",
+            "scope": ["storage.type.primitive.java"],
+            "settings": {
+                "foreground": "#C792EA"
+            }
+        },
+        {
+            "name": "[JAVA] - Storage Local (var)",
+            "scope": ["storage.type.local.java"],
+            "settings": {
+                "foreground": "#C792EA"
+            }
+        },
+        {
+            "name": "[JAVA] - Lambda Expression",
+            "scope": ["storage.type.function.arrow.java", "variable.other.object.property.java"],
+            "settings": {
+                "foreground": "#F4F552"
             }
         },
 
@@ -319,7 +355,7 @@
             "name": "[XML] - Tag Attribute Namespace",
             "scope": ["entity.other.attribute-name.namespace.xml"],
             "settings": {
-                "foreground": "#DDC792EA"
+                "foreground": "#CCC792EA"
             }
         }
     ]

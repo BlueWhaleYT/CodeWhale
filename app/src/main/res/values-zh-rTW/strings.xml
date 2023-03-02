@@ -53,11 +53,11 @@
     <string name="replace_tab_summary">啟用後可在編輯器中插入空格而非製表符</string>
     <string name="non_print_flag">非可印刷字元</string>
     <string name="npf_ws_inner">繪製至字元內</string>
-    <string name="npf_ws_leading">繪製至字元前端</string>
-    <string name="npf_ws_trailing">繪製至字元後端</string>
+    <string name="npf_ws_leading">繪製至字元首端</string>
+    <string name="npf_ws_trailing">繪製至字元尾端</string>
     <string name="npf_ws_for_empty_line">繪製至空白行</string>
     <string name="npf_ws_in_selection">在點選文本時繪製</string>
-    <string name="npf_tab_same_as_space">繪製製表符以空格樣式顯示</string>
+    <string name="npf_tab_same_as_space">繪製製表符以空格顯示</string>
     <string name="npf_line_separator">繪製換行符</string>
     <string name="developer">開發者</string>
     <string name="auto_completion_hint">按下鍵盤的 %1$s 插入建議字詞</string>
@@ -131,7 +131,7 @@
     <string name="current_first_visible_line">目前可見行</string>
 
     <string name="keyword">關鍵字</string>
-    <string name="identifier">識別字</string>
+    <string name="identifier">標識字</string>
     <string name="method">方法</string>
     <string name="snippet">程式碼片段</string>
 

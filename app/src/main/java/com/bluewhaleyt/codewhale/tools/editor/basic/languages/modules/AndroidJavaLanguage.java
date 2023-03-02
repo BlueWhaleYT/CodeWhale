@@ -20,6 +20,10 @@ import io.github.rosemoe.sora.util.MyCharacter;
 
 public class AndroidJavaLanguage extends JavaLanguage {
 
+    public AndroidJavaLanguage() {
+        setupKeywords();
+    }
+
     @Override
     public void requireAutoComplete(@NonNull ContentReference content, @NonNull CharPosition position, @NonNull CompletionPublisher publisher, @NonNull Bundle extraArguments) {
         setupAutoComplete(content, position, publisher, extraArguments);

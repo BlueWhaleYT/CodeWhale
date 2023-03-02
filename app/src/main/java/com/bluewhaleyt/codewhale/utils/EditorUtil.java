@@ -1,9 +1,11 @@
 package com.bluewhaleyt.codewhale.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +18,7 @@ import androidx.core.graphics.ColorUtils;
 import com.bluewhaleyt.codewhale.R;
 import com.bluewhaleyt.codewhale.tools.PrettyPrint;
 import com.bluewhaleyt.common.DynamicColorsUtil;
+import com.bluewhaleyt.component.snackbar.SnackbarUtil;
 
 import io.github.rosemoe.sora.lang.styling.Styles;
 import io.github.rosemoe.sora.widget.CodeEditor;
@@ -52,7 +55,19 @@ public class EditorUtil {
         editor.setTypefaceLineNumber(font);
         editor.setDividerMargin(margin);
         editor.setLineNumberMarginLeft(margin);
-        editor.setLineSpacing(2f, 1.5f);
+        editor.setLineSpacing(2f, 1.3f);
+
+        var gd = new GradientDrawable();
+        var color = new DynamicColorsUtil(context).getColorPrimary();
+        gd.setCornerRadius(8);
+        gd.setColor(ColorUtils.setAlphaComponent(color, 50));
+        editor.setHorizontalScrollbarThumbDrawable(gd);
+        editor.setVerticalScrollbarThumbDrawable(gd);
+
+        editor.setLnPanelPositionMode(LineInfoPanelPositionMode.FIXED);
+        editor.setLnPanelPosition(LineInfoPanelPosition.BOTTOM | LineInfoPanelPosition.RIGHT);
+        editor.setLineInfoTextSize(24);
+        editor.setLineNumberTipTextProvider(codeEditor -> context.getString(R.string.current_first_visible_line) + ": " + (editor.getFirstVisibleLine() + 1));
 
         editor.setWordwrap(PreferencesManager.isWordWrapEnabled());
         editor.setScalable(PreferencesManager.isPinchZoomEnabled());
@@ -67,25 +82,16 @@ public class EditorUtil {
         editor.getProps().useICULibToSelectWords = PreferencesManager.isICULibEnabled();
         editor.getProps().deleteEmptyLineFast = PreferencesManager.isDeleteEmptyLineFastEnabled();
         editor.getProps().autoIndent = PreferencesManager.isAutoIndentEnabled();
-        editor.getProps().disallowSuggestions = PreferencesManager.isKeyboardSuggestionsEnabled();
+//        editor.getProps().disallowSuggestions = PreferencesManager.isKeyboardSuggestionsEnabled();
         editor.getProps().actionWhenLineNumberClicked = PreferencesManager.isLineNumberClickSelectEnabled() ? DirectAccessProps.LN_ACTION_SELECT_LINE : DirectAccessProps.LN_ACTION_PLACE_SELECTION_HOME;
 
         editor.getComponent(Magnifier.class).setEnabled(PreferencesManager.isMagnifierEnabled());
 
+        setKeyboardSuggestions(PreferencesManager.isKeyboardSuggestionsEnabled());
+
         setLineNumberAlign();
         setTextActionWindow(context, colorScheme);
 
-        var gd = new GradientDrawable();
-        var color = new DynamicColorsUtil(context).getColorPrimary();
-        gd.setCornerRadius(8);
-        gd.setColor(ColorUtils.setAlphaComponent(color, 50));
-        editor.setHorizontalScrollbarThumbDrawable(gd);
-        editor.setVerticalScrollbarThumbDrawable(gd);
-
-        editor.setLnPanelPositionMode(LineInfoPanelPositionMode.FIXED);
-        editor.setLnPanelPosition(LineInfoPanelPosition.BOTTOM | LineInfoPanelPosition.RIGHT);
-        editor.setLineInfoTextSize(24);
-        editor.setLineNumberTipTextProvider(codeEditor -> context.getString(R.string.current_first_visible_line) + ": " + (editor.getFirstVisibleLine() + 1));
     }
 
     public void undo() {
@@ -97,11 +103,17 @@ public class EditorUtil {
     }
 
     public void setText(String text) {
-        if (PreferencesManager.isReplaceTabEnabled()) {
-            editor.setText(text.replace("\t", " "));
-        } else {
-            editor.setText(PrettyPrint.byBracket(text).toString());
-        }
+//        if (PreferencesManager.isReplaceTabEnabled()) {
+//            editor.setText(text.replace("\t", " "));
+//        } else {
+//            editor.setText(PrettyPrint.byBracket(text).toString());
+//        }
+        editor.setText(PrettyPrint.byBracket(text).toString());
+    }
+
+    public void setKeyboardSuggestions(boolean isEnable) {
+        if (isEnable) editor.setInputType(InputType.TYPE_CLASS_TEXT);
+        else editor.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
     }
 
     public void setSymbolInputView(SymbolInputView symbolInputView) {
@@ -143,7 +155,7 @@ public class EditorUtil {
     }
 
     public void setTextActionWindow(Context context, EditorColorScheme colorScheme) {
-        var colorBg = colorScheme.getColor(EditorColorScheme.WHOLE_BACKGROUND);
+        var colorBg = colorScheme.getColor(EditorColorScheme.CURRENT_LINE);
         var colorText = colorScheme.getColor(EditorColorScheme.TEXT_NORMAL);
 
         View v = LayoutInflater.from(context).inflate(io.github.rosemoe.sora.R.layout.text_compose_panel, null);
