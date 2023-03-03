@@ -15,6 +15,7 @@ import android.os.Looper;
 import android.provider.DocumentsContract;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -45,6 +47,7 @@ import com.bluewhaleyt.codewhale.tools.editor.basic.languages.modules.AndroidJav
 import com.bluewhaleyt.codewhale.tools.editor.textmate.CustomSyntaxHighlighter;
 import com.bluewhaleyt.codewhale.utils.DialogUtil;
 import com.bluewhaleyt.codewhale.utils.EditorUtil;
+import com.bluewhaleyt.codewhale.utils.RegexUtil;
 import com.bluewhaleyt.codewhale.utils.SharedPrefsUtil;
 import com.bluewhaleyt.codewhale.utils.UriResolver;
 import com.bluewhaleyt.common.CommonUtil;
@@ -70,6 +73,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import io.github.rosemoe.sora.event.ContentChangeEvent;
 import io.github.rosemoe.sora.event.SelectionChangeEvent;
@@ -333,10 +337,6 @@ public class MainActivity extends BaseActivity {
     private void setupTextmateHighlight() {
         try {
             ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(), ThemeHandler.THEME_TEXTMATE, PreferencesManager.getRecentOpenFile());
-
-            CustomSyntaxHighlighter customHighlighter = new CustomSyntaxHighlighter();
-            customHighlighter.applyLanguages(binding.editor);
-
         } catch (Exception e) {
             SnackbarUtil.makeErrorSnackbar(this, e.getMessage(), e.toString());
         }
@@ -559,7 +559,7 @@ public class MainActivity extends BaseActivity {
         final String[] path = {filePath};
         new Thread(() -> {
             Looper.prepare();
-            var rootDir = new ArrayList<>();
+            var rootDir = new ArrayList<String>();
             try {
                 FileUtil.listDirectories(path[0], rootDir);
             } catch (Exception e) {
@@ -569,7 +569,7 @@ public class MainActivity extends BaseActivity {
             for (Object obj : rootDir) {
                 var file = obj.toString();
                 if (FileUtil.isFile(file)) dir.addChild(new TreeView.TreeNode<>(new TreeView.File(file)));
-                else if (FileUtil.isDirectory(file)) {
+                else {
                     var dirTree = new TreeView.TreeNode<>(new TreeView.Dir(file));
                     dir.addChild(dirTree);
                     setupTreeViewData(file, dirTree);
@@ -734,19 +734,19 @@ public class MainActivity extends BaseActivity {
     }
 
     private void openSyntaxLanguageDialog() {
-        String[] lang = getResources().getStringArray(R.array.textmate_editor_language);
-        String[] selectById = {lang[0]};
-        new MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.syntax_language)
-                .setSingleChoiceItems(lang, 0, ((d, which) -> selectById[0] = lang[which]))
-                .setPositiveButton(android.R.string.ok, ((d, which) -> {
-                    var selectedLang = selectById[0];
-                    if (PreferencesManager.isTextmateEnabled())
+        if (PreferencesManager.isTextmateEnabled()) {
+            String[] lang = getResources().getStringArray(R.array.textmate_editor_language);
+            String[] selectById = {lang[0]};
+            new MaterialAlertDialogBuilder(this)
+                    .setTitle(R.string.syntax_language)
+                    .setSingleChoiceItems(lang, 0, ((d, which) -> selectById[0] = lang[which]))
+                    .setPositiveButton(android.R.string.ok, ((d, which) -> {
+                        var selectedLang = selectById[0];
                         ThemeHandler.setTheme(this, binding.editor, PreferencesManager.getEditorTheme(), ThemeHandler.THEME_TEXTMATE, "." + LanguageNameHandler.getLanguageCode(selectedLang));
-                    else SnackbarUtil.makeErrorSnackbar(this, "Normal language not supported");
-                }))
-                .setNegativeButton(android.R.string.cancel, null)
-                .create().show();
+                    }))
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .create().show();
+        } else SnackbarUtil.makeErrorSnackbar(this, getString(R.string.textmate_only));
     }
 
     private void cloneGitRepo() {

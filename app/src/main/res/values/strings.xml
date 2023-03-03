@@ -129,6 +129,9 @@
     <string name="undo">Undo</string>
     <string name="redo">Redo</string>
     <string name="current_first_visible_line">Current First Line</string>
+    <string name="textmate_only">This feature is for TextMate only</string>
+    <string name="permission_request">Permission required</string>
+    <string name="permission_request_desc">You need to grant the permissions before using the application</string>
 
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>

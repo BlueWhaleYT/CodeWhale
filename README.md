@@ -2,6 +2,8 @@
 
 <img src="http://forthebadge.com/images/badges/built-for-android.svg" /><br>
 
+[![Android CI](https://github.com/BlueWhaleYT/CodeWhale/actions/workflows/android.yml/badge.svg?event=push)](https://github.com/BlueWhaleYT/CodeWhale/actions/workflows/android.yml)
+
 CodeWhale is a code editor providing multiple languages of syntax highlighting for Android.
 
 > **Note** <br>

@@ -4,11 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.bluewhaleyt.codeeditor.textmate.syntaxhighlight.SyntaxHighlightUtil;
+import com.bluewhaleyt.codewhale.tools.editor.textmate.CustomSyntaxHighlighter;
 import com.bluewhaleyt.codewhale.utils.Constants;
 import com.bluewhaleyt.codewhale.utils.PreferencesManager;
 import com.bluewhaleyt.common.CommonUtil;
 import com.bluewhaleyt.component.snackbar.SnackbarUtil;
 
+import java.util.concurrent.TimeUnit;
+
+import io.github.rosemoe.sora.langs.textmate.registry.GrammarRegistry;
+import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
 import io.github.rosemoe.sora.widget.schemes.SchemeDarcula;
@@ -36,6 +41,8 @@ public class ThemeHandler {
             case THEME_TEXTMATE:
                 try {
                     setTextMateTheme(context, editor, theme, path);
+                    CustomSyntaxHighlighter customHighlighter = new CustomSyntaxHighlighter();
+                    customHighlighter.applyLanguages(editor);
                 } catch (Exception e) {
                     SnackbarUtil.makeErrorSnackbar((Activity) context, e.getMessage(), e.toString());
                 }

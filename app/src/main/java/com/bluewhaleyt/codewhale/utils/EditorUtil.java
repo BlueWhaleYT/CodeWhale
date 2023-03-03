@@ -1,6 +1,5 @@
 package com.bluewhaleyt.codewhale.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -10,26 +9,22 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.core.graphics.ColorUtils;
 
 import com.bluewhaleyt.codewhale.R;
-import com.bluewhaleyt.codewhale.tools.PrettyPrint;
 import com.bluewhaleyt.common.DynamicColorsUtil;
-import com.bluewhaleyt.component.snackbar.SnackbarUtil;
 
-import io.github.rosemoe.sora.lang.styling.Styles;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.DirectAccessProps;
 import io.github.rosemoe.sora.widget.SymbolInputView;
+import io.github.rosemoe.sora.widget.component.EditorAutoCompletion;
+import io.github.rosemoe.sora.widget.component.EditorDiagnosticTooltipWindow;
 import io.github.rosemoe.sora.widget.component.EditorTextActionWindow;
 import io.github.rosemoe.sora.widget.component.Magnifier;
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
 import io.github.rosemoe.sora.widget.style.LineInfoPanelPosition;
 import io.github.rosemoe.sora.widget.style.LineInfoPanelPositionMode;
-import io.github.rosemoe.sora.widget.style.LineNumberTipTextProvider;
 
 public class EditorUtil {
 
@@ -59,7 +54,7 @@ public class EditorUtil {
 
         var gd = new GradientDrawable();
         var color = new DynamicColorsUtil(context).getColorPrimary();
-        gd.setCornerRadius(8);
+        gd.setCornerRadius(100);
         gd.setColor(ColorUtils.setAlphaComponent(color, 50));
         editor.setHorizontalScrollbarThumbDrawable(gd);
         editor.setVerticalScrollbarThumbDrawable(gd);
@@ -85,7 +80,7 @@ public class EditorUtil {
 //        editor.getProps().disallowSuggestions = PreferencesManager.isKeyboardSuggestionsEnabled();
         editor.getProps().actionWhenLineNumberClicked = PreferencesManager.isLineNumberClickSelectEnabled() ? DirectAccessProps.LN_ACTION_SELECT_LINE : DirectAccessProps.LN_ACTION_PLACE_SELECTION_HOME;
 
-        editor.getComponent(Magnifier.class).setEnabled(PreferencesManager.isMagnifierEnabled());
+        getEditorMagnifier().setEnabled(PreferencesManager.isMagnifierEnabled());
 
         setKeyboardSuggestions(PreferencesManager.isKeyboardSuggestionsEnabled());
 
@@ -108,7 +103,7 @@ public class EditorUtil {
 //        } else {
 //            editor.setText(PrettyPrint.byBracket(text).toString());
 //        }
-        editor.setText(PrettyPrint.byBracket(text).toString());
+        editor.setText(text);
     }
 
     public void setKeyboardSuggestions(boolean isEnable) {
@@ -158,20 +153,21 @@ public class EditorUtil {
         var colorBg = colorScheme.getColor(EditorColorScheme.CURRENT_LINE);
         var colorText = colorScheme.getColor(EditorColorScheme.TEXT_NORMAL);
 
-        View v = LayoutInflater.from(context).inflate(io.github.rosemoe.sora.R.layout.text_compose_panel, null);
+        View v = LayoutInflater.from(context).inflate(R.layout.layout_text_compose_panel, null);
 
-        var root = v.findViewById(io.github.rosemoe.sora.R.id.panel_root);
-        ImageButton btnSelectAll = v.findViewById(io.github.rosemoe.sora.R.id.panel_btn_select_all);
-        ImageButton btnCopy = v.findViewById(io.github.rosemoe.sora.R.id.panel_btn_copy);
-        ImageButton btnPaste = v.findViewById(io.github.rosemoe.sora.R.id.panel_btn_paste);
-        ImageButton btnCut = v.findViewById(io.github.rosemoe.sora.R.id.panel_btn_cut);
+        var root = v.findViewById(R.id.panel_root);
+        ImageButton btnSelectAll = v.findViewById(R.id.panel_btn_select_all);
+        ImageButton btnCopy = v.findViewById(R.id.panel_btn_copy);
+        ImageButton btnPaste = v.findViewById(R.id.panel_btn_paste);
+        ImageButton btnCut = v.findViewById(R.id.panel_btn_cut);
 
         root.setBackgroundColor(colorBg);
         btnSelectAll.setColorFilter(colorText);
         btnCopy.setColorFilter(colorText);
         btnPaste.setColorFilter(colorText);
         btnCut.setColorFilter(colorText);
-        editor.getComponent(EditorTextActionWindow.class).setContentView(v);
+
+        getEditorTextActionWindow().setContentView(v);
 
         btnSelectAll.setOnClickListener(view -> editor.selectAll());
         btnCopy.setOnClickListener(view -> editor.copyText());
@@ -207,5 +203,27 @@ public class EditorUtil {
 
     public int getAlpha() {
         return 130;
+    }
+
+    public EditorTextActionWindow getEditorTextActionWindow() {
+        return editor.getComponent(EditorTextActionWindow.class);
+    }
+
+    public EditorAutoCompletion getEditorAutoCompletion() {
+        return editor.getComponent(EditorAutoCompletion.class);
+    }
+
+    public EditorDiagnosticTooltipWindow getEditorDiagnosticTooltipWindow() {
+        return editor.getComponent(EditorDiagnosticTooltipWindow.class);
+    }
+
+    public Magnifier getEditorMagnifier() {
+        return editor.getComponent(Magnifier.class);
+    }
+
+    public String getSelectedText() {
+        var cursor = editor.getCursor();
+        return editor.getText().subContent(cursor.getLeftLine(), cursor.getLeftColumn(),
+                cursor.getRightLine(), cursor.getRightColumn()).toString();
     }
 }

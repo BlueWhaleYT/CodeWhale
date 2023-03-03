@@ -48,6 +48,13 @@
             }
         },
         {
+            "name": "[Keyword Other] - The main keyword other color: #F78C6C",
+            "scope": ["keyword.other"],
+            "settings": {
+                "foreground": "#F78C6C"
+            }
+        },
+        {
             "name": "[Storage] - The main storage color: #C792EA",
             "scope": ["storage"],
             "settings": {
@@ -93,7 +100,7 @@
             "name": "[Variable] - The main variable color: #80CBC4",
             "scope": ["variable", "variable.other"],
             "settings": {
-                "foreground": "#B2DFDB"
+//                "foreground": "#B2DFDB"
             }
         },
         {
@@ -159,6 +166,58 @@
             "scope": ["invalid", "invalid.illegal"],
             "settings": {
                 "foreground": "#FF5370"
+            }
+        },
+
+        {
+            "name": "[CSS] - CSS Variable",
+            "scope": ["variable.css", "variable.argument.css"],
+            "settings": {
+                "foreground": "#80CBC4"
+            }
+        },
+        {
+            "name": "[CSS] - CSS property",
+            "scope": ["support.type.property-name.css", "support.type.property-name.media.css"],
+            "settings": {
+                "foreground": "#B2CCD6"
+            }
+        },
+        {
+            "name": "[CSS] - CSS property value",
+            "scope": ["support.constant.property-value.css"],
+            "settings": {
+                "foreground": "#F78C6C"
+            }
+        },
+        {
+            "name": "[CSS] - Color Hex code",
+            "scope": ["constant.other.color.rgb-value.hex.css"],
+            "settings": {
+                "foreground": "#89DDFF"
+            }
+        },
+        {
+            "name": "[CSS] - Class Selector",
+            "scope": ["entity.other.attribute-name.class.css"],
+            "settings": {
+                "foreground": "#FFCB6B",
+                "fontStyle": "italic"
+            }
+        },
+        {
+            "name": "[CSS] - Function Misc",
+            "scope": ["support.function.misc.css", "support.function.transform.css"],
+            "settings": {
+                "foreground": "#82AAFF"
+            }
+        },
+        {
+            "name": "[CSS] - Pseudo Element",
+            "scope": ["entity.other.attribute-name.pseudo-element.css"],
+            "settings": {
+                "foreground": "#C792EA",
+                "fontStyle": "italic"
             }
         },
 
@@ -235,9 +294,38 @@
         },
         {
             "name": "[JAVA] - Lambda Expression",
-            "scope": ["storage.type.function.arrow.java", "variable.other.object.property.java"],
+            "scope": ["storage.type.function.arrow.java"],
             "settings": {
                 "foreground": "#F4F552"
+            }
+        },
+        {
+            "name": "[JAVA] - Java Doc",
+            "scope": ["keyword.other.documentation.javadoc.java"],
+            "settings": {
+                "foreground": "#80CBC4"
+            }
+        },
+
+        {
+            "name": "[JS] - Brace",
+            "scope": ["meta.brace.round.js"],
+            "settings": {
+                "foreground": "#89DDFF"
+            }
+        },
+        {
+            "name": "[JS] - Storage Type",
+            "scope": ["storage.type.js", "storage.type.function.js"],
+            "settings": {
+                "foreground": "#C792EA"
+            }
+        },
+        {
+            "name": "[JS] - Literal Key",
+            "scope": ["meta.object-literal.key.js"],
+            "settings": {
+                "foreground": "#FFCB6B"
             }
         },
 
@@ -339,6 +427,34 @@
             "settings": {
                 "foreground": "#FF5370",
                 "fontStyle": "italic"
+            }
+        },
+        {
+            "name": "[PHP] - Function Constructor",
+            "scope": ["entity.name.function.php" ,"support.function.construct.php"],
+            "settings": {
+                "foreground": "#82AAFF"
+            }
+        },
+        {
+            "name": "[PHP] - Type",
+            "scope": ["keyword.other.type.php"],
+            "settings": {
+                "foreground": "#FFCB6B"
+            }
+        },
+        {
+            "name": "[PHP] - Property",
+            "scope": ["variable.other.property.php"],
+            "settings": {
+                "foreground": "#80CBC4"
+            }
+        },
+        {
+            "name": "[PHP] - Storage type (function)",
+            "scope": ["storage.type.function.php"],
+            "settings": {
+                "foreground": "#C792EA"
             }
         },
 

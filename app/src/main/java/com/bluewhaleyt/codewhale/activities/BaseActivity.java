@@ -75,8 +75,8 @@ public class BaseActivity extends AppCompatActivity {
         if (!PermissionUtil.isAlreadyGrantedExternalStorageAccess()) {
             dialogUtil = new DialogUtil(
                     this,
-                    "Permission request",
-                    "You need to grant the permissions before using the application."
+                    getString(R.string.permission_request),
+                    getString(R.string.permission_request_desc)
             );
             dialogUtil.setPositiveButton(android.R.string.ok, (d, i) -> PermissionUtil.requestAllFileAccess(this));
             dialogUtil.setNegativeButton(android.R.string.cancel, null);

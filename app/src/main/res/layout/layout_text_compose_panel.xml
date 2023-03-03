@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@drawable/magnifier_background"
+    android:id="@+id/panel_root">
+
+    <HorizontalScrollView
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:id="@+id/panel_hv">
+
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+<!--            <ImageButton-->
+<!--                android:id="@+id/panel_btn_color"-->
+<!--                android:layout_width="45dp"-->
+<!--                android:layout_height="45dp"-->
+<!--                android:scaleX=".8"-->
+<!--                android:scaleY=".8"-->
+<!--                android:src="@drawable/ic_baseline_square_24"-->
+<!--                android:background="#00000000" />-->
+
+            <ImageButton
+                android:id="@+id/panel_btn_select_all"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/round_select_all_20"
+                android:background="#00000000" />
+
+            <ImageButton
+                android:id="@+id/panel_btn_copy"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/round_content_copy_20"
+                android:background="#00000000" />
+
+            <ImageButton
+                android:id="@+id/panel_btn_paste"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/round_content_paste_20"
+                android:background="#00000000" />
+
+            <ImageButton
+                android:id="@+id/panel_btn_cut"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/round_content_cut_20"
+                android:background="#00000000" />
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+</LinearLayout>
+

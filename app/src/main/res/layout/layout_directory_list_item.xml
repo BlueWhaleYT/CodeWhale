@@ -25,10 +25,19 @@
     <TextView
         android:id="@+id/tv_name"
         android:focusable="false"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:text="HTML Project"
         android:textSize="14sp"
         android:layout_marginStart="6dp"
         android:gravity="center_vertical"/>
+    <ImageButton
+        android:id="@+id/imgBtnClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_cancel_24"
+        android:scaleX=".7"
+        android:scaleY=".7"
+        android:background="@null"/>
 </LinearLayout>

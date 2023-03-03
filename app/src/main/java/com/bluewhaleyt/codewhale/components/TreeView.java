@@ -1,15 +1,14 @@
 package com.bluewhaleyt.codewhale.components;
 
-import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
@@ -21,19 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bluewhaleyt.codewhale.R;
 import com.bluewhaleyt.codewhale.activities.MainActivity;
 import com.bluewhaleyt.codewhale.utils.PreferencesManager;
-import com.bluewhaleyt.common.SDKUtil;
+import com.bluewhaleyt.common.DynamicColorsUtil;
 import com.bluewhaleyt.filemanagement.FileIconUtil;
-import com.bluewhaleyt.filemanagement.FileUtil;
-
-import org.eclipse.tm4e.core.internal.theme.ThemeRaw;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
-import io.github.rosemoe.sora.langs.textmate.TextMateColorScheme;
-import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry;
 import io.github.rosemoe.sora.widget.schemes.EditorColorScheme;
 
 public class TreeView {
@@ -629,10 +622,14 @@ public class TreeView {
             setColor(node, holder.imageView, holder.tvName);
 
             if (node.isRoot()) {
-                var color = 0xFF72939e;
+                var color = new DynamicColorsUtil(holder.itemView.getContext()).getColorPrimary();
                 holder.imageView.setColorFilter(color);
+                holder.imgBtnClose.setColorFilter(color);
                 if (PreferencesManager.isTreeViewHighlightEnabled())
                     holder.tvName.setTextColor(ColorUtils.setAlphaComponent(color, 200));
+                holder.imgBtnClose.setVisibility(View.VISIBLE);
+            } else {
+                holder.imgBtnClose.setVisibility(View.GONE);
             }
 
         }
@@ -646,12 +643,14 @@ public class TreeView {
             private ImageView ivArrow;
             private TextView tvName;
             private ImageView imageView;
+            private ImageButton imgBtnClose;
 
             public ViewHolder(View rootView) {
                 super(rootView);
                 this.ivArrow = rootView.findViewById(R.id.iv_arrow);
                 this.tvName = rootView.findViewById(R.id.tv_name);
                 this.imageView = rootView.findViewById(R.id.imageview2);
+                this.imgBtnClose = rootView.findViewById(R.id.imgBtnClose);
             }
 
             public ImageView getIvArrow() {
@@ -665,9 +664,10 @@ public class TreeView {
             public ImageView getImageView() {
                 return imageView;
             }
+
+            public ImageButton getImgBtnClose() { return imgBtnClose; }
         }
     }
-
 
     public static class Dir implements TreeView.LayoutItemType {
         public String dirName;
@@ -716,8 +716,8 @@ public class TreeView {
         switch (height) {
             case 1: color = 0xFF1dd1a1; break; // green
             case 2: color = 0xFFff9f43; break; // orange
-            case 3: color = 0xFF6c5ce7; break; // purple
-            case 4: color = 0xFFee5253; break; // red
+            case 3: color = 0xFFee5253; break; // red
+            case 4: color = 0xFF6c5ce7; break; // purple
             case 5: color = 0xFF0984e3; break; // blue
             case 6: color = 0xFFf368e0; break; // magenta
         }
