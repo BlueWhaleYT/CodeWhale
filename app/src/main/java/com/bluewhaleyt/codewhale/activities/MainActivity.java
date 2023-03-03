@@ -31,6 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.core.content.FileProvider;
 import androidx.core.graphics.ColorUtils;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -54,6 +55,7 @@ import com.bluewhaleyt.common.CommonUtil;
 import com.bluewhaleyt.common.DynamicColorsUtil;
 import com.bluewhaleyt.common.IntentUtil;
 import com.bluewhaleyt.common.PermissionUtil;
+import com.bluewhaleyt.common.SDKUtil;
 import com.bluewhaleyt.component.snackbar.SnackbarUtil;
 import com.bluewhaleyt.codewhale.R;
 import com.bluewhaleyt.codewhale.databinding.ActivityMainBinding;
@@ -177,6 +179,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.menu_search:
 //                setupSearchPanel();
+                break;
+            case R.id.menu_share:
+                openShareFileDialog();
                 break;
             case R.id.menu_settings:
                 IntentUtil.intent(this, SettingsActivity.class);
@@ -731,6 +736,40 @@ public class MainActivity extends BaseActivity {
     private void openFile(String path) {
         addFileTab(path);
         setEditorContentFromFile(path);
+    }
+
+    private void openShareFileDialog() {
+        var dialogUtil = new com.bluewhaleyt.component.dialog.DialogUtil(this, getString(R.string.share));
+        dialogUtil.setMessage(PreferencesManager.getRecentOpenFile());
+        dialogUtil.setPositiveButton(R.string.share_file, (d, i) -> shareFile());
+        dialogUtil.setNegativeButton(R.string.share_text, (d, i) -> shareText());
+        dialogUtil.setNeutralButton(android.R.string.cancel, null);
+        dialogUtil.setCancelable(false, false);
+        dialogUtil.build();
+    }
+
+    private void shareText() {
+        var type = FileUtil.getFileExtensionOfPath(PreferencesManager.getRecentOpenFile());
+        var text = binding.editor.getText().toString();
+        text = "```" + type + "\n" + text + "\n```";
+
+        intent = new Intent((Intent.ACTION_SEND));
+        intent.setType("text/*");
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+        startActivity(Intent.createChooser(intent, getString(R.string.share)));
+    }
+
+    private void shareFile() {
+        Uri uri;
+        var file = new File(PreferencesManager.getRecentOpenFile());
+        intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/*");
+        if (SDKUtil.isAtLeastSDK24()) {
+            uri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", file);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else uri = Uri.parse("file://" + file.getAbsolutePath());
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        startActivity(Intent.createChooser(intent, getString(R.string.share)));
     }
 
     private void openSyntaxLanguageDialog() {

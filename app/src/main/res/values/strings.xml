@@ -132,6 +132,9 @@
     <string name="textmate_only">This feature is for TextMate only</string>
     <string name="permission_request">Permission required</string>
     <string name="permission_request_desc">You need to grant the permissions before using the application</string>
+    <string name="share">Share</string>
+    <string name="share_text">Share text</string>
+    <string name="share_file">Share file</string>
 
     <string name="keyword">Keyword</string>
     <string name="identifier">Identifier</string>

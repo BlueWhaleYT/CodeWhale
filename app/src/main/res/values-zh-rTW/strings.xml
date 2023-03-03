@@ -132,6 +132,9 @@
     <string name="textmate_only">此功能僅支援予 TextMate 語法配置</string>
     <string name="permission_request">要求啟用權限</string>
     <string name="permission_request_desc">為了使用應用程式時有更好的體驗，請啟用接下來詢問的權限再繼續</string>
+    <string name="share">分享</string>
+    <string name="share_text">傳送純文本</string>
+    <string name="share_file">傳送檔案</string>
 
     <string name="keyword">關鍵字</string>
     <string name="identifier">標識字</string>
