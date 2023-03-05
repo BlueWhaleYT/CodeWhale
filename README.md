@@ -2,7 +2,7 @@
 
 <img src="http://forthebadge.com/images/badges/built-for-android.svg" /><br>
 
-[![Android CI](https://github.com/BlueWhaleYT/CodeWhale/actions/workflows/android.yml/badge.svg)](https://github.com/BlueWhaleYT/CodeWhale/actions/workflows/android.yml)
+[![Android CI](https://img.shields.io/github/actions/workflow/status/BlueWhaleYT/CodeWhale/android.yml?label=debug%20%26%20build&style=for-the-badge)](https://github.com/BlueWhaleYT/CodeWhale/actions/workflows/android.yml)
 
 CodeWhale is a code editor providing multiple languages of syntax highlighting for Android.
 
